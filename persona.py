@@ -22,6 +22,7 @@ class Persona:
         else:
             self.load_cache()
             self.prune_cache_entries()
+            self.update_cache_entries()
             self.add_cache_entries()
 
     def md_to_text(self, file):
@@ -78,7 +79,7 @@ class Persona:
         print('Caching new entries...')
         actual_entry_filenames = glob.glob(self.entry_regex)
 
-        for entr_idx, entry_filename in enumerate(actual_entry_filenames):
+        for entry_idx, entry_filename in enumerate(actual_entry_filenames):
             if entry_filename not in self.entry_filenames:
                 self.entry_filenames.append(entry_filename)
                 self.entry_contents.append(self.md_to_text(entry_filename))
@@ -88,6 +89,16 @@ class Persona:
         self.create_entries_dict()
         pickle.dump(self.entries, open(self.cache_address, 'wb'))
 
+    def update_cache_entries(self):
+        print('Updating cached entries which have been modified in the meanwhile')
+
+        for entry_idx, entry_filename in enumerate(self.entry_filenames):
+            if self.entry_contents[entry_idx] != self.md_to_text(entry_filename):
+                self.entry_contents[entry_idx] = self.md_to_text(entry_filename)
+                self.entry_embeddings[entry_idx] = self.text_encoder.encode(self.entry_contents[entry_idx])
+
+        self.create_entries_dict()
+        pickle.dump(self.entries, open(self.cache_address, 'wb'))
 
 if __name__ == '__main__':
     p = Persona('./test_kb')
