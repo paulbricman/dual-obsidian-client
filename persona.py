@@ -27,6 +27,9 @@ class Persona:
             self.add_cache_entries()
 
     def retrieval(self, query):
+        """Utility for retrieving entries most relevant to a given query."""
+        
+        # First pass, find passages most similar to query
         query_embedding = self.text_encoder.encode(
             query, convert_to_tensor=True)
         hits = util.semantic_search(
@@ -50,6 +53,7 @@ class Persona:
         return results
 
     def md_to_text(self, file):
+        """Extract text from markdown file which contains front matter."""
         content = frontmatter.load(file)
         content.metadata = ''
         content = markdown(frontmatter.dumps(content))
