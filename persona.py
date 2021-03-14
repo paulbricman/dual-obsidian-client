@@ -5,6 +5,7 @@ import glob
 from markdown import markdown
 from bs4 import BeautifulSoup
 import frontmatter
+import torch
 
 
 class Persona:
@@ -24,6 +25,29 @@ class Persona:
             self.prune_cache_entries()
             self.update_cache_entries()
             self.add_cache_entries()
+
+    def retrieval(self, query):
+        query_embedding = self.text_encoder.encode(
+            query, convert_to_tensor=True)
+        hits = util.semantic_search(
+            query_embedding, torch.Tensor(self.entry_embeddings), top_k=100)[0]
+
+        # Second pass, re-rank passages more thoroughly
+        cross_scores = self.pair_encoder.predict(
+            [[query, self.entry_contents[hit['corpus_id']]] for hit in hits])
+
+        for idx in range(len(cross_scores)):
+            hits[idx]['cross-score'] = cross_scores[idx]
+
+        # Select best few results
+        hits = sorted(hits, key=lambda x: x['cross-score'], reverse=True)
+
+        results = []
+        for hit in hits[:5]:
+            if hit['cross-score'] > 1e-3:
+                results += [self.entry_filenames[hit['corpus_id']]]
+
+        return results
 
     def md_to_text(self, file):
         content = frontmatter.load(file)
@@ -102,3 +126,4 @@ class Persona:
 
 if __name__ == '__main__':
     p = Persona('./test_kb')
+    print(p.retrieval('brains and stadiums'))
