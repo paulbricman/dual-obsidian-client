@@ -26,7 +26,7 @@ class Persona:
             self.update_cache_entries()
             self.add_cache_entries()
 
-    def retrieval(self, query):
+    def topic_search(self, query):
         """Utility for retrieving entries most relevant to a given query."""
         
         # First pass, find passages most similar to query
@@ -49,6 +49,20 @@ class Persona:
         for hit in hits[:5]:
             if hit['cross-score'] > 1e-3:
                 results += [self.entry_filenames[hit['corpus_id']]]
+
+        return results
+
+    def related_search(self, filename):
+        """Utility for retrieving entries most relevant to a given entry."""
+        
+        # First pass, find passages most similar to query
+        query_contents, query_embedding = self.entries[filename]
+        hits = util.semantic_search(
+            torch.Tensor(query_embedding), torch.Tensor(self.entry_embeddings), top_k=5)[0]
+
+        results = []
+        for hit in hits:
+            results += [self.entry_filenames[hit['corpus_id']]]
 
         return results
 
@@ -88,7 +102,6 @@ class Persona:
         self.entry_filenames = list(self.entries.keys())
         self.entry_contents = [e[0] for e in self.entries.values()]
         self.entry_embeddings = [e[1] for e in self.entries.values()]
-        print(self.entry_filenames)
 
     def prune_cache_entries(self):
         print('Pruning cached entries which have been removed in the meanwhile...')
@@ -127,7 +140,3 @@ class Persona:
 
         self.create_entries_dict()
         pickle.dump(self.entries, open(self.cache_address, 'wb'))
-
-if __name__ == '__main__':
-    p = Persona('./test_kb')
-    print(p.retrieval('brains and stadiums'))
