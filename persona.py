@@ -19,6 +19,7 @@ class Persona:
         self.text_encoder = SentenceTransformer('msmarco-distilbert-base-v2')
         self.pair_encoder = CrossEncoder('cross-encoder/ms-marco-TinyBERT-L-6')
         self.qa = pipeline('question-answering')
+        self.nli = pipeline('zero-shot-classification')
 
         if os.path.isfile(self.cache_address) is False:
             self.create_cache()
@@ -56,8 +57,6 @@ class Persona:
 
     def related_search(self, filename):
         """Utility for retrieving entries most relevant to a given entry."""
-        
-        # First pass, find passages most similar to query
         query_contents, query_embedding = self.entries[filename]
         hits = util.semantic_search(
             torch.Tensor(query_embedding), torch.Tensor(self.entry_embeddings), top_k=5)[0]
@@ -67,6 +66,29 @@ class Persona:
             results += [self.entry_filenames[hit['corpus_id']]]
 
         return results
+
+    def descriptive_search(self, description):        
+        query_embedding = self.text_encoder.encode(
+            description, convert_to_tensor=True)
+        hits = util.semantic_search(
+            query_embedding, torch.Tensor(self.entry_embeddings), top_k=100)[0]
+
+        candidate_entry_filenames = []
+        for hit in hits:
+            candidate_entry_filenames += [self.entry_filenames[hit['corpus_id']]]
+
+        candidate_entry_contents = [self.entries[e][0] for e in candidate_entry_filenames]
+        selection_contents = self.nli(candidate_entry_contents, description, hypothesis_template='{}', multi_class=True)
+        selection_contents = sorted(selection_contents, key=lambda x: x['scores'][0], reverse=True)
+        selection_contents = [e['sequence'] for e in selection_contents]
+        selection_filenames = []
+
+        for selected_entry_contents in selection_contents:
+            for entry_filename in self.entries.keys():
+                if self.entries[entry_filename][0] == selected_entry_contents:
+                    selection_filenames += [entry_filename]
+
+        return selection_filenames
 
     def question_answering(self, question):
         candidate_entry_filenames = self.topic_search(question)
