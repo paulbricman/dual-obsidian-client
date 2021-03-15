@@ -6,6 +6,7 @@ from markdown import markdown
 from bs4 import BeautifulSoup
 import frontmatter
 import torch
+from transformers import pipeline
 
 
 class Persona:
@@ -17,6 +18,7 @@ class Persona:
         print('Loading language models...')
         self.text_encoder = SentenceTransformer('msmarco-distilbert-base-v2')
         self.pair_encoder = CrossEncoder('cross-encoder/ms-marco-TinyBERT-L-6')
+        self.qa = pipeline('question-answering')
 
         if os.path.isfile(self.cache_address) is False:
             self.create_cache()
@@ -65,6 +67,19 @@ class Persona:
             results += [self.entry_filenames[hit['corpus_id']]]
 
         return results
+
+    def question_answering(self, question):
+        candidate_entry_filenames = self.topic_search(question)
+        candidate_entry_contents = [self.entries[e][0] for e in candidate_entry_filenames]
+        answer = self.qa(question, ' '.join(candidate_entry_contents))
+
+        while answer['start'] > len(candidate_entry_contents[0]):
+            answer['start'] -= len(candidate_entry_contents[0]) + 1 
+            answer['end'] -= len(candidate_entry_contents[0]) + 1
+            candidate_entry_contents.pop(0)
+            candidate_entry_filenames.pop(0)
+
+        return (answer['answer'], candidate_entry_filenames[0], answer['start'], answer['end'])
 
     def md_to_text(self, file):
         """Extract text from markdown file which contains front matter."""
