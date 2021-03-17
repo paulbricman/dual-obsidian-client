@@ -17,9 +17,9 @@ class Persona:
 
         print('Loading language models...')
         self.text_encoder = SentenceTransformer('msmarco-distilbert-base-v2')
-        self.pair_encoder = CrossEncoder('cross-encoder/ms-marco-TinyBERT-L-6')
-        self.qa = pipeline('question-answering')
-        self.nli = pipeline('zero-shot-classification')
+        self.pair_encoder = CrossEncoder('cross-encoder/ms-marco-TinyBERT-L-4')
+        self.qa = pipeline('question-answering', model='distilbert-base-cased-distilled-squad')
+        self.nli = pipeline('zero-shot-classification', model='valhalla/distilbart-mnli-12-1')
 
         if os.path.isfile(self.cache_address) is False:
             self.create_cache()
@@ -36,7 +36,7 @@ class Persona:
         query_embedding = self.text_encoder.encode(
             query, convert_to_tensor=True)
         hits = util.semantic_search(
-            query_embedding, torch.Tensor(self.entry_embeddings), top_k=100)[0]
+            query_embedding, torch.Tensor(self.entry_embeddings), top_k=50)[0]
 
         # Second pass, re-rank passages more thoroughly
         cross_scores = self.pair_encoder.predict(
@@ -65,30 +65,52 @@ class Persona:
         for hit in hits:
             results += [self.entry_filenames[hit['corpus_id']]]
 
-        return results
+        return results[1:]
 
-    def descriptive_search(self, description):        
-        query_embedding = self.text_encoder.encode(
-            description, convert_to_tensor=True)
-        hits = util.semantic_search(
-            query_embedding, torch.Tensor(self.entry_embeddings), top_k=100)[0]
+    def descriptive_search(self, description):
+        pass
+
+    def support_mining(self, claim):
+        return self.premise_search(claim)
+
+    def rebuttal_mining(self, claim):
+        return self.premise_search(claim, polarity=False)
+
+    def consequence_mining(self, claim):
+        return self.premise_search(claim, target='conclusion')
+
+    def inconsequence_mining(self, claim):
+        return self.premise_search(claim, target='conclusion', polarity=False)
+
+    def nli_search(self, claim, polarity=True, target='premise', considered_candidates=100):   
+        considered_candidates = min(considered_candidates, len(self.entry_filenames))     
+        query_embedding = self.text_encoder.encode(claim, convert_to_tensor=True)
+        hits = util.semantic_search(query_embedding, torch.Tensor(self.entry_embeddings), top_k=considered_candidates)[0]
 
         candidate_entry_filenames = []
         for hit in hits:
             candidate_entry_filenames += [self.entry_filenames[hit['corpus_id']]]
 
-        candidate_entry_contents = [self.entries[e][0] for e in candidate_entry_filenames]
-        selection_contents = self.nli(candidate_entry_contents, description, hypothesis_template='{}', multi_class=True)
-        selection_contents = sorted(selection_contents, key=lambda x: x['scores'][0], reverse=True)
-        selection_contents = [e['sequence'] for e in selection_contents]
-        selection_filenames = []
+        clean_candidate_entry_filenames = [os.path.splitext(os.path.basename(e))[0] + '.' for e in candidate_entry_filenames]
 
-        for selected_entry_contents in selection_contents:
-            for entry_filename in self.entries.keys():
-                if self.entries[entry_filename][0] == selected_entry_contents:
-                    selection_filenames += [entry_filename]
+        if target == 'premise':
+            selection = self.nli(clean_candidate_entry_filenames, claim, hypothesis_template='{}', multi_class=True)
+            for idx in range(considered_candidates):
+                candidate_entry_filenames[idx] = (candidate_entry_filenames[idx], selection[idx]['scores'][0])
+        else:
+            selection = self.nli(claim, clean_candidate_entry_filenames, hypothesis_template='{}', multi_class=True)
+            for idx in range(considered_candidates):
+                candidate_entry_filenames[idx] = (candidate_entry_filenames[idx], selection['scores'][0])
 
-        return selection_filenames
+
+        candidate_entry_filenames = sorted(candidate_entry_filenames, key=lambda x: x[1])
+
+        if polarity is False:
+            candidate_entry_filenames = reversed(candidate_entry_filenames)
+
+        candidate_entry_filenames = [e[0] for e in candidate_entry_filenames][:10]
+
+        return candidate_entry_filenames
 
     def question_answering(self, question):
         candidate_entry_filenames = self.topic_search(question)
@@ -118,8 +140,8 @@ class Persona:
         self.entry_filenames = glob.glob(self.entry_regex)
         self.entry_contents = [self.md_to_text(
             file) for file in self.entry_filenames]
-        self.entry_embeddings = self.text_encoder.encode(
-            self.entry_contents)
+        self.entry_embeddings = list(self.text_encoder.encode(
+            self.entry_contents))
 
         self.create_entries_dict()
 
