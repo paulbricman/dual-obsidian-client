@@ -17,9 +17,9 @@ class Persona:
 
         print('Loading language models...')
         self.text_encoder = SentenceTransformer('msmarco-distilbert-base-v2')
-        self.pair_encoder = CrossEncoder('cross-encoder/ms-marco-TinyBERT-L-4')
-        self.qa = pipeline('question-answering', model='distilbert-base-cased-distilled-squad')
-        self.nli = pipeline('zero-shot-classification', model='valhalla/distilbart-mnli-12-1')
+        #self.pair_encoder = CrossEncoder('cross-encoder/ms-marco-TinyBERT-L-4')
+        #self.qa = pipeline('question-answering', model='distilbert-base-cased-distilled-squad')
+        self.nli = CrossEncoder('cross-encoder/nli-distilroberta-base')
 
         if os.path.isfile(self.cache_address) is False:
             self.create_cache()
@@ -29,14 +29,14 @@ class Persona:
             self.update_cache_entries()
             self.add_cache_entries()
 
-    def topic_search(self, query):
+    def topic_search(self, query, considered_candidates=50):
         """Utility for retrieving entries most relevant to a given query."""
         
         # First pass, find passages most similar to query
         query_embedding = self.text_encoder.encode(
             query, convert_to_tensor=True)
         hits = util.semantic_search(
-            query_embedding, torch.Tensor(self.entry_embeddings), top_k=50)[0]
+            query_embedding, torch.Tensor(self.entry_embeddings), top_k=considered_candidates)[0]
 
         # Second pass, re-rank passages more thoroughly
         cross_scores = self.pair_encoder.predict(
@@ -49,17 +49,17 @@ class Persona:
         hits = sorted(hits, key=lambda x: x['cross-score'], reverse=True)
 
         results = []
-        for hit in hits[:5]:
+        for hit in hits[:10]:
             if hit['cross-score'] > 1e-3:
                 results += [self.entry_filenames[hit['corpus_id']]]
 
         return results
 
-    def related_search(self, filename):
+    def related_search(self, filename, considered_candidates=10):
         """Utility for retrieving entries most relevant to a given entry."""
         query_contents, query_embedding = self.entries[filename]
         hits = util.semantic_search(
-            torch.Tensor(query_embedding), torch.Tensor(self.entry_embeddings), top_k=5)[0]
+            torch.Tensor(query_embedding), torch.Tensor(self.entry_embeddings), top_k=considered_candidates + 1)[0]
 
         results = []
         for hit in hits:
@@ -67,50 +67,38 @@ class Persona:
 
         return results[1:]
 
-    def descriptive_search(self, description):
-        pass
-
-    def support_mining(self, claim):
-        return self.premise_search(claim)
-
-    def rebuttal_mining(self, claim):
-        return self.premise_search(claim, polarity=False)
-
-    def consequence_mining(self, claim):
-        return self.premise_search(claim, target='conclusion')
-
-    def inconsequence_mining(self, claim):
-        return self.premise_search(claim, target='conclusion', polarity=False)
-
-    def nli_search(self, claim, polarity=True, target='premise', considered_candidates=100):   
+    def descriptive_search(self, claim, polarity=True, target='premise', considered_candidates=50):   
         considered_candidates = min(considered_candidates, len(self.entry_filenames))     
-        query_embedding = self.text_encoder.encode(claim, convert_to_tensor=True)
-        hits = util.semantic_search(query_embedding, torch.Tensor(self.entry_embeddings), top_k=considered_candidates)[0]
+        claim_embedding = self.text_encoder.encode(claim, convert_to_tensor=True)
+        hits = util.semantic_search(claim_embedding, torch.Tensor(self.entry_embeddings), top_k=considered_candidates)[0]
 
         candidate_entry_filenames = []
         for hit in hits:
             candidate_entry_filenames += [self.entry_filenames[hit['corpus_id']]]
 
-        clean_candidate_entry_filenames = [os.path.splitext(os.path.basename(e))[0] + '.' for e in candidate_entry_filenames]
+        candidate_entry_contents = []
+        for candidate_entry_filename in candidate_entry_filenames:
+            candidate_entry_contents += [self.entries[candidate_entry_filename][0]]
 
         if target == 'premise':
-            selection = self.nli(clean_candidate_entry_filenames, claim, hypothesis_template='{}', multi_class=True)
-            for idx in range(considered_candidates):
-                candidate_entry_filenames[idx] = (candidate_entry_filenames[idx], selection[idx]['scores'][0])
+            cross_encoder_input = [(e, claim) for e in candidate_entry_contents]
+        elif target == 'conclusion':
+            cross_encoder_input = [(claim, e) for e in candidate_entry_contents]
+
+        cross_encoder_output = self.nli.predict(cross_encoder_input, apply_softmax=False)
+        
+        if polarity == True:
+            cross_encoder_output = [e[1] for e in cross_encoder_output]
         else:
-            selection = self.nli(claim, clean_candidate_entry_filenames, hypothesis_template='{}', multi_class=True)
-            for idx in range(considered_candidates):
-                candidate_entry_filenames[idx] = (candidate_entry_filenames[idx], selection['scores'][0])
+            cross_encoder_output = [e[0] for e in cross_encoder_output]
 
+        results = []
+        for idx in range(considered_candidates):
+            results += [(candidate_entry_filenames[idx], cross_encoder_output[idx])]
 
-        candidate_entry_filenames = sorted(candidate_entry_filenames, key=lambda x: x[1])
-
-        if polarity is False:
-            candidate_entry_filenames = reversed(candidate_entry_filenames)
-
-        candidate_entry_filenames = [e[0] for e in candidate_entry_filenames][:10]
-
-        return candidate_entry_filenames
+        results = sorted(results, key=lambda x: x[1], reverse=True)[:10]
+        results = [e[0] for e in results]
+        return results
 
     def question_answering(self, question):
         candidate_entry_filenames = self.topic_search(question)
