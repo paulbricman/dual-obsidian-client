@@ -17,8 +17,8 @@ class Persona:
 
         print('Loading language models...')
         self.text_encoder = SentenceTransformer('msmarco-distilbert-base-v2')
-        #self.pair_encoder = CrossEncoder('cross-encoder/ms-marco-TinyBERT-L-4')
-        #self.qa = pipeline('question-answering', model='distilbert-base-cased-distilled-squad')
+        self.pair_encoder = CrossEncoder('cross-encoder/ms-marco-TinyBERT-L-4')
+        self.qa = pipeline('question-answering', model='distilbert-base-cased-distilled-squad')
         self.nli = CrossEncoder('cross-encoder/nli-distilroberta-base')
 
         if os.path.isfile(self.cache_address) is False:
