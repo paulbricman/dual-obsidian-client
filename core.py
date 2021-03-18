@@ -32,6 +32,7 @@ class Core:
             self.add_cache_entries()
 
     def fluid_search(self, query, considered_candidates=50, selected_candidates=10, second_pass=True):
+        selected_candidates = min(selected_candidates, considered_candidates)
         query_embedding = self.text_encoder.encode(query, convert_to_tensor=True)
         hits = util.semantic_search(query_embedding, torch.Tensor(self.entry_embeddings), top_k=considered_candidates)[0]
 
@@ -47,6 +48,7 @@ class Core:
             return [self.entry_filenames[hit['corpus_id']] for hit in hits[:selected_candidates]]
 
     def descriptive_search(self, claim, polarity=True, target='premise', considered_candidates=50, selected_candidates=10):
+        selected_candidates = min(selected_candidates, considered_candidates)
         considered_candidates = min(considered_candidates, len(self.entry_filenames))     
         candidate_entry_filenames = self.fluid_search(claim, selected_candidates=considered_candidates, second_pass=False)
         candidate_entry_contents = [self.entries[e][0] for e in candidate_entry_filenames]
