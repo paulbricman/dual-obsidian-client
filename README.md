@@ -6,7 +6,7 @@
 
 ### Descriptive Search
 - This text describes a metaphor bridging disparate fields.
-- This entry argues that recording neural activity is challenging.
+- This entry argues that recording neural activity with EEG is challenging.
 - This note contains a formal definition related to philosophy.
 
 ### Question Answering
