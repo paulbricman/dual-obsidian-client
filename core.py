@@ -27,11 +27,10 @@ class Core:
             self.create_cache()
         else:
             self.load_cache()
-            self.prune_cache_entries()
-            self.update_cache_entries()
-            self.add_cache_entries()
+            self.sync_cache()
 
     def fluid_search(self, query, considered_candidates=50, selected_candidates=10, second_pass=True):
+        self.sync_cache()
         selected_candidates = min(selected_candidates, considered_candidates)
         query_embedding = self.text_encoder.encode(query, convert_to_tensor=True)
         hits = util.semantic_search(query_embedding, torch.Tensor(self.entry_embeddings), top_k=considered_candidates)[0]
@@ -125,6 +124,11 @@ class Core:
         self.entry_filenames = list(self.entries.keys())
         self.entry_contents = [e[0] for e in self.entries.values()]
         self.entry_embeddings = [e[1] for e in self.entries.values()]
+
+    def sync_cache(self):
+        self.prune_cache_entries()
+        self.update_cache_entries()
+        self.add_cache_entries()
 
     def prune_cache_entries(self):
         print('Pruning cached entries which have been removed in the meanwhile...')
