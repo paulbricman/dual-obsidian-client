@@ -169,7 +169,6 @@ class Core:
         print('Updating cached entries which have been modified in the meanwhile')
 
         for entry_idx, entry_filename in enumerate(self.entry_filenames):
-            print('working on', entry_filename)
             if self.entry_contents[entry_idx] != md_to_text(entry_filename):
                 print('UPDATE', entry_filename)
                 self.entry_contents[entry_idx] = md_to_text(entry_filename)
