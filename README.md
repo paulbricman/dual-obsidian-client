@@ -20,6 +20,7 @@
 - Test me on *Darwinism*.
 
 ## Usage (Backend, Source)
+Python 3.8+ required!
 ```
 pip3 install -r requirements.txt
 ```
