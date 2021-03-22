@@ -1,0 +1,1 @@
+People are capable of adjusting their baseline reference point of pain and pleasure based on experience. This means that through long enough exposure to a pleasant or painful stimuli, one is going to eventually perceive it as perfectly ordinary. The notion of hedonic adaptation empowers individuals going through difficult situations.

@@ -134,11 +134,19 @@ class Core:
         print('Pruning cached entries which have been removed in the meanwhile...')
         actual_entry_filenames = glob.glob(self.entry_regex)
 
+        new_entry_filenames = []
+        new_entry_contents = []
+        new_entry_embeddings = []
+
         for entry_idx, entry_filename in enumerate(self.entry_filenames):
-            if entry_filename not in actual_entry_filenames:
-                self.entry_filenames.pop(entry_idx)
-                self.entry_contents.pop(entry_idx)
-                self.entry_embeddings.pop(entry_idx)
+            if entry_filename in actual_entry_filenames:
+                new_entry_filenames += [self.entry_filenames[entry_idx]]
+                new_entry_contents += [self.entry_contents[entry_idx]]
+                new_entry_embeddings += [self.entry_embeddings[entry_idx]]
+
+        self.entry_filenames = new_entry_filenames
+        self.entry_contents = new_entry_contents
+        self.entry_embeddings = new_entry_embeddings
 
         self.create_entries_dict()
         pickle.dump(self.entries, open(self.cache_address, 'wb'))
@@ -161,7 +169,9 @@ class Core:
         print('Updating cached entries which have been modified in the meanwhile')
 
         for entry_idx, entry_filename in enumerate(self.entry_filenames):
+            print('working on', entry_filename)
             if self.entry_contents[entry_idx] != md_to_text(entry_filename):
+                print('UPDATE', entry_filename)
                 self.entry_contents[entry_idx] = md_to_text(entry_filename)
                 self.entry_embeddings[entry_idx] = self.text_encoder.encode(self.entry_contents[entry_idx])
 

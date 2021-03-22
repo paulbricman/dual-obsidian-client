@@ -1,0 +1,1 @@
+If a knowledge base is based on textual representation of knowledge, then natural language processing can render it into an agent. By providing a conversational interface to the knowledge base, natural language processing can be used to "put a face on" arbitrary collections of text, such as working notes, books of an author, or news reports.

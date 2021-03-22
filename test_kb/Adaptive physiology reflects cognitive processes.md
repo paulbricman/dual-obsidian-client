@@ -1,0 +1,1 @@
+The basilar membrane in the ear actively adapts sensitivity to certain frequency. The pupil actively changes in size in expectation to certain brightness levels. Adaptive physiology across modalities reflects top-down cognitive processes. 

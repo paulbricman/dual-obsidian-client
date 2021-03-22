@@ -1,0 +1,1 @@
+Associating an exemplar with a certain conceptual family for which you also possess a prototype enables you to assume a wide range of properties for the exemplar by default. This might happen by projecting a representation of the prototype onto the exemplar. of Prototypical reasoning is the basis of default logic.

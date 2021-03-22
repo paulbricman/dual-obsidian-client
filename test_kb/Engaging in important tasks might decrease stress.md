@@ -1,0 +1,1 @@
+If agitation evolved to get us moving, and if moving stops agitation from building up, such as with optic flow, then finally picking up an important but much delayed task might decrease stress. It might signal the body that the goal of the agitation build-up has been reached, and that there's no need for more.

@@ -1,0 +1,1 @@
+Spatial reasoning forces the individual to abstract away from features perceived through individual modalities, such as brightness and loudness, and derive an independent spatial representation. Due to this, spatial reasoning is conceptually located at the confluence of all the bodily senses. 

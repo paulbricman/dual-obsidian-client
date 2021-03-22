@@ -1,0 +1,1 @@
+The Doctrine of Double Effect argues that causing harm as an intended side effect is more permissible than causing harm as a primary goal. This framework allows one to coherently accept self-driving cars occasionally resulting causing casualties, while simultaneously rejecting autonomous weapons designed specifically to kill.

@@ -1,0 +1,5 @@
+---
+resource: https://doi.org/10.7551/mitpress/9739.001.0001
+---
+
+Mindfulness meditation can be seen as more than the process of immersing oneself in experience by attending to various objects of attention. One can also derive value from it through the reflective dimension. Meditation enables one to reflect on the nature of the mind and gain insight into it through a close experiential connection. There have been some objections to self-reflection as a source of knowledge. First, some argue that meditation, as introspection, is unreliable. However, meditators would argue that introspection is thinking about thoughts, while meditation is experiencing thoughts in a state of acute awareness. Second, some argue that the process of attending to experience can change the experience itself. However, meditators argue that mindfulness is simply the process of challenging mindlessness, and it doesn't attempt to manipulate the intentional contents of the mind, merely to observe them.   

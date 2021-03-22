@@ -1,0 +1,1 @@
+Mary is a very knowledgeable scientist who lives in a black and white room. The "Mary the scientist" thought experiment asks whether Mary learns something new when she walks outside and experiences color for the first time. This thought experiment questions the relation between cognitive information processing and conscious qualia.

@@ -1,0 +1,1 @@
+Statistical models of users, in the more advanced sense, can be used to inform decisions about marketing campaigns. By testing many marketing strategies against the high-fidelity user model, people can engineer highly-effective marketing campaigns on the real users. Unfortunately, publishing one's thoughts might lead to better such user models.

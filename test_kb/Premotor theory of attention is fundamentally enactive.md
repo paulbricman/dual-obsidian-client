@@ -1,0 +1,1 @@
+The premotor theory of attention argues that covert attention is actually a motor plan being prepared. This action-oriented cognition is deeply compatible with the enactive view in cognitive science. The premotor theory of attention frames a high-level cognitive function in relation to a low-level motor coupling.

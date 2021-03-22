@@ -1,0 +1,8 @@
+Flask==1.1.2
+nltk==3.5
+beautifulsoup4==4.9.3
+Markdown==3.3.4
+python_frontmatter==1.0.0
+sentence_transformers==1.0.3
+torch==1.8.0
+transformers==4.4.2

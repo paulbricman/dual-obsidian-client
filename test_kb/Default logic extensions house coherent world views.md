@@ -1,0 +1,1 @@
+In default logic, an extension is the result of properly applying a series of defaults. Extensions are defined as coherent sets of beliefs about the world, generated through default reasoning.

@@ -1,0 +1,1 @@
+It has been observed that high-level cognition modulates pupil size. Particularly fascinating is the way in which visual imagery influences pupil size. Visualizing a (relatively) bright object or scene appears to actually lead to a physiological response in the eye, where the pupils constrict. Similarly, visualizing a dark scene nudges the pupils into dilating more.
