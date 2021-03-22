@@ -18,3 +18,14 @@
 - Quiz me about *modal logic*.
 - Ask me about *theoretical models of attention*.
 - Test me on *Darwinism*.
+
+## Usage (Backend, Source)
+```
+pip3 install -r requirements.txt
+```
+```
+python3 server.py --path ./test_knowledge_base
+```
+```
+GET 127.0.0.1:5000/<query>
+```
