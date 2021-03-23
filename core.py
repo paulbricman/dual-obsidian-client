@@ -3,11 +3,12 @@ import pickle
 import os
 import glob
 import torch
-from transformers import pipeline
+from transformers import GPT2LMHeadModel, GPT2Tokenizer
 from qg_pipeline import qg_pipeline
 from util import md_to_text
 import json
 import random
+import re
 
 
 class Core:
@@ -19,9 +20,10 @@ class Core:
         print('Loading language model zoo...')
         self.text_encoder = SentenceTransformer('msmarco-distilbert-base-v2')
         self.pair_encoder = CrossEncoder('cross-encoder/ms-marco-TinyBERT-L-4')
-        self.qa = pipeline('question-answering', model='distilbert-base-cased-distilled-squad')
         self.nli = CrossEncoder('cross-encoder/nli-distilroberta-base')
-        self.qg = qg_pipeline('question-generation', model='valhalla/t5-small-qg-hl', ans_model='valhalla/t5-small-qa-qg-hl')
+        #self.qg = qg_pipeline('question-generation', model='valhalla/t5-small-qg-hl', ans_model='valhalla/t5-small-qa-qg-hl')
+        self.gen_tokenizer = GPT2Tokenizer.from_pretrained('gpt2-large')
+        self.gen_model = GPT2LMHeadModel.from_pretrained('gpt2-large', pad_token_id=self.gen_tokenizer.eos_token_id)
 
         if os.path.isfile(self.cache_address) is False:
             self.create_cache()
@@ -70,32 +72,27 @@ class Core:
 
         return results
 
-    def question_answering(self, question, considered_candidates=10):
-        candidate_entry_filenames = self.fluid_search(question, selected_candidates=considered_candidates, second_pass=False)
-        candidate_entry_contents = [self.entries[e][0] for e in candidate_entry_filenames]
-        answer = self.qa(question, ' '.join(candidate_entry_contents))
+    def question_answering(self, question, considered_candidates=3):
+        candidate_entry_filenames = self.fluid_search(question, selected_candidates=considered_candidates)
+        candidate_entry_contents = reversed([self.entries[e][0] for e in candidate_entry_filenames])
+        generator_prompt = '\n\n'.join(candidate_entry_contents) + '\n\nQ: ' + question + '\nA: '
+        #print(generator_prompt)
+        input_ids = self.gen_tokenizer.encode(generator_prompt, return_tensors='pt')
+        
+        generator_output = self.gen_model.generate(
+            input_ids, 
+            do_sample=True, 
+            max_length=len(input_ids[0]) + 30, 
+            top_p=0.9, 
+            top_k=40,
+            temperature=0.8
+        )
 
-        while answer['start'] > len(candidate_entry_contents[0]):
-            answer['start'] -= len(candidate_entry_contents[0]) + 1 
-            answer['end'] -= len(candidate_entry_contents[0]) + 1
-            candidate_entry_contents.pop(0)
-            candidate_entry_filenames.pop(0)
-
-        return (answer['answer'], candidate_entry_filenames[0], answer['start'], answer['end'])
-
-    def question_generation(self, query, considered_candidates=3, include_probes=True):
-        candidate_entry_filenames = self.fluid_search(query, selected_candidates=considered_candidates)
-        candidate_entry_contents = [self.entries[e][0] for e in candidate_entry_filenames]
-        questions = self.qg(' '.join(candidate_entry_contents))
-        questions = [e['question'] for e in questions]
-
-        if include_probes:
-            probes = json.load(open('probes.json'))['probes']
-            probes = random.sample(probes, len(questions))
-            questions += probes
-            random.shuffle(questions)
-
-        return questions
+        output_sample = self.gen_tokenizer.decode(generator_output[0], skip_special_tokens=True)[len(generator_prompt):]
+        output_sample = re.sub(r'^[\W_]+|[\W_]+$', '', output_sample)
+        output_sample = re.sub(r'[^a-zA-Z0-9\s]{3,}', '', output_sample)
+        
+        return [output_sample]
 
     def create_cache(self):
         print('Cache file doesn\'t exist, creating a new one...')
