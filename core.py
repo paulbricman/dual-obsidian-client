@@ -3,12 +3,13 @@ import pickle
 import os
 import glob
 import torch
-from transformers import GPT2LMHeadModel, GPT2Tokenizer
+from transformers import GPT2LMHeadModel, GPT2Tokenizer, Trainer, TrainingArguments
 from qg_pipeline import qg_pipeline
 from util import md_to_text
 import json
 import random
 import re
+from datasets import Dataset
 
 
 class Core:
@@ -18,12 +19,12 @@ class Core:
         self.entry_regex = os.path.join(root_dir, '*md')
 
         print('Loading language model zoo...')
-        self.text_encoder = SentenceTransformer('msmarco-distilbert-base-v2')
-        self.pair_encoder = CrossEncoder('cross-encoder/ms-marco-TinyBERT-L-4')
-        self.nli = CrossEncoder('cross-encoder/nli-distilroberta-base')
+        #self.text_encoder = SentenceTransformer('msmarco-distilbert-base-v2')
+        #self.pair_encoder = CrossEncoder('cross-encoder/ms-marco-TinyBERT-L-4')
+        #self.nli = CrossEncoder('cross-encoder/nli-distilroberta-base')
         #self.qg = qg_pipeline('question-generation', model='valhalla/t5-small-qg-hl', ans_model='valhalla/t5-small-qa-qg-hl')
-        self.gen_tokenizer = GPT2Tokenizer.from_pretrained('gpt2-large')
-        self.gen_model = GPT2LMHeadModel.from_pretrained('gpt2-large', pad_token_id=self.gen_tokenizer.eos_token_id)
+        self.gen_tokenizer = GPT2Tokenizer.from_pretrained('distilgpt2')
+        self.gen_model = GPT2LMHeadModel.from_pretrained('distilgpt2', pad_token_id=self.gen_tokenizer.eos_token_id)
 
         if os.path.isfile(self.cache_address) is False:
             self.create_cache()
@@ -93,6 +94,26 @@ class Core:
         output_sample = re.sub(r'[^a-zA-Z0-9\s]{3,}', '', output_sample)
         
         return [output_sample]
+
+    def finetune(self):
+        dataset = Dataset.from_dict({'train': self.entry_contents})
+        dataset = self.gen_tokenizer(dataset['train'])
+        
+        training_args = TrainingArguments(
+            output_dir='./results',
+            num_train_epochs=3,
+            per_device_train_batch_size=16,
+            warmup_steps=500,
+            weight_decay=0.01
+        )
+
+        trainer = Trainer(
+            model=self.gen_model,
+            args=training_args,
+            train_dataset=dataset
+        )
+
+        trainer.train()
 
     def create_cache(self):
         print('Cache file doesn\'t exist, creating a new one...')
