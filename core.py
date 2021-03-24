@@ -3,13 +3,12 @@ import pickle
 import os
 import glob
 import torch
-from transformers import GPT2LMHeadModel, GPT2Tokenizer, Trainer, TrainingArguments
+from transformers import GPT2LMHeadModel, GPT2Tokenizer, Trainer, TrainingArguments, TextDataset, DataCollatorForLanguageModeling
 from qg_pipeline import qg_pipeline
 from util import md_to_text
 import json
 import random
 import re
-from datasets import Dataset
 
 
 class Core:
@@ -23,8 +22,8 @@ class Core:
         #self.pair_encoder = CrossEncoder('cross-encoder/ms-marco-TinyBERT-L-4')
         #self.nli = CrossEncoder('cross-encoder/nli-distilroberta-base')
         #self.qg = qg_pipeline('question-generation', model='valhalla/t5-small-qg-hl', ans_model='valhalla/t5-small-qa-qg-hl')
-        self.gen_tokenizer = GPT2Tokenizer.from_pretrained('distilgpt2')
-        self.gen_model = GPT2LMHeadModel.from_pretrained('distilgpt2', pad_token_id=self.gen_tokenizer.eos_token_id)
+        #self.gen_tokenizer = GPT2Tokenizer.from_pretrained('distilgpt2')
+        #self.gen_model = GPT2LMHeadModel.from_pretrained('distilgpt2', pad_token_id=self.gen_tokenizer.eos_token_id)
 
         if os.path.isfile(self.cache_address) is False:
             self.create_cache()
@@ -95,25 +94,10 @@ class Core:
         
         return [output_sample]
 
-    def finetune(self):
-        dataset = Dataset.from_dict({'train': self.entry_contents})
-        dataset = self.gen_tokenizer(dataset['train'])
-        
-        training_args = TrainingArguments(
-            output_dir='./results',
-            num_train_epochs=3,
-            per_device_train_batch_size=16,
-            warmup_steps=500,
-            weight_decay=0.01
-        )
-
-        trainer = Trainer(
-            model=self.gen_model,
-            args=training_args,
-            train_dataset=dataset
-        )
-
-        trainer.train()
+    def save_snapshot(self):
+        contents = '\n\n'.join(self.entry_contents)
+        file = open('Snapshot.txt', 'w')
+        file.write(contents)
 
     def create_cache(self):
         print('Cache file doesn\'t exist, creating a new one...')
