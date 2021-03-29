@@ -1,0 +1,4 @@
+---
+---
+
+People have been augmenting themselves for millennia, through writing, maps, language, and so on. Cognitive augmentation tools form [[Creative output can support educational input in free learning|a species of creative output which can be reapplied back to the creative process]]. Current [[Tools for thought interface users with knowledge|tools for thought]] expand our capabilities of thought in ways never before possible. In light of this, it's reasonable to assume that cognitive enhancement is a path to transhuman singularity through exponential self-improvement of the human individual and collective, in collaboration with AI. 

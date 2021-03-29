@@ -18,9 +18,9 @@ class Core:
         self.entry_regex = os.path.join(root_dir, '*md')
 
         print('Loading language model zoo...')
-        #self.text_encoder = SentenceTransformer('msmarco-distilbert-base-v2')
-        #self.pair_encoder = CrossEncoder('cross-encoder/ms-marco-TinyBERT-L-4')
-        #self.nli = CrossEncoder('cross-encoder/nli-distilroberta-base')
+        self.text_encoder = SentenceTransformer('msmarco-distilbert-base-v2')
+        self.pair_encoder = CrossEncoder('cross-encoder/ms-marco-TinyBERT-L-4')
+        self.nli = CrossEncoder('cross-encoder/nli-distilroberta-base')
         #self.qg = qg_pipeline('question-generation', model='valhalla/t5-small-qg-hl', ans_model='valhalla/t5-small-qa-qg-hl')
         #self.gen_tokenizer = GPT2Tokenizer.from_pretrained('distilgpt2')
         #self.gen_model = GPT2LMHeadModel.from_pretrained('distilgpt2', pad_token_id=self.gen_tokenizer.eos_token_id)
@@ -31,7 +31,7 @@ class Core:
             self.load_cache()
             self.sync_cache()
 
-    def fluid_search(self, query, considered_candidates=50, selected_candidates=10, second_pass=True):
+    def fluid_search(self, query, considered_candidates=50, selected_candidates=5, second_pass=True):
         self.sync_cache()
         selected_candidates = min(selected_candidates, considered_candidates)
         query_embedding = self.text_encoder.encode(query, convert_to_tensor=True)
@@ -48,7 +48,7 @@ class Core:
         else:
             return [self.entry_filenames[hit['corpus_id']] for hit in hits[:selected_candidates]]
 
-    def descriptive_search(self, claim, polarity=True, target='premise', considered_candidates=50, selected_candidates=10):
+    def descriptive_search(self, claim, polarity=True, target='premise', considered_candidates=50, selected_candidates=5):
         selected_candidates = min(selected_candidates, considered_candidates)
         considered_candidates = min(considered_candidates, len(self.entry_filenames))     
         candidate_entry_filenames = self.fluid_search(claim, selected_candidates=considered_candidates, second_pass=False)

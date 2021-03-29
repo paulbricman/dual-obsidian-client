@@ -1,1 +1,0 @@
-In his short story titled Axiomatic, Greg Egan introduces the notion of axiomatic implants. Axiomatic implants are speculative devices capable of inoculating the user with certain beliefs. They target address beliefs, and have a specific duration of activation.

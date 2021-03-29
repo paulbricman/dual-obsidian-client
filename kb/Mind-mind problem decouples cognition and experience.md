@@ -1,0 +1,4 @@
+---
+---
+
+The mind-mind problem refers to the complex relationship between cognition and experience. Jackendoff describes cognition as the computational mind, and experience as the phenomenological mind. He highlights the fact that cognitive science has been progressing in its understanding of [[World models reflect ideological structures|the computational mind]] and the way it relates to the body, yet it has only limited understanding of how the computational mind relates to the phenomenological mind, as is the case with [[Qualia provide experiential knowledge|qualia]]. Moreover, according to Jackendoff, the mind-body problem can be split in two. The computational mind-body problem addresses the mechanisms through which cognition emerges from the body, while the phenomenological mind-body problem addresses the means by which experience emerges from the body.

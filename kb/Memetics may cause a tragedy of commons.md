@@ -1,0 +1,4 @@
+---
+---
+
+If a person deeply [[Internalizing beliefs incurs ideological debt|internalizes the belief]] that great ideas and scientific breakthroughs are created only through the indifferent kinetics of memetic evolution, then that person may be discouraged from ambitious scientific and engineering inquiry. This situation is losely related to the tragedy of commons, as each person is relying on memetic evolution taking place in other hosts for bringing about innovation.

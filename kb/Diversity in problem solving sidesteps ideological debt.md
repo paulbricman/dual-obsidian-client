@@ -1,0 +1,4 @@
+---
+---
+
+When working together, people with widely different backgrounds are likely to generate ideas which no individual by themselves would have been able to. This might be causde by the fact that thinking, generating thought, on top of a wide range of only partially coherent belief systems enables thoughts to materialize which would have been incoherent which each individual belief system. That may be why [[World models reflect ideological structures|rich repositories of mental models are valuable]]. Essentially, diverse beliefs and world views are a way of sidestepping [[Internalizing beliefs incurs ideological debt|ideological debt]].

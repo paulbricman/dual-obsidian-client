@@ -1,0 +1,4 @@
+---
+---
+
+Constructivism in education refers to the focus on [[Brains are like buildings|building on]] prior knowledge when learning new things. Given the fact that [[Concept learning is few-shot scaffolding supported by working memory|concept learning is based on few-shot scaffolding]], it's easy to see how constructivism can be an essential tool in [[Summarization forces understanding|fostering understanding]]. The main reason why [[Interpersonal backlinks incentivize collaborative knowledge work|backlinks]] are useful is that they essentially signal "many [[Concept learning is few-shot scaffolding supported by working memory|concepts]] build on this!" There is no one Dockerfile which describes the unique set of rules necessary to [[Internalizing beliefs incurs ideological debt|internalize a certain concept]].

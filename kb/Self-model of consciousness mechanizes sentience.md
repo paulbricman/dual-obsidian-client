@@ -1,0 +1,4 @@
+---
+---
+
+The self-model of consciousness argues that consciousness is simply a useful mental model for understanding our relation to the world. Supporters of this perspective, including Joscha Bach, Peter Watts, and Greg Egan, argue that free will is simply an afterthought of behavior, designed to infuse our worldview with coherence. This reduction of the self as a mental model is representative of the mechanistic and cognitivist school of thought in cognitive science. This perspective is likely to [[Experiential consequences of cognitivism|have experiential consequences for its proponents]], especially [[Denying free will is morally debilitating|regarding morality]].

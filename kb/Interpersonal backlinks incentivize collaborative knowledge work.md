@@ -1,0 +1,4 @@
+---
+---
+
+Backlinks are in-bound connections to a certain node in a graph. Besides highlighting associations between notes in [[Second brain contents resemble long-term memory|non-linear note-taking]], backlinks could provide a means of [[Creative output can support educational input in free learning|collaborative knowledge work]]. By picking up on interpersonal backlinks (i.e. backlinks caused by a person linking one of their notes to a note from a different person), one can encourage [[Dense linking provides explicit position cues for concepts|a dense network of collective knowledge]], which could even be [[Paraphrase mining approximates dense linking|derived automatically]]. By introducing a node ranking method (e.g. PageRank), one could [[Creative output can support educational input in free learning|incentivize knowledge workers to produce the valuable content]].

@@ -1,1 +1,0 @@
-9/11 was cause by lax controls in freedom of movement for people. Consonant with Herbert Schiller's critique of freedom of information, a memetic equivalent of the 9/11 might occur in the future, due to the lax norms of information hygiene. Malevolently-engineered memes may be able to propagate like wildfire in the global informational society of the modern age.

@@ -1,0 +1,4 @@
+---
+---
+
+Discrete items, such as words or [[Logograms resemble vector quantization|logograms]], being embedded in a semantic space can be seen as individual checker pieces. The [[Manifolds formalize emergence|relative arrangement of those items is particularly important]], and it's reflected in the configuration of the checker board containing the individual pieces. This embedding-checkers metaphor provides a tangible way of reasoning about how [[Concept learning is few-shot scaffolding supported by working memory|the meaning of items in a latent space is derived mainly through their relative arrangement]].

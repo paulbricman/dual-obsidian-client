@@ -1,1 +1,0 @@
-In the context of speculative memetic psychotherapy, the very belief in the scientific plausibility of the methods might be a belief guiding the procedure. In this, memetic engineering resembles placebo medication, whose mere objective is to introduce beliefs, nudging the patient in a certain direction.

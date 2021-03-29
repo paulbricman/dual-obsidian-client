@@ -1,0 +1,4 @@
+---
+---
+
+Neuroscience sheds light on rhythms of neural activity and information processing in the brain. These findings are closely related to the timing of various events in the recurring [[World models reflect ideological structures|cascade]] of sensation, [[Perception is context-dependent|perception]], [[Dynamic attention enables object permanence|attention]], and awareness. The rhythms of neural activity appear compatible with the meditative insights into the momentariness of experience, and may provide a neuroscientific basis for it. The momentariness of experience is related to the seemingly fleeting and transient clouds of sensations which form our conscious life.

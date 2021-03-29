@@ -1,0 +1,4 @@
+---
+---
+
+You attempt to convince people that you can forecast highly unpredictible binary events, like quantum states or outcomes in sports. If you forecast one outcome for half of the targets and the one for the other half, you'll inevitably be correct in half of the cases. Repeat that for a linear increase in the streak size but an exponential decrease in the convinced targets. Unlucky targets, unknowing of the scale of bruteforcing, might [[Internalizing beliefs incurs ideological debt|internalize a belief]] about some [[Forecasting forces predictive world models to internalize meaningful representations|remarkable foresight ability]] of the process. However, anthropic reasoning can help targets work their way out of the trap. 

@@ -1,0 +1,4 @@
+---
+---
+
+Some ideologies often seem to be bound, even defined, in terms of their relationship to a certain space or time. For instance, continental philosophy, even if it consists of specific views on specific topics, is defined in terms of its close connection to European philosophers. Similarly, ancient philosophy or physics is defined in terms of the period in which it was pervasive. Memetic spacetime grounding makes it increasingly apparent that [[Public opinion formation is memeplex propagation|memes propagate between localized communities at specific times]]. [[Information hygiene is like spacecraft sanitization|Instant communication recently enabled global trends which largely lose their spatial bounds]], but are still confined temporally.

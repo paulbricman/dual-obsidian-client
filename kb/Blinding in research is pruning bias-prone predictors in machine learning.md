@@ -1,0 +1,4 @@
+---
+---
+
+Researchers often conduct double-blind trials in order to limit the influence of their own biases on the experimental results. By being unaware of which condition is test and which one is control, researchers have no ground for exploiting biases. Similarly, removing features such as gender, race, and ethnicity from a dataset provides one less opportunity for machine learning models to capitalize on bias.
