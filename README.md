@@ -9,8 +9,8 @@
 - This entry argues that recording neural activity with EEG is challenging.
 - This note contains a formal definition related to philosophy.
 
-### Open Dialogye
-- What is the easiest way to understand what pupillometry is?
+### Open Dialogue
+- What's the easiest way to understand what pupillometry is?
 - What are some important questions about affective computing?
 - How could you automatically identify the core concepts of a book?
 
