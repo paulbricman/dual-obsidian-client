@@ -52,7 +52,7 @@ In his short story title "Closer", Greg Egan explores how two individuals can pe
 
 When everybody is focusing on the same external stimuli, they are less aware of each other. That is why the movie theater is associated with privacy. However, the reason for this is that sharing a common focus limits attendance of personal information.
 
-Many argue that generalist individuals with broad knowledge, rather than specialists with deep knowledge, are more likely to yield breakthroughs. However, this is likely caused by a repeated and sustained scaffolding process driven by rich conceptual cues, rather than lucky obscure paradigms intersecting by chance. Multiple perspectives are essential in avoiding blindspots. Therefore, a rich mental model repository is conductive of insight.
+Many argue that generalist individuals with broad knowledge, rather than specialists with deep knowledge, are more likely to yield breakthroughs. However, this is likely caused by a repeated and sustained scaffolding process driven by rich conceptual cues, rather than lucky obscure paradigms intersecting by chance, isolated glimpses into other conceptual silo's. Multiple perspectives are essential in avoiding blindspots. Therefore, a rich mental model repository is conductive of insight.
 
 The huge diversity of logics, including modal logic, default logic, or tense logic, provide formal conceptual frameworks for describing, evaluating, and managing truth. Through domain-specific operators such as time-related ones, logics provide tools for reasoning about truth in certain complex situations.
 
@@ -120,15 +120,13 @@ Whiteboards and other drawing surfaces provide a mechanism for offloading workin
 
 Cognitive realism argues that a large part of cognition is about forming and manipulating coherent representations of the "outside" world in an attempt to best navigate it. Conversely, idealism argues that it is only our representations that we have access to, so they must be our only reference points. In the extreme, idealism holds that even the notion of an "outside" world is an internal representation.
 
-The second brain architecture closely resembles modern human cognitive architectures. For instance, fluid search output resembles working memory, non-linear contents resemble long-term memory, and a transient buffer resembles short-term memory. This high-fidelity alignment can enable a functional dialogue through guidelines for cognitive augmentation.
+The second brain architecture closely resembles modern human cognitive architectures. For instance, fluid search output resembles working memory, non-linear contents resemble long-term memory, and a transient buffer resembles short-term memory. This high-fidelity alignment can enable a functional dialogue through guidelines for cognitive augmentation. What's more, this close resemblence might have not been a mere coincidence, but the aggregate result of tweaking a note-taking setup in subtle intuitive ways to better fit human cognition.
 
 Smooth pursuit and saccades exapt parts of optokinetic nystagmus, a gaze stabilization reflex. Smooth persuit is a cognitively modulated version of the slow phase of optokinetic nystagmus. In contrast, saccades are a top-down influenced version of the fast phase.
 
 In a Feynman cluster, free learners from widely different disciplines can come together and teach each other about key insights, nuggets, and findings they encountered recently. Due to the widely different backgrounds involved in a Feynman cluster, teaching is similar to practicing the Feynman technique, but in a more social context. The Feynman cluster gives rise positive-sum situation between learners and teachers, because they both have something to gain: new knowledge and better understanding, respectively. Besides enabling the positive-sum loop, social structure can also make the Feynman technique more enjoyable and accountable.
 
 Because restoring a lost ability feels more reasonable than adding a qualitatively different ability to a person's mind, cognitive decline provides a motivating context for cognitive enhancement across a wide range of cognitive domains. From memory to perception, cognitive decline is based on the loss of something which was previously there, by definition, so it provides ample moral opportunity for developing means of cognitive augmentation.
-
-The Bitter Lesson argues that, based on empirical observations of the field, machine learning should focus on developing meta-level learning strategies, based on which the model would derive the rest, compared to engineering symbolic domain-specific knowledge into the system. In a similar manner, Minsky argues that that's also all that we have, a mechanism for predestined learning, which drives us into developing similar conceptual frameworks.
 
 Piotr Wozniak argues that good learning is inherently pleasurable. He argues that people have an innate drive for learning, innately associated with reward systems. This is consonant with the view of the human as an infovore, wired from birth to accumulate knowledge.
 
@@ -240,7 +238,7 @@ It has been observed that high-level cognition modulates pupil size. Particularl
 
 In the concept-room metaphor, concept are associated with rooms in a family house. Exemplars are associated with physical objects stored in those rooms. In this metaphor, exemplars naturally "belong together" in a certain room. For instance, cooking utensils belong in the kichen and cleaning supplies belong in the bathroom.
 
-Phenomenological transparency refers to the experience of a tool being part of your body. Drivers extend their situational awareness to that of their car. Phenomeneological transparency and the mechanisms which presumably support it might be the foundation of affordances. With a strong enactive and premotor attitude, one could envision a phenomenological theory of affordances which might integrate with James Gibson's model. The phenomenology of tools for thought and their affordances provides a particularly intriguing line of inquiry.
+Phenomenological transparency refers to the experience of a tool being part of your body. Drivers extend their situational awareness to that of their car. Phenomeneological transparency and the mechanisms which presumably support it might be the foundation of affordances. However, it seems to be proportional to the fluency of using tools. With a strong enactive and premotor attitude, one could envision a phenomenological theory of affordances which might integrate with James Gibson's model. The phenomenology of tools for thought and their affordances provides a particularly intriguing line of inquiry.
 
 By assigning landmarks to one's body in a video stream, one can essentially create hooks and controls for manipulating visual representations. In a sense, pose detection, through the bodily control it enables, interfaces users with information on a kinesthetic level. This enables the easy creation of explanatory videos, by simply gesturing, an instinct itself associated with reasoning.
 
@@ -505,7 +503,7 @@ In masked language modeling, a machine learning model is tasked with identifying
 
 If a person deeply internalizes the belief that great ideas and scientific breakthroughs are created only through the indifferent kinetics of memetic evolution, then that person may be discouraged from ambitious scientific and engineering inquiry. This situation is losely related to the tragedy of commons, as each person is relying on memetic evolution taking place in other hosts for bringing about innovation.
 
-If concepts fit in neat separate buckets, then it's difficult to find parallels and recycle mental models. Essentially, categorical perception, beyond early perception, introduces a blindspot for nuance as detrimental as it's convenient. Training oneself in relaxing categorical constraints through memetic psychotherapy might help.
+If concepts fit in neat separate buckets, then it's difficult to find parallels and recycle mental models. Essentially, categorical perception, beyond early perception, introduces a blindspot for nuance as detrimental as it's convenient. Not only does it translate to a blindspot for nuance, but also a blindspot for other taxonomies. Training oneself in relaxing categorical constraints through memetic psychotherapy might help.
 
 In the context of speculative memetic psychotherapy, the very belief in the scientific plausibility of the methods might be a belief guiding the procedure. In this, memetic engineering resembles placebo medication, whose mere objective is to introduce beliefs, nudging the patient in a certain direction.
 
@@ -538,6 +536,19 @@ Information about the physical space, mostly related to the immediate surroundin
 First-order logic introduces individuals (through constants) with attributes (through predicates) to modal logic. First-order modal logic can be split between the ones with constant domain (same individuals across worlds) and the ones with variable domain (different individuals across worlds).
 
 In Western culture, design typically refers to graphics. In contrast, design thinking generalizes the methodologies of design to a host of other domains, such as experiences, processes, or organizations.
+
+https://www.youtube.com/watch?v=XAU7wzJCrZc
+regulating user affect for patostasis?
+people more comfortable with information with artificial agents, but also rapport, automatic contingent empathetic feedback
+appraisal theory signals coherence, reward/not systems, argues emotion based on world-image interaction
+reverse appraisal theory is neurophysiological/behavioral memetic probing!!
+preference elicitation prob related to optimally infering one's intentions? might be interesting for cognitive memetic probing
+Social related neural activity as turing test alternative
+Relations might be coded, instead of concepts?
+Fear also metabolism, neural dynamics
+Neural activity precedes hormones, fear is coded before the stress response
+Somatic marker hypo breaks the reason-emotion dichotomy
+Neural emulation based on forecasting, deriving meaningful representations
 
 Data augmentation seeks to derive more training samples from data. In contrast, the latent-variable architecture is based on fuzzily influencing hidden states in the latent space during prediction with actual input in order to stochastically generate output alternatives. Those output alternatives can provide a framework for expressing uncertainty in contrastive learning. As opposed to GAN's, the latent-variable architecture uses input from a dataset. This is analogous to how dreaming enables a form of data augmentation.
 
@@ -574,3 +585,33 @@ The binding problem can be subdivided into several subproblems:
 4. General coordination: How are abstract latent representations combined coherently with current relevance?
 
 Remote control mechanisms can reshape one's affordances of space. Besides enabling a phenomenological transparency which transcends conventional spatial reasoning, it also reduces friction in performing certain actions, which might result in unintended externalities.
+
+Considering the fact that humans seek a coherent belief system, a second brain might be an empowering tool, as it helps users relax that constraint. The second brain can seamlessly house conflicting perspectives.
+
+In the case when two free learners create two different notes on the very same topic, a minuscule semantic distance might signal a conceptual gateway between them. Rather than being a case of two different notes building on each other, the two notes almost perfectly overlap. However, summarization forces understanding for both learners, which makes it almost advisable for a community to have multiple notes on the very same concept, written by different individuals.
+
+The Bitter Lesson argues that, based on empirical observations of the field, machine learning should focus on developing meta-level learning strategies, based on which the model would derive the rest, compared to engineering symbolic domain-specific knowledge into the system. In a similar manner, predestined learning helps people derive rich, but similar, worldviews.
+
+When one is tasked with tediously consolidating fleeting notes into robust notes, the consumption-creation ratio becomes particularly salient. By adding friction to consumption (i.e. by forcing this elaboration contraint), the free learner is nudged towards creation, rather than mindless consumption.
+
+In machine learning, semantic embeddings of discrete items denote prototypes of conceptual families. However, those conceptual families are informed by exemplars. In this, machine learning tacitly embraces the concept theory assumption that concept learning consists on deriving prototypes based on exemplars in context.
+
+Strong emotions experienced during an event often result in a more robust memory representation being consolidated. This is a prime example of how more "primitive" brain regions influence high-level cognition. However, how could this be exapted for concept learning or skill acquisition?
+
+Just like similar embodiment and cultural embedding do, explicit words denoting mental states might also predict manifold alignment. Words like "stress", "joy", or "tired" evoke specific limbic states in relation to other concepts. This hints at the fact that speakers of a certain language think in slightly different, although internally consistent, ways.
+
+Assuming that neuroplasticity is based on idiosyncratic dynamics modulated by metabolism, one might wonder how this could inform learning through neural interfaces. Could models forecast meaningful changes in knowledge based on neuroplasticity mechanics?
+
+Speakers of a language have difficulty in recognizing phoneme variations in other languages which they don't natively make distinctions between. More generally, once you internalize a taxonomy, it's difficult to keep oneself open to other ways of slicing up a space into conceptual buckets.
+
+In Javascript, promises are objects which denote a commitment to provide a different object at a future time. They provide certain mechanics for asynchronous processing with sequential dependencies. However, similar mechanics could also streamline interdependent knowledge work.
+
+Just like breathing and optic flow can be exapted as psychosomatic tools, so too can peer pressure. Although arguably operating on a limbic, rather than autonomic, level, social structures might be engineered to yield impressive results.
+
+Some cities were designed by prescribing certain social functions to certain neighborhoods. In contrast, other cities developed spontaneously, without focusing on localization of function, eventually developing a distributed network of neighborhoods. Similarly, the brain-city metaphor highlights how various neuroscientific perspectives use different cognitive architectures.
+
+Although oversimplified and highly controversial, the triune brain model splits the human brain in three functionally distinct systems based on lose evolutionary criteria. The autonomic nervous system is related to primitive behaviors like breathing, and shows up from reptiles on. The limbic system is tasked with emotions and drives, and shows up from mammals on. The neocortex is tasked with high-level cognition, and only shows up in humans. However, all levels deeply interact with each other.
+
+Minsky argues that that people have a mechanism for predestined learning, which drives us into developing similar conceptual frameworks. We might me conditioned to be conditioned in certain ways. We might be predisposed to a certain kind of perception. In this, predestined learning highlights a middle ground between nature and nurture extremes.
+
+Localization of function consists of the idea that each cognitive function is associated with a certain brain region. In contrast, mass action consists of the idea that neuroplasticity makes it so that any brain region has the potential to support any cognitive function. Halfway between the two, PDP argues that cognitive functions are based on distributed networks of specialized regions. Those paradigms are made vivid in the brain-city metaphor.

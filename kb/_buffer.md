@@ -1,27 +1,14 @@
-Behave
-affordances are internalized gradually, fluency increases over time
-Not only categorical perception blindspot for nuance, but blindspot for other categorical denominations
-Categorizing continuum has +, -
-Normativity and context dependence
-Mass action vs loc of func, distributivism..
-MacLean distinction
-Para-sympa are conflicting
-Emotion supports consolidation
-Prepared/predestined/predisposed learning breals nature-nurture dichotomy
-Neuroplasticity manifold dynamics might help plan, guide, writing to the brain
-Tf-idf reasoning for valuable notes from one among many corpora
-Explicit language of mental state informs manifold alignment to language
+https://www.youtube.com/watch?v=XAU7wzJCrZc
+regulating user affect for patostasis?
+people more comfortable with information with artificial agents, but also rapport, automatic contingent empathetic feedback
+appraisal theory signals coherence, reward/not systems, argues emotion based on world-image interaction
+reverse appraisal theory is neurophysiological/behavioral memetic probing!!
+preference elicitation prob related to optimally infering one's intentions? might be interesting for cognitive memetic probing
 
-Conceptually similar notes as interpersonal gateways
-Second brain makes consumption-creation ratio salient
-Second brain developed this way *because* aligned with human, intuitive
+Social related neural activity as turing test alternative
+Relations might be coded, instead of concepts?
+Fear also metabolism, neural dynamics
+Neural activity precedes hormones, fear is coded before the stress response
+Somatic marker hypo breaks the reason-emotion dichotomy
 
-peer pressure modulates stress levels, might help like breathwork, optic flow
-mindfulness value concerns parallel to tool for thought externalities
-emulation as reincarnation, rather than upload, pattern
-second brain enables keeping conflucting perspective close, there's no automatic resentment of conflicts
-UPDATE conceptual silos for categorical perception
-discrete stuff in machine learning assumes prototypes based on exemplars in context
-investment in person makes free learning sustainable
-fixed free learner budget makes resources sustainable
-promises in JS
+Neural emulation based on forecasting, deriving meaningful representations
