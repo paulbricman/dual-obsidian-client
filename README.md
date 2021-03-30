@@ -5,9 +5,9 @@
 - Find notes about *empiricism*.
 
 ### Descriptive Search
-- This text describes a metaphor bridging disparate fields.
-- This entry argues that recording neural activity with EEG is challenging.
-- This note contains a formal definition related to philosophy.
+- Search for a note which *describes a metaphor bridging disparate fields*.
+- Look for a note which *argues that recording neural activity with EEG is challenging*.
+- Find a note which *contains a formal definition related to logic*.
 
 ### Open Dialogue
 - What's the easiest way to understand what pupillometry is?
