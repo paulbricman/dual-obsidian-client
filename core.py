@@ -20,9 +20,9 @@ class Core:
         print('Loading language model zoo...')
         self.text_encoder = SentenceTransformer('msmarco-distilbert-base-v2')
         self.pair_encoder = CrossEncoder('cross-encoder/ms-marco-TinyBERT-L-4')
-        #self.nli = CrossEncoder('cross-encoder/nli-distilroberta-base')
-        #self.gen_tokenizer = GPT2Tokenizer.from_pretrained('distilgpt2')
-        #self.gen_model = GPT2LMHeadModel.from_pretrained('distilgpt2', pad_token_id=self.gen_tokenizer.eos_token_id)
+        self.nli = CrossEncoder('cross-encoder/nli-distilroberta-base')
+        self.gen_tokenizer = GPT2Tokenizer.from_pretrained('gpt2-medium')
+        self.gen_model = GPT2LMHeadModel.from_pretrained(pretrained_model_name_or_path='./Persona/Aligned', pad_token_id=self.gen_tokenizer.eos_token_id)
 
         if os.path.isfile(self.cache_address) is False:
             self.create_cache()
@@ -71,7 +71,7 @@ class Core:
 
         return results
 
-    def question_answering(self, question, considered_candidates=3):
+    def open_dialogue(self, question, considered_candidates=3):
         candidate_entry_filenames = self.fluid_search(question, selected_candidates=considered_candidates)
         candidate_entry_contents = reversed([self.entries[e][0] for e in candidate_entry_filenames])
         generator_prompt = '\n\n'.join(candidate_entry_contents) + '\n\nQ: ' + question + '\nA: '
@@ -80,22 +80,23 @@ class Core:
         generator_output = self.gen_model.generate(
             input_ids, 
             do_sample=True, 
-            max_length=len(input_ids[0]) + 30, 
+            max_length=len(input_ids[0]) + 50, 
             top_p=0.9, 
             top_k=40,
-            temperature=0.8
+            temperature=1
         )
 
         output_sample = self.gen_tokenizer.decode(generator_output[0], skip_special_tokens=True)[len(generator_prompt):]
         output_sample = re.sub(r'^[\W_]+|[\W_]+$', '', output_sample)
         output_sample = re.sub(r'[^a-zA-Z0-9\s]{3,}', '', output_sample)
+        output_sample += '...'
         
         return [output_sample]
 
-    def save_snapshot(self):
-        contents = '\n\n'.join(self.entry_contents)
-        file = open('Snapshot.txt', 'w')
-        file.write(contents)
+    def get_snapshot(self):
+        return {
+            'output': '\n\n'.join(self.entry_contents)
+        }
 
     def create_cache(self):
         print('Cache file doesn\'t exist, creating a new one...')

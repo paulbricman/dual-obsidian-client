@@ -14,9 +14,9 @@ class ConversationalWrapper:
 
         if '?' in query:
             return {
-                'intent': 'QUESTION_ANSWERING',
+                'intent': 'OPEN_DIALOGUE',
                 'input': query,
-                'output': self.core.question_answering(query)
+                'output': self.core.open_dialogue(query)
             }
         elif re.match(r'.*([Tt]his\s+(text|note|entry)).*', query.lower()):
             return {
@@ -29,12 +29,6 @@ class ConversationalWrapper:
                 'intent': 'DESCRIPTIVE_SEARCH',
                 'input': 'This text ' + m.group(5),
                 'output': self.core.descriptive_search('This text ' + m.group(5))
-            }
-        elif m := re.match(r'.*(([Aa]sk|[Qq]uiz|[Tt]est)\s+me\s+(on|about))\s+([^\.]*)', query):
-            return {
-                'intent': 'QUESTION_GENERATION',
-                'input': m.group(4),
-                'output': self.core.question_generation(m.group(4))
             }
         else:
             if m:= re.match(r'.*(([Ss]earch\s+for|[Ll]ook\s+for|[Ll]ook\s+up|[Ff]ind)\s*(a\s+note|an\s+entry|a\s+text|notes|entries|texts)?\s*(on|about|related\s+to)?)\s+([^\.]*)', query):
