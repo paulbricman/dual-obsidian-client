@@ -20,8 +20,7 @@ class Core:
         print('Loading language model zoo...')
         self.text_encoder = SentenceTransformer('msmarco-distilbert-base-v2')
         self.pair_encoder = CrossEncoder('cross-encoder/ms-marco-TinyBERT-L-4')
-        self.nli = CrossEncoder('cross-encoder/nli-distilroberta-base')
-        #self.qg = qg_pipeline('question-generation', model='valhalla/t5-small-qg-hl', ans_model='valhalla/t5-small-qa-qg-hl')
+        #self.nli = CrossEncoder('cross-encoder/nli-distilroberta-base')
         #self.gen_tokenizer = GPT2Tokenizer.from_pretrained('distilgpt2')
         #self.gen_model = GPT2LMHeadModel.from_pretrained('distilgpt2', pad_token_id=self.gen_tokenizer.eos_token_id)
 
@@ -76,7 +75,6 @@ class Core:
         candidate_entry_filenames = self.fluid_search(question, selected_candidates=considered_candidates)
         candidate_entry_contents = reversed([self.entries[e][0] for e in candidate_entry_filenames])
         generator_prompt = '\n\n'.join(candidate_entry_contents) + '\n\nQ: ' + question + '\nA: '
-        #print(generator_prompt)
         input_ids = self.gen_tokenizer.encode(generator_prompt, return_tensors='pt')
         
         generator_output = self.gen_model.generate(
@@ -172,7 +170,6 @@ class Core:
 
         for entry_idx, entry_filename in enumerate(self.entry_filenames):
             if self.entry_contents[entry_idx] != md_to_text(entry_filename):
-                print('UPDATE', entry_filename)
                 self.entry_contents[entry_idx] = md_to_text(entry_filename)
                 self.entry_embeddings[entry_idx] = self.text_encoder.encode(self.entry_contents[entry_idx])
 
