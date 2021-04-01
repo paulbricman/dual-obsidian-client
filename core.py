@@ -13,8 +13,8 @@ import re
 
 class Core:
     def __init__(self, root_dir):
-        self.cache_address = os.path.join(root_dir, '.persona/cache.pickle')
-        self.hidden_address = os.path.join(root_dir, '.persona')
+        self.cache_address = os.path.join(root_dir, '.dual/cache.pickle')
+        self.hidden_address = os.path.join(root_dir, '.dual')
         self.entry_regex = os.path.join(root_dir, '*md')
         self.auxiliary_models_ready = False
         self.main_model_ready = False
