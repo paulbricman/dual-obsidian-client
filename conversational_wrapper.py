@@ -12,13 +12,19 @@ class ConversationalWrapper:
         if query == '':
             return None
 
-        if '?' in query:
+        if re.match(r'.*[copy|get]\s+snapshot.*', query.lower()):
+            return {
+                'intent': 'COPY_SNAPSHOT',
+                'input': query,
+                'output': self.core.copy_snapshot()
+            }
+        elif '?' in query:
             return {
                 'intent': 'OPEN_DIALOGUE',
                 'input': query,
                 'output': self.core.open_dialogue(query)
             }
-        elif re.match(r'.*([Tt]his\s+(text|note|entry)).*', query.lower()):
+        elif re.match(r'.*(this\s+(text|note|entry)).*', query.lower()):
             return {
                 'intent': 'DESCRIPTIVE_SEARCH',
                 'input': query,

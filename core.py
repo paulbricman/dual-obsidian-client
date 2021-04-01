@@ -16,13 +16,11 @@ class Core:
         self.cache_address = os.path.join(root_dir, '.persona/cache.pickle')
         self.hidden_address = os.path.join(root_dir, '.persona')
         self.entry_regex = os.path.join(root_dir, '*md')
+        self.auxiliary_models_ready = False
+        self.main_model_ready = False
 
-        print('Loading language model zoo...')
-        self.text_encoder = SentenceTransformer('msmarco-distilbert-base-v2')
-        self.pair_encoder = CrossEncoder('cross-encoder/ms-marco-TinyBERT-L-4')
-        self.nli = CrossEncoder('cross-encoder/nli-distilroberta-base')
-        self.gen_tokenizer = GPT2Tokenizer.from_pretrained('gpt2-medium')
-        self.gen_model = GPT2LMHeadModel.from_pretrained(pretrained_model_name_or_path='./Persona/Aligned', pad_token_id=self.gen_tokenizer.eos_token_id)
+        self.load_auxiliary_models()
+        self.load_main_model()
 
         if os.path.isfile(self.cache_address) is False:
             self.create_cache()
@@ -31,6 +29,11 @@ class Core:
             self.sync_cache()
 
     def fluid_search(self, query, considered_candidates=50, selected_candidates=5, second_pass=True):
+        self.load_main_model()
+
+        if self.main_model_ready == False:
+            return ['The aligned model is unavailable at the required location.']
+        
         self.sync_cache()
         selected_candidates = min(selected_candidates, considered_candidates)
         query_embedding = self.text_encoder.encode(query, convert_to_tensor=True)
@@ -48,6 +51,11 @@ class Core:
             return [self.entry_filenames[hit['corpus_id']] for hit in hits[:selected_candidates]]
 
     def descriptive_search(self, claim, polarity=True, target='premise', considered_candidates=50, selected_candidates=5):
+        self.load_main_model()
+
+        if self.main_model_ready == False:
+            return ['The aligned model is unavailable at the required location.']
+
         selected_candidates = min(selected_candidates, considered_candidates)
         considered_candidates = min(considered_candidates, len(self.entry_filenames))     
         candidate_entry_filenames = self.fluid_search(claim, selected_candidates=considered_candidates, second_pass=False)
@@ -72,6 +80,11 @@ class Core:
         return results
 
     def open_dialogue(self, question, considered_candidates=3):
+        self.load_main_model()
+
+        if self.main_model_ready == False:
+            return ['The aligned model is unavailable at the required location.']
+
         candidate_entry_filenames = self.fluid_search(question, selected_candidates=considered_candidates)
         candidate_entry_contents = reversed([self.entries[e][0] for e in candidate_entry_filenames])
         generator_prompt = '\n\n'.join(candidate_entry_contents) + '\n\nQ: ' + question + '\nA: '
@@ -93,7 +106,21 @@ class Core:
         
         return [output_sample]
 
-    def get_snapshot(self):
+    def load_auxiliary_models(self):
+        print('Loading auxiliary models...')
+        self.text_encoder = SentenceTransformer('msmarco-distilbert-base-v2')
+        self.pair_encoder = CrossEncoder('cross-encoder/ms-marco-TinyBERT-L-4')
+        self.nli = CrossEncoder('cross-encoder/nli-distilroberta-base')
+        self.auxiliary_models_ready = True
+
+    def load_main_model(self):
+        if self.main_model_ready == False and os.path.isfile('./aligned/pytorch_model.bin'):
+            print('Loading main model...')
+            self.gen_tokenizer = GPT2Tokenizer.from_pretrained('gpt2-medium')
+            self.gen_model = GPT2LMHeadModel.from_pretrained(pretrained_model_name_or_path='./Aligned', pad_token_id=self.gen_tokenizer.eos_token_id)
+            self.main_model_ready = True
+
+    def copy_snapshot(self):
         return {
             'output': '\n\n'.join(self.entry_contents)
         }

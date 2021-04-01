@@ -16,10 +16,5 @@ cw = ConversationalWrapper(args.path)
 def respond_query(query):
     return cw.respond(query)
 
-@app.route('/snapshot')
-@cross_origin()
-def respond_snapshot():
-    return cw.core.get_snapshot()
-
 if __name__ == '__main__':
    app.run()
