@@ -4,7 +4,6 @@ import os
 import glob
 import torch
 from transformers import GPT2LMHeadModel, GPT2Tokenizer, Trainer, TrainingArguments, TextDataset, DataCollatorForLanguageModeling
-from qg_pipeline import qg_pipeline
 from util import md_to_text
 import json
 import random
@@ -117,7 +116,7 @@ class Core:
         if self.main_model_ready == False and os.path.isfile('./aligned/pytorch_model.bin'):
             print('Loading main model...')
             self.gen_tokenizer = GPT2Tokenizer.from_pretrained('gpt2-medium')
-            self.gen_model = GPT2LMHeadModel.from_pretrained(pretrained_model_name_or_path='./Aligned', pad_token_id=self.gen_tokenizer.eos_token_id)
+            self.gen_model = GPT2LMHeadModel.from_pretrained(pretrained_model_name_or_path='./aligned', pad_token_id=self.gen_tokenizer.eos_token_id)
             self.main_model_ready = True
 
     def copy_snapshot(self):
