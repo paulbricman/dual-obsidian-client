@@ -1,4 +1,0 @@
----
----
-
-Concept learning might be described as the process of [[Constructivism fosters understanding through scaffolding|constructively scaffolding]] a relative conceptual structure. Initially, related concepts are elevated in working memory, similar to [[Fluid search enables scaffolding structure for incremental reading|fluid search output]]. Then, the novel concept is sustained in a stasis, while the [[Perception is context-dependent|relations to the previous concepts]] are set in place. After a short while, structural changes start to reflect the internalization of the new concept, which is likely already located in the [[Similar embodiment predicts manifold alignment|same neural space]].

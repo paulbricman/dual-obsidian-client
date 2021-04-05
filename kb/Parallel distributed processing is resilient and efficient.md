@@ -1,4 +1,0 @@
----
----
-
-Parallel distributed processing (PDP) models have been suggested as a solution to the flaws of centralized symbolic models. The von Neumann bottleneck refers to the extensive time complexity of algorithms forced through a sequential architecture. By attempting to [[Experiential consequences of cognitivism|parallelize cognition]], PDP enables more efficient models, which often better reflect human performance. Additionally, due to its distributed nature, PDP is more resilient to accidents, malfunctions, or mutations. 

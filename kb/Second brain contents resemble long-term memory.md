@@ -1,4 +1,0 @@
----
----
-
-The semantic network model is a wide-spread view on the functional structure of long-term memory in cognitive psychology. It consists of a network of pieces of information which are connected through semantic links. What's more, retrieval time appears to correlate with graph traversal distance. In the context of the [[Second brain has a cognitive architecture|second brain architecture]], the non-linear structure of interconnected notes resembles such a semantic network view of long-term memory. This parallel is similar to [[Second brain buffer is like short-term memory|the short-term memory one]] and the [[Fluid search output resembles working memory|working memory one]]. Over time, [[Second brain has a cognitive architecture|the second brain]] reflects one's long-term memory better and better, due to a marked increase in the overlap following patient note-taking.

@@ -1,4 +1,0 @@
----
----
-
-The perception of movement through space can decrease the level of bodily stress one experiences. If autonomic arousal was evolutionarily engineered to "get us moving", then it only make sense for movement to bring stress levels down, essentially signaling that stress was already effective. Therapeutic practices like EMDR exploit this optic flow destressor by asking participants to incessantly move their eyes horizontally, left to right, while working through a traumatic event, for instance. EMDR exapts the optic flow destressing mechanism.

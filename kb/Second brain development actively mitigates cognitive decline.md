@@ -1,4 +1,0 @@
----
----
-
-[[Second brain architecture closely resembles human cognitive architecture]] and [[Second brain architecture guides cognitive augmentation|provides a framework for cognitive augmentation]]. Therefore, one's time investment in the development of a [[Second brain has a cognitive architecture|second brain]] can be seen as an active measure for mitigating [[Cognitive functions decline with age|cognitive decline]]. Many [[Cognitive functions decline with age|cognitive functions decline with age]], yet the computational capabilities of the second brain (e.g. [[Fluid search enables scaffolding structure for incremental reading|fluid search]]) increase through the years, making it possible for cognitive functions (e.g. [[Fluid search output resembles working memory|working memory]]) to be [[Elderly scaffold neural circuits to compensate for cognitive decline|compensated exosomatically]].

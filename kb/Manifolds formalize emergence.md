@@ -1,4 +1,0 @@
----
----
-
-The manifold hypothesis connects the apparently [[The whole is more than the sum of its parts, but less than the product|complex nature of a high-dimensional space to a simplified low-dimensional manifold]]. While the manifold hypothesis has been considered in the domain of representations internalized by [[Deep learning is consonant with empiricism|neural networks]], it could plausibly provide a [[Explicit position cues describe conceptual structure|conceptual framework]] for linking the attributes of a system with its emergent properties. Therefore, the manifold hypothesis could be used as a conceptual tool for studying emergence in general, and [[Selectively sampling dimensions facilitates manifold definition|particularly in neuroscience]].

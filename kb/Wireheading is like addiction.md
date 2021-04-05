@@ -1,4 +1,0 @@
----
----
-
-A machine learning model can spontaneously reach a region of the optimization space where its performance as judged by the optimization function is superb, yet its behavior with respect to its creator's intentions is deplorable. For instance, an agent in a simulated physical environment may learn to exploit a bug of the physics engine, scoring high with a meaningless strategy, because it [[Biological reward systems are malleable|hijacked its own reward system]]. Similarly, addicted individuals, together with their internal reward systems, are learning to optimize for innate drives, but don't end up manifesting meaningful behavior. Addiction arguably leads to a counterproductive behavior for the individual and society, even if performance on the dopamine optimization function is superb.

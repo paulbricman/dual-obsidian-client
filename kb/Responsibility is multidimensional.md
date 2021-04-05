@@ -1,4 +1,0 @@
----
----
-
-Despite often co-occuring in human law, responsibility can be disentangled into causal responsibility, moral responsibility, and liability. Causal responsibility refers to the causal link between an agent and the consequences of its actions. Moral responsibility refers to the agent's "blameability". Liability refers to the obligation to compensate damage. In the context of autonomous robots, causal responsibility is straightforward, but moral responsibility and liability are not.

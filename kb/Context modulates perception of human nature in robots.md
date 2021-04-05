@@ -1,4 +1,0 @@
----
----
-
-In contrast with a deeply artificial background or environment, a somewhat natural robot or virtual agent may appear life-like and natural. Context-dependent effects, such as those found in color perception, plausibly exist in the perception of naturalness and human nature. This effect might be able to rescue robots from the uncanny valley.

@@ -1,4 +1,0 @@
----
----
-
-In masked language modeling, a machine learning model is tasked with identifying tokens which are likely to be located at masked locations in a text. This task forces models to learn context-dependent representations of words, which result in powerful sense disambiguation. In other words, those models systematically use neighboring words as hints as to what the original word stands for. In isolation, a word can mean a lot of things. The context collapses words into a much tighter semantic distribution. A similar case of ambiguity in isolation can be found in neuroimaging. Multiple patterns of neural activity can generate the same observed patterns. This is due to the limited spatial and temporal resolution of current neuroimaging techniques. However, a masked modeling task may provide the right incentives for a model to derive a specific context-dependent representation of neural activity for use in downstream tasks.

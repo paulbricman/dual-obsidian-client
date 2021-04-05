@@ -1,4 +1,0 @@
----
----
-
-If a knowledge base is based on textual representation of knowledge, then natural language processing can render it into an agent. By providing a conversational interface to the knowledge base, natural language processing can be used to "put a face on" arbitrary collections of text, such as working notes, books of an author, or news reports. This notion interacts with [[Second brain architecture guides cognitive augmentation|the second brain architecture]] and highlights the possibility of interfacing with with the second brain through dialogue. 

@@ -1,4 +1,0 @@
----
----
-
-Just like [[Similar embodiment predicts manifold alignment|a similar physical environment predicts manifold alignment]], so does similar cultural embedding. By being constantly exposed to [[Explicit position cues describe conceptual structure|similar metaphors]], people naturally internalize [[World models reflect ideological structures|similar conceptual structures]], and in turn derive [[Manifolds formalize emergence|similar neural manifolds]], by virtue of being [[Brains code relative object positions|aligned]] to the [[Physical and conceptual spaces are coded in the same region|same thing]].

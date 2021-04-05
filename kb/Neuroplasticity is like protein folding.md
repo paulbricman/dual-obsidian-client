@@ -1,4 +1,0 @@
----
----
-
-Protein folding is often characterized by the incredible computational complexity underlying the physical process. From a set of initial conditions, it is extremely difficult to compute the resulting spatial structure of the final protein. In protein folding, the totality of attractions and rejections between each node and each other node guide the physical process in [[Manifolds formalize emergence|a highly non-linear way]]. In the neural manifold view, one can view the family of mechanisms which support Hebbian plasticity as the guiding dynamics of a cognitive manifold taking shape in neural space.

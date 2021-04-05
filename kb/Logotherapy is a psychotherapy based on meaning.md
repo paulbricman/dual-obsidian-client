@@ -1,4 +1,0 @@
----
----
-
-Viktor Frankl argues that meaning is the primary motivating force for people. His approach to psychotherapy, termed logotherapy, consists on firmly reframing challenging situations in a way which highlights their meaning. Essentially, the goal is to elevate dormant meaning into awareness. Case studies in logotherapy can be seen as psychotherapeutic problems whose solutions consists of plausible beliefs and worldviews which make current events meaningful and worthwhile. In this, logotherapy can profoundly inform a computational form of [[Axiomatic implants depict memetic psychotherapy|memetic psychotherapy]].

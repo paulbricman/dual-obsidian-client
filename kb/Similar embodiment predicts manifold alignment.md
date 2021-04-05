@@ -1,4 +1,0 @@
----
----
-
-If neural activity follows a [[Manifolds formalize emergence|manifold structure]], and it's informed in large part by the [[Perception and motor action distort spatial representation|environment]], then the manifolds corresponding to higher-level cognitive functions should somehow be aligned with manifolds corresponding to lower-level functions. Furthermore, given Minsky's idea of predestined learning, one could infer that because [[Experientialism breaks the subjectivism-objectivism dichotomy|the outside world is similar for individual humans]], then their [[Emergent properties are dependent on low-level state|abstractive manifolds]] are also aligned by virtue of being [[Brains code relative object positions|aligned to the same object]].

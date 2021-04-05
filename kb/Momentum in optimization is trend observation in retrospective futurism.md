@@ -1,4 +1,0 @@
----
----
-
-There is a sensible parallel to be made between momentum in stochastic optimization and retrospective futurism. In machine learning, some families of optimizers, including the popular Adam optimizer, incorporate a dynamic of momentum. Specifically, momentum guides the current direction of optimization using the recent history of movement on the loss surface. Similarly, retrospective futurism attempts to look back at the past developments of a trend in order to better forecast its future development. 

@@ -1,4 +1,0 @@
----
----
-
-More often than not, a machine learning model can learn to solve a given task in an unexpected way. By definition, machine learning addresses problem for which people can't explicitly articulate a powerful solution themselves, so this is understandable. However, those [[Wireheading is like addiction|perverse instantiations]], as Bostrom calls them, can be deeply misaligned with the creator's interests. For instance, tasked with getting to a destination faster, a self-driving car successfully gets there with some police helicopters on its tail. 
