@@ -1,0 +1,5 @@
+---
+resource: https://en.wikipedia.org/wiki/Behave_(book)
+---
+
+The [[Working memory recruits sensory areas for housing representations|prefrontal cortex]] is one of the last [[Brains are like cities|brain regions]] to fully mature, reaching its structural peak in the mid twenties. Given its [[Cortical-subcortical conflict generates limbic friction|crucial role in mediating limbic friction]], it's not surprising that teens are somewhat more impulsive and driven by the short-term. The mechanism for reducing time-discounting is simply not fully mature. What's more, this might also explain why [[Demographic mark-up of authorship reflects cognitive profile of domain|transformative breakthroughs in many fields are made by young scholars]] (e.g. [[Neural substrate of social interaction enables neurophysiological Turing Test|Turing]]).

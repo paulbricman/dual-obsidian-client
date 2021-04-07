@@ -1,0 +1,4 @@
+---
+---
+
+One might assume that their identity is only partly influenced by their unique experiences and circumstances, and that they do have a certain nature which abstracts away from the episodic. Additionally, one might recognize how they are more similar now to other individuals than to themselves from a decade earlier. Given the relaxed constraint of identity and the [[Neural emulations are considered safe when below natural error rate|high uncertainty of one's psychology]], one might buy into the idea that other people fuzzily like them might persist their identity in the future, after their bodily death. This is [[Spacetime bounds life|an ambitious rationalization of death]]. 

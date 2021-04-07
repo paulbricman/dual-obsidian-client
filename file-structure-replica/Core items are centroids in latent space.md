@@ -1,0 +1,4 @@
+---
+---
+
+Consonant with [[Spatial metaphors provide primitives for latent space navigation|spatial metaphors used for latent space navigation]], the semantically central items in a collection of [[Semantic embeddings of discrete items are like checkers|discrete items]] are found closest to their "center" in [[Symbols diffuse in latent space|latent space]]. This can be applied to sentences for[[Text summarization task difficulty supports the Feynman tecnique|extractive text summarization]], concepts for identifying "core" [[Concept learning is few-shot scaffolding supported by working memory|concepts]], or pictures for finding the representative ones. This is perfectly compatible with the perspective of concepts being based on [[Prototypical reasoning enriches exemplars|prototypes, rather than exemplars]].

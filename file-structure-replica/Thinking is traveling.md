@@ -1,0 +1,4 @@
+---
+---
+
+The brain-train metaphor is a double metaphor. On the one hand, it relates the trajectory of neural activity with a passenger boarding a specific train of thought, similar to [[Thinking is sledding|the brain-sled metaphor]]. On the other hand, it relates the brain structure with the rigid railway infrastructure which supports traveling. The brain-train metaphor highlights the rigid nature of brain structure, while also hinting at the possibility of switching patterns of thought by switching trains. It's important to note that the brain-train metaphor doesn't invoke structural neural pathways, but rather [[Neuroplasticity is like protein folding|abstract high-dimensional connectivity which supports the aggregate functional dynamic]]. 

@@ -1,0 +1,4 @@
+---
+---
+
+Localization of function consists of the idea that each [[Second brain architecture guides cognitive augmentation|cognitive function]] is associated with [[Conscious awareness modulates neural activity|a certain brain region]]. In contrast, mass action consists of the idea that [[Neuroplasticity enables cross-modal compensation|neuroplasticity]] makes it so that any brain region has the potential to [[Brains are like buildings|support any cognitive function]]. Halfway between the two, [[Parallel distributed processing is resilient and efficient|PDP]] argues that cognitive functions are based on distributed networks of specialized regions. Those paradigms are made vivid in the [[Brains are like cities|brain-city metaphor]].

@@ -92,7 +92,7 @@ class Core:
         generator_output = self.gen_model.generate(
             input_ids, 
             do_sample=True, 
-            max_length=len(input_ids[0]) + 50, 
+            max_length=len(input_ids[0]) + 100, 
             top_p=0.9, 
             top_k=40,
             temperature=1
@@ -101,6 +101,7 @@ class Core:
         output_sample = self.gen_tokenizer.decode(generator_output[0], skip_special_tokens=True)[len(generator_prompt):]
         output_sample = re.sub(r'^[\W_]+|[\W_]+$', '', output_sample)
         output_sample = re.sub(r'[^a-zA-Z0-9\s]{3,}', '', output_sample)
+        output_sample = output_sample.split('Q:')[0].strip()
         output_sample += '...'
         
         return [output_sample]

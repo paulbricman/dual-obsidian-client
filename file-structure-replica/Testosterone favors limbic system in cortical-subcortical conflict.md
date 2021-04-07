@@ -1,0 +1,5 @@
+---
+resource: https://en.wikipedia.org/wiki/Behave_(book)
+---
+
+Testosterone is typically [[Deep learning lacks causality|associated]] with aggression. However, a more fitting perspective which betters reflects empirical findings is that of testosterone amplifying existing drives manifesting in the [[Brains are like monkeys with supercomputers|limbic system]]. In this view, testosterone favors the [[Brains are like monkeys with supercomputers|limbic system]] in its [[Cortical-subcortical conflict generates limbic friction|perpetual conflict with cortical structures]]. In a sense, testosterone is the [[Neurotransmitters and hormones are means of biochemical signaling|biochemical]] opposite of [[Memetic psychotherapy equips prefrontal areas with mental tools for managing limbic friction|memetic psychotherapy]].
