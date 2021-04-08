@@ -114,7 +114,7 @@ class Core:
         self.auxiliary_models_ready = True
 
     def load_main_model(self):
-        tentative_folder_path = os.path.join(self.root_dir, '.obsidian/plugins/Dual/aligned')
+        tentative_folder_path = os.path.join(self.root_dir, '.obsidian/plugins/Dual/essence')
         tentative_file_path = os.path.join(tentative_folder_path, 'pytorch_model.bin')
 
         if self.main_model_ready == False and os.path.isfile(tentative_file_path):
