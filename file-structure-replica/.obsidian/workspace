@@ -1,0 +1,101 @@
+{
+  "main": {
+    "id": "d5626c503f4d45fb",
+    "type": "split",
+    "children": [
+      {
+        "id": "d2dc6a2d00616f86",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "Recent memories are malleable.md",
+            "mode": "source"
+          }
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "dfafe14e7a1ace4d",
+    "type": "split",
+    "children": [
+      {
+        "id": "ebe0517512556abf",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "95250216c4bba115",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "fdbda0ab2d6e940c",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "3b08316da40c054a",
+    "type": "split",
+    "children": [
+      {
+        "id": "63c65aa69ac2b433",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "198a7d608c53b125",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Recent memories are malleable.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "ff10610e781b81f1",
+            "type": "leaf",
+            "state": {
+              "type": "chat",
+              "state": {}
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "horizontal",
+    "width": 441
+  },
+  "active": "d2dc6a2d00616f86",
+  "lastOpenFiles": [
+    "Recent memories are malleable.md"
+  ]
+}

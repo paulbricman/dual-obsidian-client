@@ -148,7 +148,7 @@ class Core:
                 self.entry_contents[entry_idx], self.entry_embeddings[entry_idx])
 
     def load_cache(self):
-        print('Previous cache file exist, loading it...')
+        print('Previous cache file exists, loading it...')
         self.entries = pickle.load(open(self.cache_address, 'rb'))
         self.entry_filenames = list(self.entries.keys())
         self.entry_contents = [e[0] for e in self.entries.values()]
