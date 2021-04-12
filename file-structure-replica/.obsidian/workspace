@@ -4,14 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "d2dc6a2d00616f86",
+        "id": "d7f5c1210dfa4c88",
         "type": "leaf",
         "state": {
-          "type": "markdown",
-          "state": {
-            "file": "Recent memories are malleable.md",
-            "mode": "source"
-          }
+          "type": "empty",
+          "state": {}
         }
       }
     ],
@@ -39,7 +36,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "evolution",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -48,7 +45,8 @@
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -68,7 +66,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Recent memories are malleable.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -94,8 +91,10 @@
     "direction": "horizontal",
     "width": 441
   },
-  "active": "d2dc6a2d00616f86",
+  "active": "d7f5c1210dfa4c88",
   "lastOpenFiles": [
+    "Rich mental model repository is conductive of insight.md",
+    "World models reflect ideological structures.md",
     "Recent memories are malleable.md"
   ]
 }
