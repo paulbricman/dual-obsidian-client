@@ -1,3 +1,5 @@
+:warning: ***This project is in early alpha. Expect a bunch of rough edges.*** :warning:
+
 # Dual
 Learn more by reading [the official write-up](https://psionica.org/docs/workshop/dual/).
 
