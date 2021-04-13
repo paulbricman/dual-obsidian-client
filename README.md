@@ -5,3 +5,10 @@ Learn more by reading [the official write-up](https://psionica.org/docs/workshop
 
 ### Installation (currently only available from source)
 Download [Dual.zip](https://github.com/Psionica/Dual/releases/download/v0.1/Dual.zip) and unzip it in `.obsidian/plugins/`. Follow the instructions in the plugin settings tab to continue. Arm yourself with patience!
+
+After the setup is complete, your file structure should look something like:
+```
+vault/.obsidian/plugins/Dual/skeleton/...
+vault/.obsidian/plugins/Dual/essence/...
+vault/.obsidian/plugins/Dual/...
+```
