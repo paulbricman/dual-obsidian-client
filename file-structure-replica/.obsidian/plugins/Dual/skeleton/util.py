@@ -5,12 +5,12 @@ import re
 
 def md_to_text(file):
     """Extract text from markdown file which contains front matter."""
-    content = frontmatter.load(file)
-    content.metadata = ''
-    content = frontmatter.dumps(content)
+    content = open(file).read()
+    content = re.sub(r'---\n*.*\n*---\n*', '', content)
     content = re.sub(r'\[\[[^\|]*\|([^\]]*)\]\]', '\g<1>' , content)
     content = re.sub(r'\[\[(.*)\]\]', '\g<1>', content)
+    content = re.sub(r'#.*\n', '', content)
     content = markdown(content)
     content = BeautifulSoup(content, features='html.parser')
-    content = content.get_text()[4:]
+    content = content.get_text()
     return content
