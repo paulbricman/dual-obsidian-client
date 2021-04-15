@@ -109,7 +109,7 @@ class SampleSettingTab extends PluginSettingTab {
 				}));
 
 		new Setting(containerEl)
-			.setName('3. Configure theskeleton.')
+			.setName('3. Configure the skeleton.')
 			.setDesc('Run \'python3 -m pip install -r requirements.txt\' in \'.obsidian/plugins/Dual/skeleton/\'.');
 
 		new Setting(containerEl)
