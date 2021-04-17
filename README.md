@@ -8,7 +8,7 @@ Download [Dual.zip](https://github.com/Psionica/Dual/releases/download/v0.1/Dual
 
 ![image](https://user-images.githubusercontent.com/20104026/115115351-bb3d3f80-9f9c-11eb-92fe-ff922a601826.png)
 
-After Step 2 is complete, your file structure should look something like:
+ℹ️ After Step 2 is complete, your file structure should look something like:
 ```
 .. Dual::
 .
@@ -25,6 +25,11 @@ After Step 2 is complete, your file structure should look something like:
 |-- main.js
 |-- manifest.json
 |-- ...
+```
+
+ℹ️ If you sync your vault with git, make sure to add the following in .gitignore after the install:
+```
+*.bin
 ```
 
 ### Command Samples
