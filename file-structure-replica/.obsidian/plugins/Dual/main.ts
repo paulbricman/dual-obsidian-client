@@ -2,11 +2,12 @@ import { App, FileSystemAdapter, Notice, Plugin, PluginSettingTab, Setting, Work
 import ChatView from 'view';
 
 interface MyPluginSettings {
-	dualPath: string;
+	customName: string;
+
 }
 
 const DEFAULT_SETTINGS: MyPluginSettings = {
-	dualPath: 'default'
+	customName: 'Dual'
 }
 
 export default class MyPlugin extends Plugin {
@@ -16,7 +17,7 @@ export default class MyPlugin extends Plugin {
 		await this.loadSettings();
 
 		this.registerView('chat', (leaf) => {
-			return new ChatView(leaf)
+			return new ChatView(leaf, this.settings.customName);
 		});
 
 		this.app.workspace.layoutReady && this.initLeaf(this.app.workspace)
@@ -130,6 +131,17 @@ class SampleSettingTab extends PluginSettingTab {
 			.setDesc('Head over to the right side panel to talk with your Dual!');
 
 		containerEl.createEl('h3', {text: 'Congratulations on setting up your Dual!'});
+
+		new Setting(containerEl)
+		.setName('Custom name')
+		.setDesc('Customize your Dual\'s name using the input box. Reload Obsidian for this to take effect.')
+		.addText(text => text
+			.setPlaceholder('Dual')
+			.setValue('')
+			.onChange(async (value) => {
+				this.plugin.settings.customName = value;
+				await this.plugin.saveSettings();
+			}));
 		
 		new Setting(containerEl)
 			.setName('Get involved!')

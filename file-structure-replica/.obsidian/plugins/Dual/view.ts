@@ -2,8 +2,11 @@ import { ItemView, WorkspaceLeaf, Notice, TextAreaComponent } from 'obsidian';
 
 export default class ChatView extends ItemView {
 
-	constructor(leaf: WorkspaceLeaf) {
+	customName = '';
+
+	constructor(leaf: WorkspaceLeaf, customName: string) {
 	  super(leaf);
+	  this.customName = customName;
 	}
   
 	getViewType(): string {
@@ -74,7 +77,7 @@ export default class ChatView extends ItemView {
 		const footerDiv = rootEl.createDiv({ cls: 'nav-header' });
 
 		let header = headerDiv.createEl('h3');
-		header.appendText('Dual');
+		header.appendText(this.customName);
 		header.style.textAlign = 'left';
 		header.style.marginTop = '0px';
 		header.style.marginBottom = '0px';
