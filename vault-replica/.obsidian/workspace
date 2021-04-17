@@ -7,11 +7,8 @@
         "id": "d7f5c1210dfa4c88",
         "type": "leaf",
         "state": {
-          "type": "markdown",
-          "state": {
-            "file": "Common focus enables privacy.md",
-            "mode": "source"
-          }
+          "type": "empty",
+          "state": {}
         }
       }
     ],
@@ -61,30 +58,29 @@
       {
         "id": "63c65aa69ac2b433",
         "type": "tabs",
-        "dimension": 36.38996138996139,
         "children": [
           {
             "id": "ff10610e781b81f1",
             "type": "leaf",
             "state": {
+              "type": "empty",
+              "state": {}
+            }
+          },
+          {
+            "id": "9fd576df4afcb908",
+            "type": "leaf",
+            "state": {
               "type": "chat",
               "state": {}
             }
-          }
-        ]
-      },
-      {
-        "id": "4e501bfccf74db07",
-        "type": "tabs",
-        "dimension": 63.61003861003861,
-        "children": [
+          },
           {
             "id": "198a7d608c53b125",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Common focus enables privacy.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -95,7 +91,8 @@
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",

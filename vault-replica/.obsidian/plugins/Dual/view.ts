@@ -146,6 +146,7 @@ export default class ChatView extends ItemView {
         let conversationDiv = <HTMLDivElement> document.getElementById('conversationDiv');
         let p = conversationDiv.createEl('p');
 		p.appendText(content);
+		p.style.userSelect = 'text';
 		p.style.textAlign = 'left';
 		p.style.fontSize = '0.8em';
 		p.style.borderRadius = '5px';
