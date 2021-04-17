@@ -6,12 +6,32 @@ Learn more by reading [the official write-up](https://psionica.org/docs/workshop
 ### Installation (currently only available from source)
 Download [Dual.zip](https://github.com/Psionica/Dual/releases/download/v0.1/Dual.zip) and unzip it in `.obsidian/plugins/`. Follow the instructions in the plugin settings tab to continue. Arm yourself with patience!
 
-After the setup is complete, your file structure should look something like:
+![image](https://user-images.githubusercontent.com/20104026/115115351-bb3d3f80-9f9c-11eb-92fe-ff922a601826.png)
+
+ℹ️ After Step 2 is complete, your file structure should look something like:
 ```
-vault/.obsidian/plugins/Dual/skeleton/...
-vault/.obsidian/plugins/Dual/essence/...
-vault/.obsidian/plugins/Dual/...
+.. Dual::
+.
+|-- skeleton
+|   |-- conversational_wrapper.py
+|   |-- core.py
+|   |-- requirements.txt
+|   |-- server.py
+|   |-- util.py
+|-- essence
+|   |-- config.json
+|   |-- pytorch_model.bin
+|   |-- training_args.bin
+|-- main.js
+|-- manifest.json
+|-- ...
 ```
+
+ℹ️ If you sync your vault with git, make sure to add the following in .gitignore after the install:
+```
+*.bin
+```
+
 ### Command Samples
 #### Fluid Search
 - Find notes about _topic_.
