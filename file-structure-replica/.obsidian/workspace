@@ -7,8 +7,11 @@
         "id": "d7f5c1210dfa4c88",
         "type": "leaf",
         "state": {
-          "type": "empty",
-          "state": {}
+          "type": "markdown",
+          "state": {
+            "file": "Common focus enables privacy.md",
+            "mode": "source"
+          }
         }
       }
     ],
@@ -45,8 +48,7 @@
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -66,6 +68,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "Common focus enables privacy.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -93,6 +96,7 @@
   },
   "active": "d7f5c1210dfa4c88",
   "lastOpenFiles": [
+    "Common focus enables privacy.md",
     "Rich mental model repository is conductive of insight.md",
     "World models reflect ideological structures.md",
     "Recent memories are malleable.md"

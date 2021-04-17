@@ -19,7 +19,7 @@ export default class ChatView extends ItemView {
 	}
 
     sendMessage(): void {
-        let input = <HTMLInputElement> document.getElementById('input');
+        let input = <HTMLInputElement> document.getElementById('dual-input-box');
 		let replied = false;
 
 		if (input.value != '') {
@@ -102,7 +102,7 @@ export default class ChatView extends ItemView {
         conversationDiv.style.height = 'calc(100% - 110px)'
 
 		let input = footerDiv.createEl('input');
-        input.id = 'input';
+        input.id = 'dual-input-box';
 		input.type = 'text';
         input.style.fontSize = '0.8em'
 		input.style.paddingInlineStart = '2%'

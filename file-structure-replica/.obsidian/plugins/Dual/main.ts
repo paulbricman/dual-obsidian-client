@@ -23,6 +23,14 @@ export default class MyPlugin extends Plugin {
 		this.registerEvent(this.app.workspace.on('layout-ready', () => this.initLeaf(this.app.workspace)))
 
 		this.addSettingTab(new SampleSettingTab(this.app, this));
+
+		this.addCommand({
+			id: 'focus-dual-input',
+			name: 'Focus Dual input box',
+			callback: () => {
+				document.getElementById('dual-input-box').focus();
+			}
+		});
 	}
 
 	initLeaf(workspace: Workspace): void {
