@@ -12,3 +12,16 @@ vault/.obsidian/plugins/Dual/skeleton/...
 vault/.obsidian/plugins/Dual/essence/...
 vault/.obsidian/plugins/Dual/...
 ```
+### Command Samples
+#### Fluid Search
+- Find notes about _topic_.
+- Search for entries on _topic_.
+- Look up texts related to _topic_.
+
+#### Descriptive Search
+- Find a entry which _description_.
+- Search for a note that _description_.
+- Look for a text which _description_.
+
+#### Open Dialogue
+- _question_?
