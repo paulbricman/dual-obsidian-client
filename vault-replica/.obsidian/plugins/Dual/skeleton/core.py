@@ -14,7 +14,7 @@ class Core:
     def __init__(self, root_dir):
         self.root_dir = root_dir
         self.cache_address = os.path.join(root_dir, '.obsidian/plugins/Dual/skeleton/cache.pickle')
-        self.entry_regex = os.path.join(root_dir, '*md')
+        self.entry_regex = os.path.join(root_dir, '**/*md')
         self.skeleton_ready = False
         self.essence_ready = False
 
@@ -131,7 +131,7 @@ class Core:
     def create_cache(self):
         print('Cache file doesn\'t exist, creating a new one...')
 
-        self.entry_filenames = glob.glob(self.entry_regex)
+        self.entry_filenames = glob.glob(self.entry_regex, recursive=True)
         self.entry_contents = [md_to_text(
             file) for file in self.entry_filenames]
         self.entry_embeddings = list(self.text_encoder.encode(
