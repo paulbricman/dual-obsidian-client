@@ -15,6 +15,7 @@
     "@rollup/plugin-node-resolve": "^9.0.0",
     "@rollup/plugin-typescript": "^6.0.0",
     "@types/node": "^14.14.2",
+    "@types/remove-markdown": "^0.3.0",
     "obsidian": "https://github.com/obsidianmd/obsidian-api/tarball/master",
     "rollup": "^2.32.1",
     "tslib": "^2.0.3",
@@ -23,6 +24,7 @@
   "dependencies": {
     "gray-matter": "^4.0.2",
     "remark": "^13.0.0",
-    "remark-typescript": "^0.3.1"
+    "remark-typescript": "^0.3.1",
+    "remove-markdown": "^0.3.0"
   }
 }

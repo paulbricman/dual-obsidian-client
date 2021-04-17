@@ -7,8 +7,11 @@
         "id": "d7f5c1210dfa4c88",
         "type": "leaf",
         "state": {
-          "type": "empty",
-          "state": {}
+          "type": "markdown",
+          "state": {
+            "file": "test2.md",
+            "mode": "preview"
+          }
         }
       }
     ],
@@ -60,27 +63,12 @@
         "type": "tabs",
         "children": [
           {
-            "id": "ff10610e781b81f1",
-            "type": "leaf",
-            "state": {
-              "type": "empty",
-              "state": {}
-            }
-          },
-          {
-            "id": "9fd576df4afcb908",
-            "type": "leaf",
-            "state": {
-              "type": "chat",
-              "state": {}
-            }
-          },
-          {
             "id": "198a7d608c53b125",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
+                "file": "test2.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -89,6 +77,14 @@
                 "backlinkCollapsed": false,
                 "unlinkedCollapsed": true
               }
+            }
+          },
+          {
+            "id": "a045693c1064ddc4",
+            "type": "leaf",
+            "state": {
+              "type": "chat",
+              "state": {}
             }
           }
         ],
@@ -100,6 +96,8 @@
   },
   "active": "d7f5c1210dfa4c88",
   "lastOpenFiles": [
+    "test2.md",
+    "Untitled.md",
     "Common focus enables privacy.md",
     "Rich mental model repository is conductive of insight.md",
     "World models reflect ideological structures.md",
