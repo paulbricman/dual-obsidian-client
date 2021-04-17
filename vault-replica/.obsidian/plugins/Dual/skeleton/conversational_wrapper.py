@@ -18,7 +18,7 @@ class ConversationalWrapper:
                 'input': query,
                 'output': self.core.copy_snapshot()
             }
-        elif '?' in query:
+        elif '?' in query or re.match(r'^(why|what|when|where|who|how).*', query.lower()):
             return {
                 'intent': 'OPEN_DIALOGUE',
                 'input': query,
