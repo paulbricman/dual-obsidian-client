@@ -101,6 +101,7 @@ class SampleSettingTab extends PluginSettingTab {
 					});
 
 					let copyPromise = new Promise(resolve => setTimeout(resolve, 3000)).then(() => {
+						concatenated = concatenated.slice(0, 5000000);
 						this.copyStringToClipboard(concatenated);
 						new Notice('Snapshot successfully copied to clipboard!');
 					});
