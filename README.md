@@ -4,7 +4,7 @@
 Learn more by reading [the official write-up](https://psionica.org/docs/workshop/dual/).
 
 ### Installation (currently only available from source)
-Download [Dual.zip](https://github.com/Psionica/Dual/releases/download/v0.1/Dual.zip) and unzip it in `.obsidian/plugins/`. Follow the instructions in the plugin settings tab to continue. Arm yourself with patience!
+Download [Dual.zip](https://github.com/Psionica/Dual/releases/download/v0.1.1/Dual.zip) and unzip it in `.obsidian/plugins/`. Follow the instructions in the plugin settings tab to continue. Arm yourself with patience!
 
 ![image](https://user-images.githubusercontent.com/20104026/115115351-bb3d3f80-9f9c-11eb-92fe-ff922a601826.png)
 
