@@ -3,7 +3,7 @@ import pickle
 import os
 import glob
 import torch
-from transformers import GPT2LMHeadModel, GPT2Tokenizer, Trainer, TrainingArguments, TextDataset, DataCollatorForLanguageModeling
+from transformers import GPT2LMHeadModel, GPTNeoForCausalLM, GPT2Tokenizer, Trainer, TrainingArguments, TextDataset, DataCollatorForLanguageModeling
 from util import md_to_text
 import json
 import random
@@ -17,6 +17,7 @@ class Core:
         self.entry_regex = os.path.join(root_dir, '**/*md')
         self.skeleton_ready = False
         self.essence_ready = False
+        self.model_name = ''
 
         self.load_skeleton()
         self.load_essence()
@@ -116,11 +117,21 @@ class Core:
     def load_essence(self):
         tentative_folder_path = os.path.join(self.root_dir, '.obsidian/plugins/Dual/essence')
         tentative_file_path = os.path.join(tentative_folder_path, 'pytorch_model.bin')
+        tentative_config_path = os.path.join(tentative_folder_path, 'config.json')
+
+        with open(tentative_config_path) as file:
+          config_model = json.load(file)
+          self.model_name = config_model["_name_or_path"]
 
         if self.essence_ready == False and os.path.isfile(tentative_file_path):
             print('Loading essence...')
-            self.gen_tokenizer = GPT2Tokenizer.from_pretrained('gpt2-medium')
-            self.gen_model = GPT2LMHeadModel.from_pretrained(pretrained_model_name_or_path=tentative_folder_path, pad_token_id=self.gen_tokenizer.eos_token_id)
+            self.gen_tokenizer = GPT2Tokenizer.from_pretrained(self.model_name)
+
+            if "gpt-neo" in self.model_name:
+              self.gen_model = GPTNeoForCausalLM.from_pretrained(pretrained_model_name_or_path=tentative_folder_path, pad_token_id=self.gen_tokenizer.eos_token_id)
+            else:
+              self.gen_model = GPT2LMHeadModel.from_pretrained(pretrained_model_name_or_path=tentative_folder_path, pad_token_id=self.gen_tokenizer.eos_token_id)
+
             self.essence_ready = True
 
     def copy_snapshot(self):
