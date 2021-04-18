@@ -4,11 +4,14 @@
     "type": "split",
     "children": [
       {
-        "id": "d7f5c1210dfa4c88",
+        "id": "a18ee84550f0da7d",
         "type": "leaf",
         "state": {
-          "type": "empty",
-          "state": {}
+          "type": "markdown",
+          "state": {
+            "file": "dummy_notes/Abundance signals fitness.md",
+            "mode": "source"
+          }
         }
       }
     ],
@@ -65,6 +68,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "dummy_notes/Abundance signals fitness.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -90,8 +94,9 @@
     "direction": "horizontal",
     "width": 317.1179504394531
   },
-  "active": "d7f5c1210dfa4c88",
+  "active": "a18ee84550f0da7d",
   "lastOpenFiles": [
+    "dummy_notes/Abundance signals fitness.md",
     "test2.md",
     "Untitled.md",
     "Common focus enables privacy.md",
