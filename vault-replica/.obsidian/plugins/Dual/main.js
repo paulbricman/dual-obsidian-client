@@ -270,7 +270,7 @@ class SampleSettingTab extends obsidian.PluginSettingTab {
         }));
         new obsidian.Setting(containerEl)
             .setName('2. Derive the essence.')
-            .setDesc('After following the online instructions, extract \'essence.zip\' in \'.obsidian/plugins/Dual/\'.')
+            .setDesc('After following the online instructions, extract the contents of \'essence.zip\' in \'.obsidian/plugins/Dual/essence\'.')
             .addButton(cb => cb
             .setButtonText('Start alignment')
             .setClass('mod-cta')
