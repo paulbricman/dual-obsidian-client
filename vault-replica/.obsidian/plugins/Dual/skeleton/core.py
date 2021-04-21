@@ -4,10 +4,8 @@ from pathlib import Path
 import os
 import glob
 import torch
-from transformers import GPT2LMHeadModel, GPT2Tokenizer, Trainer, TrainingArguments, TextDataset, DataCollatorForLanguageModeling
+from transformers import AutoModelForCausalLM, AutoTokenizer, AutoConfig
 from util import md_to_text
-import json
-import random
 import re
 
 
@@ -18,6 +16,7 @@ class Core:
         self.entry_regex = self.root_dir / '**/*md'
         self.skeleton_ready = False
         self.essence_ready = False
+        self.config = {}
 
         self.load_skeleton()
         self.load_essence()
@@ -120,8 +119,10 @@ class Core:
 
         if self.essence_ready == False and os.path.isfile(tentative_file_path):
             print('Loading essence...')
-            self.gen_tokenizer = GPT2Tokenizer.from_pretrained('gpt2-medium')
-            self.gen_model = GPT2LMHeadModel.from_pretrained(pretrained_model_name_or_path=tentative_folder_path, pad_token_id=self.gen_tokenizer.eos_token_id)
+            self.config = AutoConfig.from_pretrained(tentative_folder_path)
+            self.gen_tokenizer = AutoTokenizer.from_pretrained(self.config._name_or_path)
+            self.gen_model = AutoModelForCausalLM.from_pretrained(pretrained_model_name_or_path=tentative_folder_path, pad_token_id=self.gen_tokenizer.eos_token_id)
+
             self.essence_ready = True
 
     def copy_snapshot(self):
