@@ -1,5 +1,6 @@
 from sentence_transformers import SentenceTransformer, CrossEncoder, util
 import pickle
+from pathlib import Path
 import os
 import glob
 import torch
@@ -12,9 +13,9 @@ import re
 
 class Core:
     def __init__(self, root_dir):
-        self.root_dir = root_dir
-        self.cache_address = os.path.join(root_dir, '.obsidian/plugins/Dual/skeleton/cache.pickle')
-        self.entry_regex = os.path.join(root_dir, '**/*md')
+        self.root_dir = Path(root_dir)
+        self.cache_address = self.root_dir / '.obsidian/plugins/Dual/skeleton/cache.pickle'
+        self.entry_regex = self.root_dir / '**/*md'
         self.skeleton_ready = False
         self.essence_ready = False
 
@@ -114,8 +115,8 @@ class Core:
         self.skeleton_ready = True
 
     def load_essence(self):
-        tentative_folder_path = os.path.join(self.root_dir, '.obsidian/plugins/Dual/essence')
-        tentative_file_path = os.path.join(tentative_folder_path, 'pytorch_model.bin')
+        tentative_folder_path = self.root_dir / '.obsidian/plugins/Dual/essence'
+        tentative_file_path = tentative_folder_path / 'pytorch_model.bin'
 
         if self.essence_ready == False and os.path.isfile(tentative_file_path):
             print('Loading essence...')
@@ -131,7 +132,7 @@ class Core:
     def create_cache(self):
         print('Cache file doesn\'t exist, creating a new one...')
 
-        self.entry_filenames = glob.glob(self.entry_regex, recursive=True)
+        self.entry_filenames = glob.glob(str(self.entry_regex), recursive=True)
         self.entry_contents = [md_to_text(
             file) for file in self.entry_filenames]
         self.entry_embeddings = list(self.text_encoder.encode(
@@ -161,7 +162,7 @@ class Core:
 
     def prune_cache_entries(self):
         print('Pruning cached entries which have been removed in the meanwhile...')
-        actual_entry_filenames = glob.glob(self.entry_regex)
+        actual_entry_filenames = glob.glob(str(self.entry_regex))
 
         new_entry_filenames = []
         new_entry_contents = []
@@ -182,7 +183,7 @@ class Core:
 
     def add_cache_entries(self):
         print('Caching new entries...')
-        actual_entry_filenames = glob.glob(self.entry_regex)
+        actual_entry_filenames = glob.glob(str(self.entry_regex))
 
         for entry_idx, entry_filename in enumerate(actual_entry_filenames):
             if entry_filename not in self.entry_filenames:

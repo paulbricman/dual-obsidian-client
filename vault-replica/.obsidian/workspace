@@ -7,11 +7,8 @@
         "id": "430ec1b2c66eb70c",
         "type": "leaf",
         "state": {
-          "type": "markdown",
-          "state": {
-            "file": "dummy_notes/recipes/Writing prompt recipe.md",
-            "mode": "source"
-          }
+          "type": "empty",
+          "state": {}
         }
       }
     ],
@@ -68,7 +65,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "dummy_notes/recipes/Writing prompt recipe.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
