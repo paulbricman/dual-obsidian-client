@@ -50,37 +50,6 @@ class Core:
         
         return [hit['corpus_id'].item() for hit in hits[:selected_candidates]]
 
-    def descriptive_search(self, query, documents, considered_candidates=50, selected_candidates=5, return_documents=False):
-        selected_candidates = min(selected_candidates, considered_candidates)
-        considered_candidates = min(considered_candidates, len(documents))
-
-        # Encode novel documents
-        for document_idx, document in enumerate(documents):
-            if document not in self.cache.keys():
-                self.cache[document] = self.bi_encoder.encode(document, convert_to_tensor=True)
-        
-        self.update_cache()
-   
-        # Conduct a preliminary semantic search first pass
-        candidate_idx = self.fluid_search(query, documents, selected_candidates=considered_candidates, second_pass=False)
-        candidate_documents = [documents[e] for e in candidate_idx]
-        print(candidate_documents)
-
-        # Rerank using entailment strength
-        cross_encoder_input = [(e, query) for e in candidate_documents]
-        print(cross_encoder_input)
-        cross_encoder_output = self.nli.predict(cross_encoder_input, apply_softmax=False)
-        print(cross_encoder_output)
-        cross_encoder_output = [e[2] for e in cross_encoder_output]
-
-        hits = [(idx, cross_encoder_output[idx]) for idx in range(considered_candidates)]
-        hits = sorted(hits, key=lambda x: x[1], reverse=True)[:selected_candidates]
-
-        if return_documents:
-            return [documents[hit[0]] for hit in hits[:selected_candidates]]
-        
-        return [hit[0] for hit in hits[:selected_candidates]]
-
     def open_dialogue(self, question, considered_candidates=3):
         self.load_essence()
 
@@ -113,7 +82,6 @@ class Core:
         print('Loading models...')
         self.bi_encoder = SentenceTransformer('distiluse-base-multilingual-cased-v2')
         self.pair_encoder = CrossEncoder('amberoad/bert-multilingual-passage-reranking-msmarco', max_length=512)
-        self.nli = CrossEncoder('joeddav/xlm-roberta-large-xnli')
         #self.gen_tokenizer = AutoTokenizer.from_pretrained('EleutherAI/gpt-neo-125M')
         #self.gen_model = AutoModel.from_pretrained('EleutherAI/gpt-neo-125M')
 
