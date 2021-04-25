@@ -1,4 +1,0 @@
----
----
-
-Just like a physical address indicates a certain location in the [[Craving for grounding spawns Cartesian anxiety|real world]], and how a digital address indicates the IP location in the [[Digital is pejorative|digital realm]], so does a concept handle point to a certain location in [[Concept learning is few-shot scaffolding supported by working memory|conceptual space]]. In this view, concept handles are pointers to a certain [[Physical and conceptual spaces are coded in the same region|location in conceptual space]], which abstract away from [[Explicit position cues describe conceptual structure|explicit cues]].

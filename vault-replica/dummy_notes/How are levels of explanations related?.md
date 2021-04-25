@@ -1,4 +1,0 @@
----
----
-
-The reduction view argues that the physical completely enables the chemical, which completely enables the biological, which completely enables the psychological, which completely enables the sociological. The downward view argues that the social level completely determines the psychological level, which [[Beliefs are gates into the body's biochemistry|propagates further below]]. The autonomy view argues that each level is independent, a separate [[Concepts are like rooms|conceptual bucket]]. The interaction view argues that all layers are closely interacting and [[Representationism in cognition is adaptationism in evolution|mutually informing]] each other.

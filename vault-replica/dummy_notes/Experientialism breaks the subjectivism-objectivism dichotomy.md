@@ -1,5 +1,0 @@
----
-resource: https://doi.org/10.1525/aa.1982.84.4.02a00600
----
-
-While objectivism argues the there is such a thing as absolute truth (consonant with empiricism and realism), and subjectivism argues that truth is only a matter of personal interpretation (consonant with romanticism and idealism), Lakoff and Johnson suggest a third approach. Experientialism argues that there can be a shared agreed-upon truth which provides enough grounding for functional development and interaction, but which is itself based on one's embodiment and cultural embedding. Lakoff and Johnson argue that truth is as much the product of an outer world as it is one of an inner experiential world, without falling into either one of these two extremes. In this view, the subjectivism-objectivism dichotomy appears to be nothing more than a counterproductive meme.

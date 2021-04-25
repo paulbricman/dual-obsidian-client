@@ -1,4 +1,0 @@
----
----
-
-When highly salient stimuli are deemed important to act on, they are usually sent to [[Triune brain model classifies brain regions through evolutionary lens|subcortical limbic structures]] before being sent to the [[Triune brain model classifies brain regions through evolutionary lens|neocortex]], in an effort to gain speed. However, a shortcut to the [[Brains are like monkeys with supercomputers|subcortical]] means that processing accuracy is lower. Taking out a phone can be misinterpreted as a taking out a gun. The speed-accuracy trade-off of subcortical shortcuts often results in [[Cortical-subcortical conflict generates limbic friction|internal friction which is resolved later]].

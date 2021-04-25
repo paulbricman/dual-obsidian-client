@@ -1,4 +1,0 @@
----
----
-
-Strong emotions experienced during an event often result in a [[Recent memories are malleable|more robust memory representation]] being [[Fleeting note persisting resembles memory consolidation|consolidated]]. This is a prime example of how [[Triune brain model classifies brain regions through evolutionary lens|more "primitive" brain regions influence high-level cognition]]. However, how could this be [[Optic flow modulates autonomic arousal|exapted]] for [[Concept learning is few-shot scaffolding supported by working memory|concept learning]] or [[Skill acquisition spans cognitive-associative-autonomous stages|skill acquisition]]? How could user affect be [[Breathwork modulates autonomic arousal|regulated]]?

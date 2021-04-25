@@ -1,4 +1,0 @@
----
----
-
-[[Spatial attention is effector-agnostic, movement intention is effector-specific|Reaching plans]] seem coded in eye coordinates because they appear relative to the eye fixation position. Remapping consists of changing object location representation based on changed eye attending location. In the intervening saccade task, the monkey has to move her eyes while keeping track of the target location. Neurons whose [[Multimodal mappings generate multimodal receptive fields|receptive fields]] cover the target after the intervening sacade start firing for remapping. By probing neurons involved in movement intention we can [[Forecasting forces predictive world models to internalize meaningful representations|predict future movements]] before they occur and use this in building brain-computer interfaces.

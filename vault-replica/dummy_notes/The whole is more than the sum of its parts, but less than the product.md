@@ -1,4 +1,0 @@
----
----
-
-[[Manifolds formalize emergence|High-dimensional space provides increased expressivity for points]] through complex relationships, more so than simply considering a list of linear axes. However, the manifold hypothesis claims that [[Neural manifold folding explains explanatory drive|the high-dimensional space is rarely populated in its entirety]], and only houses points across a manifold. This double constraint can be expressed as the fact that the whole is more than the sum of its parts, but less than the (Cartesian) product.  

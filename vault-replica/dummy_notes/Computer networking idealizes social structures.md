@@ -1,4 +1,0 @@
----
----
-
-Computer networking is a prime source of mental models describing social organization, cooperation, collaboration, competition, and so on. This is due to the fact that it is driven by human incentives like trust and privacy, yet it operates mostly on a purely abstract and programmatic level, which enables creativity in exploring various social models. WPA handshakes, firewalls, demilitarized zones, all provide idealized mental models of social design. This might also mean that computer networking can inform social dreaming and vice versa.

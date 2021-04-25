@@ -1,5 +1,0 @@
----
-resource: http://aima.cs.berkeley.edu/
----
-
-Before deriving an [[World models reflect ideological structures|accurate model]] of [[Neuroplasticity is like protein folding|how the brain works]], we might be able to [[Neural emulations are considered safe when below natural error rate|engineer neural emulations]] by simply framing the task as a [[Forecasting forces predictive world models to internalize meaningful representations|neural activity forecasting problem]]. This reliably moves [[Neural emulation simply provides bodily redundancy|neural emulation]] in the "Thinking Humanly" quadrant, because the objective function essentially becomes [[Neural emulations are considered safe when below natural error rate|"think as similar to humans as possible"]], through [[Neural manifold folding explains explanatory drive|neural activity as a proxy]]. However, the initial condition might also be crucial, besides getting the dynamics right.

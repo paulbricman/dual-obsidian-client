@@ -1,4 +1,0 @@
----
----
-
-One might assume that the drive for reducing cognitive dissonance is strong and innate. Just like the body's very wiring for preventing physical pain, the brain might prove very resourceful in reducing cognitive dissonance. However, [[Beliefs are gates into the body's biochemistry|the mind and brain have an influence over the body proper]]. That said, it's plausible to assume that a belief of good health might actually have a say in one's good health due to the body being wired to make our worldview coherent. If incoherence between world and worldview is painful, and if the brain can modulate (a part of) the world (i.e. the body proper), then it might do it to some extent.

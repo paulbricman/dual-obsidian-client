@@ -1,4 +1,0 @@
----
----
-
-Many people use a buffer for developing a second brain in the form of a light-weight setup for taking transient notes. Later, one makes the effort of synthetizing more durable entries based on those notes. In a fascinating (yet grossly superficial) perspective, the buffer for fleeting notes can be seen as the hypocampus of the second brain, the locus of a short-term memory system.

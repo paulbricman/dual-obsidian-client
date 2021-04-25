@@ -1,5 +1,0 @@
----
-resource: https://en.wikipedia.org/wiki/Behave_(book)
----
-
-Given the theoretical ability of [[Axiomatic implants depict memetic psychotherapy|memetic psychotherapy]] to [[Natural language inference derives conceptual structure|engineer beliefs]], it's easy to see how this can help [[Prefrontal cortex matures in the mid twenties|prefrontal areas]] manage [[Cortical-subcortical conflict generates limbic friction|limbic friction]]. In this view, [[Memetic psychotherapy is morally ambiguous|memetic psychotherapy]] becomes the task of equipping, arming, endowing [[Prefrontal cortex matures in the mid twenties|prefrontal areas]] with the [[Rich mental model repository is conductive of insight|mental tools]] necessary to elegantly coordinate the limbic system in this of need. Crucially, this is not most of the time, because [[Somatic marker hypothesis breaks the reason-emotion dichotomy|emotions often help in reasoning]].

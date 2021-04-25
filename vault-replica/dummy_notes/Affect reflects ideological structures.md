@@ -1,5 +1,0 @@
----
-resource: https://www.youtube.com/watch?v=XAU7wzJCrZc
----
-
-Conflicting beliefs trigger [[Cognitive dissonance reduction drive influences body state|cognitive dissonance]], a deeply-rooted unpleasant feeling. The consuming conflict can spark anxiety, which manifests vividly from the cognitive to the behavioral domain. In contrast, a sudden increase in belief [[Internalizing beliefs incurs ideological debt|coherence]] results in [[Beliefs are gates into the body's biochemistry|a pleasant feeling]]. Therefore, the spontaneous emotional response can be seen as a sparse signal into one's ideological structures. This signal can inform a number of cognitive-based psychotherapies. This idea closely reflects reverse appraisal theory, which argues that one's emotional response is a function of how their beliefs, desires, and intentions interact with the state of the world.

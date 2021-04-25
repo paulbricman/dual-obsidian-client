@@ -1,4 +1,0 @@
----
----
-
-Sometimes, the presence of too many possible solutions is a problem in itself, because many of them have to be investigated. This is precisely why search algorithms are difficult to engineer: it's difficult to tell which solutions aren't promising from the start.

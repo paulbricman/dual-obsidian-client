@@ -1,4 +1,0 @@
----
----
-
-Many argue that generalist individuals with broad knowledge, rather than specialists with deep knowledge, are more likely to [[Demographic mark-up of authorship reflects cognitive profile of domain|yield breakthroughs]]. However, this is likely caused by a repeated and sustained [[Concept learning is few-shot scaffolding supported by working memory|scaffolding process]] driven by [[Explicit position cues describe conceptual structure|rich conceptual cues]], rather than lucky obscure paradigms intersecting by chance, isolated glimpses into [[Concepts are like rooms|other conceptual silo's]]. [[Allocentric perspective-taking reveals blindspots|Multiple perspectives]] are essential in [[Categorical perception translates in a blindspot for nuance|avoiding blindspots]]. Therefore, a rich mental model repository is conductive of insight.

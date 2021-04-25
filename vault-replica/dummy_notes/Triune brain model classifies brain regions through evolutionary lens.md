@@ -1,4 +1,0 @@
----
----
-
-Although oversimplified and highly controversial, the triune brain model splits the human brain in three functionally distinct systems based on lose evolutionary criteria. The [[Metabolism influences neural dynamics|autonomic nervous system]] is related to [[Breathwork modulates autonomic arousal|primitive behaviors like breathing]], and shows up from reptiles on. The [[Brains are like monkeys with supercomputers|limbic system]] is tasked with emotions and drives, and shows up from mammals on. The [[Brains are like monkeys with supercomputers|neocortex]] is tasked with high-level cognition, and only shows up in humans. However, all levels deeply interact with each other.

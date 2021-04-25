@@ -1,4 +1,0 @@
----
----
-
-The most frequent words denoting colors consistently encompass the entire perceptual color space across languages. The phonemes employed by the speakers of a language are consistently spread out over the entire articulatory space. This systematic diffusion might be caused by the increased value of symbolic discriminability and between-subject categorical consistency. Regularization constraints are often intentionally engineered into machine learning models, such as in variational autoencoders, in order to force representations to uniformly span the latent space. 

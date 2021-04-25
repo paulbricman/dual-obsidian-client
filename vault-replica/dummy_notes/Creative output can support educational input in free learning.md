@@ -1,5 +1,0 @@
----
-resource: https://distill.pub/2017/research-debt/
----
-
-Free learning communities are based on validation through creation. Individuals are forced to generate creative output in order to obtain credibility, validation, and financial support. However, [[Interpersonal backlinks incentivize collaborative knowledge work|creative output which is educational in nature can be piped back into the free learning community as educational content, essentially closing the loop]]. There is great value in distilling material and creating great educational resources, and an appropriate culture around this might render free learning communities self-sustainable. However, indefinitely perpetuating perspectives might lead to [[Internalizing beliefs incurs ideological debt|accumulation of ideological debt]].

@@ -1,4 +1,0 @@
----
----
-
-Because [[Cognitive augmentation is morally unambiguous when rehabilitative|restoring a lost ability feels more reasonable than adding a qualitatively different ability to a person's mind]], cognitive decline provides a motivating context for cognitive enhancement across a wide range of cognitive domains. From memory to perception, cognitive decline is based on the loss of something which was previously there, by definition, so it provides ample moral opportunity for developing means of cognitive augmentation.
