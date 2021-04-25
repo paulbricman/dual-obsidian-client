@@ -48,7 +48,7 @@ class Core:
         if return_documents:
             return [documents[hit['corpus_id']] for hit in hits[:selected_candidates]]
         
-        return [hit['corpus_id'] for hit in hits[:selected_candidates]]
+        return [hit['corpus_id'].item() for hit in hits[:selected_candidates]]
 
     def descriptive_search(self, claim, polarity=True, target='premise', considered_candidates=50, selected_candidates=5):
         self.load_essence()
@@ -111,8 +111,8 @@ class Core:
         print('Loading models...')
         self.bi_encoder = SentenceTransformer('distiluse-base-multilingual-cased-v2')
         self.pair_encoder = CrossEncoder('amberoad/bert-multilingual-passage-reranking-msmarco', max_length=512)
-        self.gen_tokenizer = AutoTokenizer.from_pretrained('EleutherAI/gpt-neo-125M')
-        self.gen_model = AutoModel.from_pretrained('EleutherAI/gpt-neo-125M')
+        #self.gen_tokenizer = AutoTokenizer.from_pretrained('EleutherAI/gpt-neo-125M')
+        #self.gen_model = AutoModel.from_pretrained('EleutherAI/gpt-neo-125M')
 
     def create_cache(self):
         print('Cache file doesn\'t exist, creating a new one...')
