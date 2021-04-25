@@ -50,34 +50,36 @@ class Core:
         
         return [hit['corpus_id'].item() for hit in hits[:selected_candidates]]
 
-    def descriptive_search(self, claim, polarity=True, target='premise', considered_candidates=50, selected_candidates=5):
-        self.load_essence()
-
-        if self.essence_ready == False:
-            return ['The essence is not present at the required location.']
-
+    def descriptive_search(self, query, documents, considered_candidates=50, selected_candidates=5, return_documents=False):
         selected_candidates = min(selected_candidates, considered_candidates)
-        considered_candidates = min(considered_candidates, len(self.entry_filenames))     
-        candidate_entry_filenames = self.fluid_search(claim, selected_candidates=considered_candidates, second_pass=False)
-        candidate_entry_contents = [self.entries[e][0] for e in candidate_entry_filenames]
+        considered_candidates = min(considered_candidates, len(documents))
 
-        if target == 'premise':
-            cross_encoder_input = [(e, claim) for e in candidate_entry_contents]
-        elif target == 'conclusion':
-            cross_encoder_input = [(claim, e) for e in candidate_entry_contents]
-
-        cross_encoder_output = self.nli.predict(cross_encoder_input, apply_softmax=False)
+        # Encode novel documents
+        for document_idx, document in enumerate(documents):
+            if document not in self.cache.keys():
+                self.cache[document] = self.bi_encoder.encode(document, convert_to_tensor=True)
         
-        if polarity == True:
-            cross_encoder_output = [e[1] for e in cross_encoder_output]
-        else:
-            cross_encoder_output = [e[0] for e in cross_encoder_output]
+        self.update_cache()
+   
+        # Conduct a preliminary semantic search first pass
+        candidate_idx = self.fluid_search(query, documents, selected_candidates=considered_candidates, second_pass=False)
+        candidate_documents = [documents[e] for e in candidate_idx]
+        print(candidate_documents)
 
-        results = [(candidate_entry_filenames[idx], cross_encoder_output[idx]) for idx in range(considered_candidates)]
-        results = sorted(results, key=lambda x: x[1], reverse=True)[:selected_candidates]
-        results = [e[0] for e in results]
+        # Rerank using entailment strength
+        cross_encoder_input = [(e, query) for e in candidate_documents]
+        print(cross_encoder_input)
+        cross_encoder_output = self.nli.predict(cross_encoder_input, apply_softmax=False)
+        print(cross_encoder_output)
+        cross_encoder_output = [e[2] for e in cross_encoder_output]
 
-        return results
+        hits = [(idx, cross_encoder_output[idx]) for idx in range(considered_candidates)]
+        hits = sorted(hits, key=lambda x: x[1], reverse=True)[:selected_candidates]
+
+        if return_documents:
+            return [documents[hit[0]] for hit in hits[:selected_candidates]]
+        
+        return [hit[0] for hit in hits[:selected_candidates]]
 
     def open_dialogue(self, question, considered_candidates=3):
         self.load_essence()
@@ -111,6 +113,7 @@ class Core:
         print('Loading models...')
         self.bi_encoder = SentenceTransformer('distiluse-base-multilingual-cased-v2')
         self.pair_encoder = CrossEncoder('amberoad/bert-multilingual-passage-reranking-msmarco', max_length=512)
+        self.nli = CrossEncoder('joeddav/xlm-roberta-large-xnli')
         #self.gen_tokenizer = AutoTokenizer.from_pretrained('EleutherAI/gpt-neo-125M')
         #self.gen_model = AutoModel.from_pretrained('EleutherAI/gpt-neo-125M')
 
