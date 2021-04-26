@@ -1,0 +1,5 @@
+---
+resource: https://www.youtube.com/watch?v=jAhG-CdstP4
+---
+
+The integration of [[Crowdsourcing approximates convex optimization|crowdsourcing services]] in [[Brain is like hardware, mind is like software|software]] can be streamlined through a "Human API." Essentially, this would consist of [[Live experience sharing makes expertise accessible|programmatic calls to be relayed to microtasks completed by workers]]. In a sense, this is similar to the idea of [[Live experience sharing makes expertise accessible|on-demand expertise sharing]], although with entry-level work. This is a pragmatic portrayal of [[Safe-deposit box portrays extreme consciousness resilience|consciousness scaffolding]]. [[Crowdsourcing approximates convex optimization|Inter-annotator agreement heuristics]] are crucial.

@@ -1,0 +1,4 @@
+---
+---
+
+Boids are a surpisingly simple, yet effective, computational model of crowd movement. By guiding individual movements of agents through a linear combination of several "drives", boids achieve crowd-like movement. The rules which guide boids are: separation (avoid crowded neighborhoods), alignment (align with nearby agents), and cohesion (aim for the centroid). 

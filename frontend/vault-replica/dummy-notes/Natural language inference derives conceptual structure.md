@@ -1,0 +1,4 @@
+---
+---
+
+Just like [[Paraphrase mining approximates dense linking|paraphrase mining approximates dense linking]] and, in turn, fosters [[Explicit position cues describe conceptual structure|understanding]], natural language inference provides the tools necessary for deriving [[Explicit position cues describe conceptual structure|explicit position cues]] in conceptual space, the underlying mental models. Specifically, based on prompt engineering, machine learning models can infer whether or not a certain text provides supporting evidence, a formal framework, an example, or something else. Those relations could also just be presented to the [[Second brain has a cognitive architecture|second brain practitioner]], who in term could make use of them.  

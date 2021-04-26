@@ -1,0 +1,4 @@
+---
+---
+
+[[Second brain contents resemble long-term memory|The contents of one's second brain]] [[Incremental writing is a foraging strategy|often evolve over time]]. The entirety of one's second brain signals [[Second brain architecture closely resembles human cognitive architecture|one's conceptual structures]]. Second brains can [[Interpersonal backlinks incentivize collaborative knowledge work|build on each other]] and interact in subtle ways via their maintainers. [[Second brain faces atomic debt|Atomic notes]] capture individual concepts, resembling RNA. In this, [[Second brain has a cognitive architecture|second brains]] are like conceptual [[Genetic material persists knowledge|genomes]].

@@ -1,0 +1,4 @@
+---
+---
+
+An [[Virtual reality renders abstract concepts into tangible objects|object]] or [[Manifolds formalize emergence|manifold]] is aligned with itself, by [[Dictionary definitions enable one-shot concept learning|definition]]. If one of them is aligned to another, then the other is also aligned to them. Additionally, if two of them are aligned to a third, then both are aligned. In this, alignment is [[Modal logic proper enables possible worlds semantics|reflexive, symmetric, and transitive]], as can be seen in [[Similar embodiment predicts manifold alignment|embodiment]], [[Similar cultural embedding predicts manifold alignment|culture]], and [[Explicit language of mental states informs psycholinguistic manifold alignment|language]]. 

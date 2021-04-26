@@ -1,0 +1,4 @@
+---
+---
+
+[[Constructivism fosters understanding through scaffolding|Notes which are being relied on the most]] in a [[Second brain has a cognitive architecture|second brain]] become [[Internalizing beliefs incurs ideological debt|inflexible]]. They are difficult to tamper with as they would destabilize the entire [[Second brain contents resemble long-term memory|network]] and have difficult ripple effects. However, [[Interpersonal backlinks incentivize collaborative knowledge work|backlinks]] can then be used to highlight overreliance on certain assumptions, targeting a Socratic challenging process.

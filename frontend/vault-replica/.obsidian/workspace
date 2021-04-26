@@ -1,0 +1,101 @@
+{
+  "main": {
+    "id": "c3ea8c6f791a8c9e",
+    "type": "split",
+    "children": [
+      {
+        "id": "cc024251ff6ff5ec",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "dummy-notes/Abundance signals fitness.md",
+            "mode": "source"
+          }
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "1a2d870707ae0375",
+    "type": "split",
+    "children": [
+      {
+        "id": "4ceb96e716df17c1",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "60c883d4bbbd0449",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "d37fc13b325c35a0",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "5d1f799a6fe86f29",
+    "type": "split",
+    "children": [
+      {
+        "id": "fe751919b3da955b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f4eef8b7a2ff4f9c",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "dummy-notes/Abundance signals fitness.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "5c5f216b5d25674a",
+            "type": "leaf",
+            "state": {
+              "type": "chat",
+              "state": {}
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "active": "cc024251ff6ff5ec",
+  "lastOpenFiles": [
+    "dummy-notes/Abundance signals fitness.md"
+  ]
+}

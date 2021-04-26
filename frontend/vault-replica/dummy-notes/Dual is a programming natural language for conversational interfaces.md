@@ -1,0 +1,4 @@
+---
+---
+
+A Dual recipe is a Markdown file with frontmatter metadata. Among other metadata fields, there's a mandatory input which describes a regex pattern, and an output which contains a string structure. Code blocks in the Dual recipe can either call other recipes through a natural language command or execute code. Code block outputs and input components can be references through [[Concept handles are like addresses|pointer strings]]. The recipe gets executed when the user places a command which matches the input pattern, and gets the output of the recipe in return. In this, Dual is a programming natural language for [[Conversational interfaces render knowledge bases into agents|conversational interfaces]].

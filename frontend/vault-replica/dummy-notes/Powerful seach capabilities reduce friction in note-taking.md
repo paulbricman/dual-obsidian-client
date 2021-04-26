@@ -1,0 +1,4 @@
+---
+---
+
+[[Fluid search enables scaffolding structure for incremental reading|Fluid]] and descriptive search makes it easier to find relevant entries in a [[Second brain contents resemble long-term memory|non-linear note-taking system]]. This reduced the need for tedious book-keeping (i.e. "How should I annotate this entry best to easily find it when I need it?"). This reduction in book-keeping requirements translates to a decrease in friction while [[Emotion supports memory consolidation|persisting transient notes]]. However, [[Explicit position cues describe conceptual structure|explicit position cues]] like the ones conferred by [[Dense linking provides explicit position cues for concepts|dense linking]] are still valuable for [[Concept learning is few-shot scaffolding supported by working memory|learning]].

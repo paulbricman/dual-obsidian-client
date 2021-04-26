@@ -1,0 +1,5 @@
+---
+resource: https://en.wikipedia.org/wiki/Behave_(book)
+---
+
+If every seven years the human body has a renewed set of cells, and if [[Memory is perception of structural artifacts|memory is based on structural artifacts]], then how come we remember old memories? [[Parallel distributed processing is resilient and efficient|Parallel distributed processing]], coupled with adult neurogenesis and synaptogenesis, provide the necessary redundancy for handling this continuous neuron replacement. By [[Selectively sampling dimensions facilitates manifold definition|cross-referencing sparse representations]], psychological continuity easily bridges episodes of isolated cell death. This [[Machine learning ignores progressive nature of human learning|long-term progressive aspect is generally ignored in machine learning]].

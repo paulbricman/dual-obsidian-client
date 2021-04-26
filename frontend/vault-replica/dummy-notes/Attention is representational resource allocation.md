@@ -1,0 +1,5 @@
+---
+resource: https://mitpress.mit.edu/books/being-no-one
+---
+
+Just like many see [[Attention is a competition|attention as a competition of stimuli]], attention can also be seen as the process of [[Mental representations connect internal with external state|representational resource]] allocation. In this view, attention would be the [[Premotor theory of attention is fundamentally enactive|enactive]] process of [[Representationism in cognition is adaptationism in evolution|representing]] the world in a differentially rich fashion. [[Dynamic attention enables object permanence|Attended stimuli]] would have [[Isomorphic representations partially preserve structure|their structure better preserved, more of their variance would be explained]]. This model of attention is deeply compatible with the formalisms of attention used in [[Supervised learning assumes underlying structure|machine learning]], such as self-attention in transformers.

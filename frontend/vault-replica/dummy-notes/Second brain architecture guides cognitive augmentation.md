@@ -1,0 +1,4 @@
+---
+---
+
+Due to its [[Second brain architecture closely resembles human cognitive architecture|high-fidelity resemblance of human cognitive architectures]], the [[Second brain has a cognitive architecture|second brain architecture]] can guide the development of tools for [[Cognitive augmentation is morally unambiguous when rehabilitative|cognitive augmentation]]. Through [[Second brain architecture closely resembles human cognitive architecture|clear parallels with the human mind]], it can provide a humanistic framework for dialogue between mind and machine. Separate human cognitive functions can interact with specific aspects of the second brain, mutually supporting each other. The representational synchrony enabled by the [[Second brain architecture closely resembles human cognitive architecture|close parallels]] place the second brain "on the same page" with its user.

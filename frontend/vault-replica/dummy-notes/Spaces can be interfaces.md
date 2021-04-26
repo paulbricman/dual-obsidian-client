@@ -1,0 +1,4 @@
+---
+---
+
+There's more to an interface than a physical boundary between two agents interacting. A space can also act as an interface between an agent and a community (e.g. stadium), between an agent and a behavior (e.g. kitchen), or [[Tools for thought interface users with knowledge|between an agent and a thought]] (e.g. library). Architecture expands interaction beyond the narrow view of human-computer interaction.

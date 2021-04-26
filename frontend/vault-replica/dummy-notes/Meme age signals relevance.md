@@ -1,0 +1,4 @@
+---
+---
+
+The Lindy effect is a heuristic for predicting the lifespan of a trend based on the elapsed time of that trained at the time of prediction. The Lindy effect feels especially powerful when comparing extremes like news articles and classic literature. However, if adopting a memetic lens, one might speculate that [[Perseverence signals fitness|memes become pervasive and enduring]] because of a host of reasons which are imperfectly aligned with normative values. The memetic take on the Lindy effect might encourage doubting and reflection of the value of [[Spacetime bounds memeplexes|long-lived memes]]. In the extreme view, one might be strongly deterred from internalizing enduring memes, in fear of becoming bound to a local memetic optimum. 

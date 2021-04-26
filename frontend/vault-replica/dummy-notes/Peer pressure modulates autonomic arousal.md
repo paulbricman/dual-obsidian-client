@@ -1,0 +1,4 @@
+---
+---
+
+Just like [[Breathwork modulates autonomic arousal|breathing]] and [[Optic flow modulates autonomic arousal|optic flow]] can be [[Extrinsic reward dependence is unsustainable|exapted]] as [[Agitation can be weaponized|psychosomatic tools]], so too can [[Feynman cluster infuses learning by teaching with social structure|peer pressure]]. Although arguably operating on a [[Triune brain model classifies brain regions through evolutionary lens|limbic, rather than autonomic, level]], [[Computer networking idealizes social structures|social structures might be engineered]] [[Agitation can be weaponized|to yield impressive results]].

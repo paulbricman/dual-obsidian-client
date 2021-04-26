@@ -1,0 +1,5 @@
+---
+resource: https://www.youtube.com/watch?v=Elxn8rS88bI
+---
+
+If you take a pretrained [[Recovery and matching provide self-supervised signals|language model]] and [[No free lunch principle challenges local improvement role|fine-tune]] 0.1% of its parameters on a different task with a [[Neuroplasticity enables cross-modal compensation|different modality]] (e.g. vision), then the model fares extremely well. This might be explained by either a shared structure of [[Similar embodiment predicts manifold alignment|natural signals]] or a shared set of [[Spatial metaphors provide primitives for latent space navigation|computational primitives]] useful in any situation. In this view, pretrained models on [[Forecasting framing renders neural emulation feasible|neural activity]] might help derive extremely powerful primitives.

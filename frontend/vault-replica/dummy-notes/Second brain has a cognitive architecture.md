@@ -1,0 +1,4 @@
+---
+---
+
+In cognitive modeling, researchers suggest cognitive architectures which formalize [[Brains are like buildings|the connection between the function of cognition and the structure of the brain]]. High-level cognitive architectures (i.e. closer to ACT-R rather than Nengo), typically consist of modules associated with cognitive functions (e.g. declarative memory, vision) which are related to brain regions (e.g. PFC, visual cortex). However, the second brain configuration resembles a general cognitive architecture. It consists of various modules (e.g. [[Second brain contents resemble long-term memory|long-term memory]], [[Fluid search output resembles working memory|working memory]], and [[Second brain buffer is like short-term memory|short-term memory]]). What's more [[Second brain architecture closely resembles human cognitive architecture|the second brain architecture closely resembles human cognitive architecture]].

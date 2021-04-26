@@ -1,0 +1,5 @@
+---
+resource: https://mitpress.mit.edu/books/being-no-one
+---
+
+If one views [[Attention is a competition|attention]] as [[Attention is representational resource allocation|a process of representational resource allocation]], then [[Binding problem can be divided into several subproblems|attentional binding]] can be seen as the [[Neuroplasticity is like protein folding|integrative increase in coherence following pressure]]. When attending to aspects of [[Representationism in cognition is adaptationism in evolution|the world]] or to thoughts or [[Consciousness contains transient latent representations|raw sensations]], the coherence necessity of internal representation, coupled with [[Attention is representational resource allocation|significant representational resources being allocated to that object]] result in a deep integration.

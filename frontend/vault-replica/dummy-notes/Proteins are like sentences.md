@@ -1,0 +1,5 @@
+---
+resource: https://en.wikipedia.org/wiki/Behave_(book)
+---
+
+Proteins are based on [[Genes are like recipes for proteins|strings of amino acids]] which [[Neural manifold folding explains explanatory drive|fold in non-linear ways]]. [[Parallel distributed processing is resilient and efficient|Mutations]] can [[Historical lexical semantics capture paradigm shifts|alter the "meaning"]] of the sentence (i.e. the structure and function of the resulting protein). However, a level of [[Parallel distributed processing is resilient and efficient|redundancy]] renders some mutations neutral, just like [[Context disambiguates observed neural activity|context disambiguates words]]. Conversely, [[Constructivism fosters understanding through scaffolding|understanding a sentence]] might resemble a [[Neural manifold folding explains explanatory drive|folding process]] in [[Concept handles are like addresses|conceptual space]].

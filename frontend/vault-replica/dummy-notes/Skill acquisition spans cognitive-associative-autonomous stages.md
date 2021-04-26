@@ -1,0 +1,4 @@
+---
+---
+
+Initially, when learning a skill, it is performed in a state of acute awareness. All details have to be carefully considered in [[Concept learning is few-shot scaffolding supported by working memory|working memory]], with high error rates and response times. However, after a number of learning episodes, the skill transitions to the associative phase, where [[Second brain contents resemble long-term memory|episodic memory]] is used for [[Explicit position cues describe conceptual structure|pattern matching]], remembering answers with lower error rates and response times. After even more episodes, the skill becomes autonomous and reflex-like, stored procedurally rather than declaratively.
