@@ -24,5 +24,21 @@ def respond_extract():
         )
     }
 
+
+@app.route('/generate/', methods=['POST'])
+@cross_origin()
+def respond_generate():
+    request_body = request.get_json()
+
+    if 'prompt' not in request_body.keys():
+        return 'Specify a prompt'
+
+    return {
+        "output": c.generate(
+            request_body['prompt'],
+            request_body.get('generated_token_count', 100)
+        )
+    }
+
 if __name__ == '__main__':
     app.run()

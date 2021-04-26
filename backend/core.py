@@ -1,5 +1,5 @@
 from sentence_transformers import SentenceTransformer, CrossEncoder, util
-from transformers import AutoModel, AutoTokenizer
+from transformers import GPT2LMHeadModel, GPT2Tokenizer
 from pathlib import Path
 import pickle
 import os
@@ -50,40 +50,27 @@ class Core:
         
         return [hit['corpus_id'].item() for hit in hits[:selected_candidates]]
 
-    def open_dialogue(self, question, considered_candidates=3):
-        self.load_essence()
-
-        if self.essence_ready == False:
-            return ['The essence is not present at the required location.']
-
-        candidate_entry_filenames = self.fluid_search(question, selected_candidates=considered_candidates)
-        candidate_entry_contents = reversed([self.entries[e][0] for e in candidate_entry_filenames])
-        generator_prompt = '\n\n'.join(candidate_entry_contents) + '\n\nQ: ' + question + '\nA: '
-        input_ids = self.gen_tokenizer.encode(generator_prompt, return_tensors='pt')
+    def generate(self, prompt, generated_token_count=100):
+        input_ids = self.gen_tokenizer.encode(prompt, return_tensors='pt')
         
         generator_output = self.gen_model.generate(
             input_ids, 
             do_sample=True, 
-            max_length=len(input_ids[0]) + 100, 
+            max_length=len(input_ids[0]) + generated_token_count, 
             top_p=0.9, 
             top_k=40,
             temperature=0.9
         )
 
-        output_sample = self.gen_tokenizer.decode(generator_output[0], skip_special_tokens=True)[len(generator_prompt):]
-        output_sample = re.sub(r'^[\W_]+|[\W_]+$', '', output_sample)
-        output_sample = re.sub(r'[^a-zA-Z0-9\s]{3,}', '', output_sample)
-        output_sample = output_sample.split('Q:')[0].split('\n\n')[0].strip()
-        output_sample += '...'
-        
+        output_sample = self.gen_tokenizer.decode(generator_output[0], skip_special_tokens=True)[len(prompt):]
         return [output_sample]
 
     def load_models(self):
         print('Loading models...')
         self.bi_encoder = SentenceTransformer('distiluse-base-multilingual-cased-v2')
         self.pair_encoder = CrossEncoder('amberoad/bert-multilingual-passage-reranking-msmarco', max_length=512)
-        #self.gen_tokenizer = AutoTokenizer.from_pretrained('EleutherAI/gpt-neo-125M')
-        #self.gen_model = AutoModel.from_pretrained('EleutherAI/gpt-neo-125M')
+        self.gen_tokenizer = GPT2Tokenizer.from_pretrained('gpt2-medium')
+        self.gen_model = GPT2LMHeadModel.from_pretrained('gpt2-medium')
 
     def create_cache(self):
         print('Cache file doesn\'t exist, creating a new one...')
