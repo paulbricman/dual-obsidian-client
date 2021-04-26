@@ -1,6 +1,7 @@
 import { App, FileSystemAdapter, Notice, Plugin, PluginSettingTab, Setting, Workspace } from 'obsidian';
 import ChatView from 'view';
 import { Utils } from 'utils';
+import { Recipes } from 'recipes';
 
 interface MyPluginSettings {
 	customName: string;
@@ -67,6 +68,16 @@ class SampleSettingTab extends PluginSettingTab {
 		containerEl.empty();
 
 		containerEl.createEl('h3', {text: 'Follow these instructions to set up your Dual:'});
+
+		new Setting(containerEl)
+			.setName('RECIPE TEST')
+			.addButton(cb => cb
+				.setButtonText('Test')
+				.setClass('mod-cta')
+				.onClick(() => {
+					Recipes.getExamples(this.app);
+					Recipes.matchQuery(this.app, "Come up with a writing prompt about supercomputers.");
+				}));
 
 		new Setting(containerEl)
 		.setName('0. Install Python (3.8+).')
