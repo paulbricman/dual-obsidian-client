@@ -75,8 +75,7 @@ class SampleSettingTab extends PluginSettingTab {
 				.setButtonText('Test')
 				.setClass('mod-cta')
 				.onClick(() => {
-					Recipes.getExamples(this.app);
-					Recipes.matchQuery(this.app, "Come up with a writing prompt about supercomputers.");
+					Recipes.getArguments(this.app, 'dual-recipes/Ask icon recipe.md');
 				}));
 
 		new Setting(containerEl)

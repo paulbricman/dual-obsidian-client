@@ -33,4 +33,21 @@ export module Recipes {
         var content = await rawResponse.json();
         return paths[content['output'][0]];
     }
+
+    export function getArguments(app: App, path: string) {
+        var re = /\*[^\*]*\*/g;
+        var args: string[];
+
+        app.vault.getMarkdownFiles().forEach(file => {
+            if (file.path == path) {
+                app.vault.cachedRead(file).then((res) => {
+                    args = res.match(re)
+                    args.forEach((val, index, args) => {
+                        args[index] = val.substring(1, val.length - 1);
+                    });
+                    return args;
+                })
+            }
+        })
+    }
 }

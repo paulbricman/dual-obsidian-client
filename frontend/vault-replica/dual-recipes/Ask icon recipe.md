@@ -3,10 +3,10 @@ examples:
   - "Einstein, what is relativity?"
   - "Nietzsche, what is your philosophy all about?"
   - "What shoud I do in this situation, Aristotle?"
-output: "Here's a writing prompt about *topic*: #1"
+output: "#1"
 ---
 
-Student: *question*
+Student: *posed question*
 *person*:
 
 '''dual
