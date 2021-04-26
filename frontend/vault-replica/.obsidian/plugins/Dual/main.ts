@@ -1,6 +1,6 @@
 import { App, FileSystemAdapter, Notice, Plugin, PluginSettingTab, Setting, Workspace } from 'obsidian';
 import ChatView from 'view';
-import * as Util from 'util';
+import { Utils } from 'utils';
 
 interface MyPluginSettings {
 	customName: string;
@@ -105,8 +105,8 @@ class SampleSettingTab extends PluginSettingTab {
 
 					let copyPromise = new Promise(resolve => setTimeout(resolve, 3000)).then(() => {
 						concatenated = concatenated.slice(0, 5000000);
-						concatenated = this.removeMd(concatenated, {});
-						this.copyStringToClipboard(concatenated);
+						concatenated = Utils.removeMd(concatenated, {});
+						Utils.copyStringToClipboard(concatenated);
 						new Notice('Snapshot successfully copied to clipboard!');
 					});
 				}));
