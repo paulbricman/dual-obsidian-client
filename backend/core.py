@@ -50,16 +50,22 @@ class Core:
         
         return [hit['corpus_id'].item() for hit in hits[:selected_candidates]]
 
-    def generate(self, prompt, generated_token_count=100):
+    def generate(self, prompt, early_stopping_criterion=None, max_generated_token_count=100):
         input_ids = self.gen_tokenizer.encode(prompt, return_tensors='pt')
+
+        if early_stopping_criterion == None:
+            bad_words_ids = None
+        elif early_stopping_criterion == 'finish_paragraph':
+            bad_words_ids = [[198], [628]]
         
         generator_output = self.gen_model.generate(
             input_ids, 
             do_sample=True, 
-            max_length=len(input_ids[0]) + generated_token_count, 
+            max_length=len(input_ids[0]) + max_generated_token_count, 
             top_p=0.9, 
             top_k=40,
-            temperature=0.9
+            temperature=0.9,
+            bad_words_ids=bad_words_ids
         )
 
         output_sample = self.gen_tokenizer.decode(generator_output[0], skip_special_tokens=True)[len(prompt):]
