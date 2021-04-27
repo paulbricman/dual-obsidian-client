@@ -75,7 +75,7 @@ class SampleSettingTab extends PluginSettingTab {
 				.setButtonText('Test')
 				.setClass('mod-cta')
 				.onClick(() => {
-					Recipes.getArguments(this.app, 'dual-recipes/Ask icon recipe.md');
+					console.log(Recipes.extractArguments('Come up with an application of blockchain in advertising.', ['technology', 'application domain']));
 				}));
 
 		new Setting(containerEl)
