@@ -34,91 +34,37 @@ export module Recipes {
         return paths[content['output'][0]];
     }
 
-    export function getArguments(app: App, path: string) {
+    export function getIngredientNames(app: App, path: string) {
         var re = /\*[^\*]*\*/g;
-        var args: string[];
+        var ingredientNames: string[];
 
         app.vault.getMarkdownFiles().forEach(file => {
             if (file.path == path) {
                 app.vault.cachedRead(file).then((res) => {
-                    args = res.match(re)
-                    args.forEach((val, index, args) => {
-                        args[index] = val.substring(1, val.length - 1);
+                    ingredientNames = res.match(re)
+                    ingredientNames.forEach((val, index, ingredientNames) => {
+                        ingredientNames[index] = val.substring(1, val.length - 1);
                     });
-                    return args;
+                    return ingredientNames;
                 })
             }
         })
     }
 
-    export async function extractArguments(query: string, args: string[]) {
-        var contents: string[] = [];
-        var res;
+    export async function getIngredients(query: string, ingredientNames: string[]) {
+        var ingredients: string[] = [], res;
 
-        res = await args.forEach(async (val) => {
-            res = await this.extractArgument(query, val)
+        for (let index = 0; index < ingredientNames.length; index++) {
+            res = await this.getIngredient(query, ingredientNames[index]);
             res = res.split("\"")[0];
-            contents = contents.concat(res);
+            ingredients = ingredients.concat(res);
+        }
 
-            if (contents.length == args.length) {
-                console.log('in loop', contents);
-                return contents;
-            }
-                
-        });
-
-        return res;
-        //console.log('outside loop', contents)
-        //return contents;
+        return ingredients;
     }
 
-    export async function extractArgument(query: string, argument: string) {
-        var prompt: string = `query: Come up with a writing prompt about aliens and robots.
-The topic mentioned in this query is: "aliens and robots"
-
-query: Einstein, what is general relativity?
-The person mentioned in this query is: "Einstein"
-
-query: Come up with a fitting term for a metaphor which bridges disparate fields.
-The description mentioned in this query is: "a metaphor which bridges disparate fields"
-
-query: Write a Python query which reverses the contents of a list.
-The description mentioned in this query is: "reverses the contents of a list"
-
-query: How could one operationalize working memory capacity?
-The concept mentioned in this query is: "working memory capacity"
-
-query: What specific operations should I perform to model an airplane in Blender?
-The object mentioned in this query is: "airplane"
-
-query: What would be a useful analogy for understanding pupillometry?
-The concept mentioned in this query is: "pupillometry"
-
-query: What are some possible applications of brain-computer interfaces?
-The technology mentioned in this query is: "brain-computer interfaces"
-
-query: How can I say "sprandel" in Romanian?
-The language mentioned in this query is: "Romanian"
-
-query: How would a school look like in Victorian London?
-The context mentioned in this query is: "Victorian London"
-
-query: Come up with a setting for a science fiction book.
-The genre mentioned in this query is: "science fiction"
-
-query: Try to come up with an exercise on thermodynamics.
-The subject mentioned in this query is: "thermodynamics"
-
-query: Darwin, what is the origin of species?
-The person mentioned in this query is: "Darwin"
-
-query: Look for notes about evolution.
-The topic mentioned in this query is: "evolution"
-
-query: Isaac Asimov, come up with a writing prompt about space exploration.
-The person mentioned in this query is: "Isaac Asimov" 
-
-query: ` + query + '\n' + argument + ': "'        
+    export async function getIngredient(query: string, ingredientName: string) {
+        var prompt: string = getIngredientPrompt + query + '\n' + ingredientName + ': "'
         const rawResponse = await fetch('http://127.0.0.1:5000/generate/', {
             method: 'POST',
             headers: {
@@ -132,4 +78,52 @@ query: ` + query + '\n' + argument + ': "'
         content = content['output'][0];
         return content
     }
+
+    const getIngredientPrompt: string =
+`query: Come up with a writing prompt about aliens and robots.
+topic: "aliens and robots"
+
+query: Einstein, what is general relativity?
+person: "Einstein"
+
+query: Come up with a fitting term for a metaphor which bridges disparate fields.
+description: "a metaphor which bridges disparate fields"
+
+query: Write a Python query which reverses the contents of a list.
+description: "reverses the contents of a list"
+
+query: How could one operationalize working memory capacity?
+concept: "working memory capacity"
+
+query: What specific operations should I perform to model an airplane in Blender?
+object: "airplane"
+
+query: What would be a useful analogy for understanding pupillometry?
+concept: "pupillometry"
+
+query: What are some possible applications of brain-computer interfaces?
+technology: "brain-computer interfaces"
+
+query: How can I say "sprandel" in Romanian?
+language: "Romanian"
+
+query: How would a school look like in Victorian London?
+context: "Victorian London"
+
+query: Come up with a setting for a science fiction book.
+genre: "science fiction"
+
+query: Try to come up with an exercise on thermodynamics.
+subject: "thermodynamics"
+
+query: Darwin, what is the origin of species?
+person: "Darwin"
+
+query: Look for notes about evolution.
+topic: "evolution"
+
+query: Isaac Asimov, come up with a writing prompt about space exploration.
+person: "Isaac Asimov" 
+
+query: `
 }
