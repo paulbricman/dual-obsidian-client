@@ -85,8 +85,10 @@ class SampleSettingTab extends PluginSettingTab {
       cb
         .setButtonText("Test")
         .setClass("mod-cta")
-        .onClick(() => {
-            console.log(Recipes.resolveIngredientNames("An application of *technology* in *application domain*:", ["technology", "application domain"], ["blockchain", "advertising"]))
+        .onClick(async () => {
+            var recipeContents = await Recipes.getRecipeContents(this. app, "dual-recipes/Writing prompt recipe.md")
+			console.log(recipeContents)
+			console.log(Recipes.identifyCodeBlocks(recipeContents))
         })
     );
 

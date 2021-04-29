@@ -10,6 +10,10 @@ output: "Here's a writing prompt about *topic*: #1"
 - space: Interplanetary war has broken out and you're a mercenary who will fight for the highest bidder. Suddenly, news that your childhood sweetheart has been captured and is being tried as a traitor on Earth changes your mind, and you decide to rescue her instead.
 - *topic*:
 
-'''dual
+```dual
 Generate a paragraph based on #0.
-'''
+```
+
+```js
+alert("yadayada")
+```

@@ -21,7 +21,7 @@ export module Recipes {
   }
 
   // Get contents of a recipe at a path
-  export async function recipeContents(app: App, path: string) {
+  export async function getRecipeContents(app: App, path: string) {
     var markdownFiles = app.vault.getMarkdownFiles();
 
     for (let index = 0; index < markdownFiles.length; index++) {
@@ -78,8 +78,23 @@ export module Recipes {
     recipeContents = resolveIngredientNames(recipeContents, ingredientNames, ingredients);
   }
 
-  export function splitRecipe(recipeContents: string) {
 
+  export function identifyCodeBlocks(recipeContents: string) {
+    var m, res: any = [], re = RegExp(/\`\`\`(?<type>\w+)(?<contents>[^\`]*)\`\`\`/, "g")
+
+    do {
+        m = re.exec(recipeContents);
+        if (m) {
+            res = res.concat({
+                type: m["groups"]["type"],
+                contents: m["groups"]["contents"].trim(),
+                start: m["index"],
+                end: m["index"] + m[0].length
+            })
+        }
+    } while (m);
+
+    return res;
   }
 
   // Get list of ingredient names mentioned in a recipe

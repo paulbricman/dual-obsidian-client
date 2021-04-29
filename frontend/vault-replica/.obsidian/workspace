@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "dual-recipes/Ask icon recipe.md",
+            "file": "dual-recipes/Writing prompt recipe.md",
             "mode": "source"
           }
         }
@@ -68,7 +68,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "dual-recipes/Ask icon recipe.md",
+                "file": "dual-recipes/Writing prompt recipe.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -96,8 +96,8 @@
   },
   "active": "cc024251ff6ff5ec",
   "lastOpenFiles": [
-    "dual-recipes/Ask icon recipe.md",
     "dual-recipes/Writing prompt recipe.md",
+    "dual-recipes/Ask icon recipe.md",
     "dual-recipes/Untitled.md",
     "dummy-notes/Abundance signals fitness.md"
   ]
