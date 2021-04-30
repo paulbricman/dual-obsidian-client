@@ -80,22 +80,19 @@ export module Recipes {
     splitBlocks(recipeContents, codeBlocks)
   }
 
+  // Get list of all blocks with type and contents
   export function splitBlocks(recipeContents: string, codeBlocks: [codeBlock: {"type": string, "contents": string, "start": number, "end": number}]) {
     var splitBlocks = [recipeContents], blockTypes = ["text"];
 
     for (let index = 0; index < codeBlocks.length; index++) {
-      // Add contents of the code block
       splitBlocks.push(codeBlocks[index]["contents"])
       blockTypes.push(codeBlocks[index]["type"])
 
-      // Move right-split content after it
       splitBlocks.push(splitBlocks[2 * index].slice(codeBlocks[index]["end"]))
       blockTypes.push("text")
 
-      // Remove the moved part
       splitBlocks[2 * index] = splitBlocks[2 * index].slice(0, codeBlocks[index]["start"])
 
-      // Offset future code blocks
       for (let indexFuture = index + 1; indexFuture < codeBlocks.length; indexFuture++) {
         codeBlocks[indexFuture]["start"] -= splitBlocks[2 * index].length + codeBlocks[index]["end"] - codeBlocks[index]["start"];
         codeBlocks[indexFuture]["end"] -= splitBlocks[2 * index].length + codeBlocks[index]["end"] - codeBlocks[index]["start"];
