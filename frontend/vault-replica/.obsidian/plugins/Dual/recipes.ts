@@ -65,7 +65,7 @@ export module Recipes {
   }
 
   export function removeFrontMatter(recipeContents: string) {
-    recipeContents = recipeContents.replace(/---[^-]*---/g, "")
+    recipeContents = recipeContents.replace(/---[\s\S]*---/g, "")
     return recipeContents.trim() 
   }
 
@@ -73,13 +73,44 @@ export module Recipes {
     var recipeContents: string = await getRecipeContents(app, path);
     var ingredientNames: string[] = await getIngredientNames(app, recipeContents);
     var ingredients: string[] = ["blockchain", "advertising"];//await getIngredients(query, ingredientNames);
-
     recipeContents = removeFrontMatter(recipeContents)
     recipeContents = resolveIngredientNames(recipeContents, ingredientNames, ingredients);
+
+    var codeBlocks = detectCodeBlocks(recipeContents)
+    splitBlocks(recipeContents, codeBlocks)
   }
 
+  export function splitBlocks(recipeContents: string, codeBlocks: [codeBlock: {"type": string, "contents": string, "start": number, "end": number}]) {
+    var splitBlocks = [recipeContents], blockTypes = ["text"];
 
-  export function identifyCodeBlocks(recipeContents: string) {
+    for (let index = 0; index < codeBlocks.length; index++) {
+      // Add contents of the code block
+      splitBlocks.push(codeBlocks[index]["contents"])
+      blockTypes.push(codeBlocks[index]["type"])
+
+      // Move right-split content after it
+      splitBlocks.push(splitBlocks[2 * index].slice(codeBlocks[index]["end"]))
+      blockTypes.push("text")
+
+      // Remove the moved part
+      splitBlocks[2 * index] = splitBlocks[2 * index].slice(0, codeBlocks[index]["start"])
+
+      // Offset future code blocks
+      for (let indexFuture = index + 1; indexFuture < codeBlocks.length; indexFuture++) {
+        codeBlocks[indexFuture]["start"] -= splitBlocks[2 * index].length + codeBlocks[index]["end"] - codeBlocks[index]["start"];
+        codeBlocks[indexFuture]["end"] -= splitBlocks[2 * index].length + codeBlocks[index]["end"] - codeBlocks[index]["start"];
+      }
+    }
+
+    splitBlocks.forEach((val, index, arr) => {
+      arr[index] = val.trim()
+    })
+
+    console.log(splitBlocks, blockTypes)
+  }
+
+  // Get a list of code blocks with details
+  export function detectCodeBlocks(recipeContents: string) {
     var m, res: any = [], re = RegExp(/\`\`\`(?<type>\w+)(?<contents>[^\`]*)\`\`\`/, "g")
 
     do {
