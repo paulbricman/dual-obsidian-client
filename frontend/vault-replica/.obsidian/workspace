@@ -52,7 +52,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 288
+    "width": 244.0036334991455
   },
   "right": {
     "id": "5d1f799a6fe86f29",
@@ -92,13 +92,14 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 238.54373168945312,
+    "collapsed": true
   },
   "active": "cc024251ff6ff5ec",
   "lastOpenFiles": [
     "dual-recipes/Technology application recipe.md",
-    "dual-recipes/Writing prompt recipe.md",
     "dual-recipes/Ask icon recipe.md",
+    "dual-recipes/Writing prompt recipe.md",
     "dual-recipes/Untitled.md",
     "dummy-notes/Abundance signals fitness.md"
   ]

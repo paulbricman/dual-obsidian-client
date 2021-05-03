@@ -54,10 +54,10 @@ export module Recipes {
     return paths[content["output"][0]];
   }
 
-  // Substitute ingredient names with actual ingredients in the recipe
-  export function resolveIngredientNames(recipeContents: string, ingredientNames: string[], ingredients: string[]) {
-    for (let index = 0; index < ingredientNames.length; index++) {
-        var re = RegExp("\\*" + ingredientNames[index] + "\\*", "g")
+  // Substitute placeholders with ingredients in a recipe
+  export function resolvePlaceholders(recipeContents: string, placeholders: string[], ingredients: string[]) {
+    for (let index = 0; index < placeholders.length; index++) {
+        var re = RegExp("\\*" + placeholders[index] + "\\*", "g")
         recipeContents = recipeContents.replace(re, ingredients[index])
     }
 
@@ -71,10 +71,10 @@ export module Recipes {
 
   export async function followRecipe(app: App, path: string, query: string) {
     var recipeContents: string = await getRecipeContents(app, path);
-    var ingredientNames: string[] = await getIngredientNames(app, recipeContents);
-    var ingredients: string[] = ["blockchain", "advertising"];//await getIngredients(query, ingredientNames);
+    var placeholders: string[] = await getPlaceholders(app, recipeContents);
+    var ingredients: string[] = await getIngredients(query, placeholders); //["blockchain", "advertising"];
     recipeContents = removeFrontMatter(recipeContents)
-    recipeContents = resolveIngredientNames(recipeContents, ingredientNames, ingredients);
+    recipeContents = resolvePlaceholders(recipeContents, placeholders, ingredients);
 
     var codeBlocks = detectCodeBlocks(recipeContents)
     splitBlocks(recipeContents, codeBlocks)
@@ -126,27 +126,27 @@ export module Recipes {
   }
 
   // Get list of ingredient names mentioned in a recipe
-  export async function getIngredientNames(app: App, recipeContents: string) {
+  export async function getPlaceholders(app: App, recipeContents: string) {
     var re = /\*[^\*]*\*/g;
-    var ingredientNames = recipeContents.match(re);
+    var placeholders = recipeContents.match(re);
 
-    ingredientNames.forEach((val, index, ingredientNames) => {
-      ingredientNames[index] = val.substring(1, val.length - 1);
+    placeholders.forEach((val, index, placeholders) => {
+      placeholders[index] = val.substring(1, val.length - 1);
     });
 
-    return ingredientNames;
+    return placeholders;
   }
 
-  // Parse actual ingredients from the query
+  // Parse ingredients from the query
   export async function getIngredients(
     query: string,
-    ingredientNames: string[]
+    placeholders: string[]
   ) {
     var ingredients: string[] = [],
       res;
 
-    for (let index = 0; index < ingredientNames.length; index++) {
-      res = await this.getIngredient(query, ingredientNames[index]);
+    for (let index = 0; index < placeholders.length; index++) {
+      res = await getIngredient(query, placeholders[index]);
       res = res.split('"')[0];
       ingredients = ingredients.concat(res);
     }
@@ -154,10 +154,10 @@ export module Recipes {
     return ingredients;
   }
 
-  // Parse one actual ingredient from the query
-  export async function getIngredient(query: string, ingredientName: string) {
+  // Parse one ingredient from the query
+  export async function getIngredient(query: string, placeholder: string) {
     var prompt: string =
-      getIngredientPrompt + query + "\n" + ingredientName + ': "';
+      getIngredientPrompt + query + "\n" + placeholder + ': "';
     const rawResponse = await fetch("http://127.0.0.1:5000/generate/", {
       method: "POST",
       headers: {
