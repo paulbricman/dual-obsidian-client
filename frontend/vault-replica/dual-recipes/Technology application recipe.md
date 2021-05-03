@@ -17,13 +17,13 @@ Generate a paragraph based on #0.
 ABC
 
 ```js
-alert("yadayada")
+2+2
 ```
 
 DEF
 
 ```js
-alert("blabla")
+alert("#2")
 ```
 
 GHI
