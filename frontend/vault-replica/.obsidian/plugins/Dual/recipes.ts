@@ -4,6 +4,7 @@ export module Recipes {
 
   export async function followRecipe(app: App, path: string, query: string) {
     var recipeContents: string = await getRecipeContents(app, path);
+    var outputPattern: string = await getOutputPattern(app, path);
     var placeholders: string[] = await getPlaceholders(app, recipeContents);
     var ingredients: string[] = ["blockchain", "advertising"]; //await getIngredients(query, placeholders);
     recipeContents = removeFrontMatter(recipeContents)
@@ -11,17 +12,19 @@ export module Recipes {
 
     var codeBlocks = detectCodeBlocks(recipeContents)
     var [splitBlockList, blockTypes] = splitBlocks(recipeContents, codeBlocks)
-    interpretBlocks(splitBlockList, blockTypes)
+    var [splitBlockList, textSoFar] = interpretBlocks(splitBlockList, blockTypes)
+    var output = resolveOutputReferences(splitBlockList, textSoFar, outputPattern)
+
+    return output
   }
 
   // Walk through blocks and take actions based on them
-  export function interpretBlocks(splitBlocks: string[], blockTypes: string[]) {
+  export function interpretBlocks(splitBlocks: string[], blockTypes: string[]): [string[], string] {
     var newText, textSoFar: string = "";
 
     for (let index = 0; index < splitBlocks.length; index++) {
-      newText = resolveReferences(splitBlocks, index, textSoFar)
+      newText = resolveBodyReferences(splitBlocks, index, textSoFar)
       splitBlocks[index] = newText
-      console.log(index, splitBlocks[index])
 
       switch (blockTypes[index]) {
         case "text":
@@ -32,16 +35,27 @@ export module Recipes {
           textSoFar = textSoFar.concat(splitBlocks[index]);
           break;
         case "dual":
-          splitBlocks[index] = "\n<" + newText + ">\n"
+          splitBlocks[index] = "\n<" + newText + ">\n"; // TODO change to execute command 
           textSoFar = textSoFar.concat(splitBlocks[index]);
       }
     }
 
-    console.log(textSoFar)
+    return [splitBlocks, textSoFar];
   }
 
-  // Fill in "#N" structures based on reference code block output
-  export function resolveReferences(splitBlocks: string[], reachedIndex: number, textSoFar: string) {
+  // Fill in "#N" structures in recipe output based on reference code block output
+  export function resolveOutputReferences(splitBlocks: string[], textSoFar: string, outputPattern: string) {
+    outputPattern = outputPattern.replace("#0", textSoFar)
+
+    for (let referencedCodeBlock = 1; referencedCodeBlock <= 10; referencedCodeBlock++) {
+      outputPattern = outputPattern.replace("#" + referencedCodeBlock, splitBlocks[referencedCodeBlock * 2 - 1])
+    }
+
+    return outputPattern;
+  }
+
+  // Fill in "#N" structures in recipe body based on reference code block output
+  export function resolveBodyReferences(splitBlocks: string[], reachedIndex: number, textSoFar: string) {
     var newText = splitBlocks[reachedIndex].trim()
     newText = newText.replace("#0", textSoFar)
 
@@ -174,6 +188,19 @@ export module Recipes {
     for (let index = 0; index < markdownFiles.length; index++) {
       if (markdownFiles[index].path == path) {
         return await app.vault.cachedRead(markdownFiles[index]);
+      }
+    }
+  }
+
+  // Get output pattern of a recipe at a path
+  export async function getOutputPattern(app: App, path: string) {
+    var markdownFiles = app.vault.getMarkdownFiles();
+
+    for (let index = 0; index < markdownFiles.length; index++) {
+      if (markdownFiles[index].path == path) {
+        return app.metadataCache
+          .getFileCache(markdownFiles[index])
+          .frontmatter["output"];
       }
     }
   }
