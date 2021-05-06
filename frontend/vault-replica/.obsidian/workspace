@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "dual-recipes/Technology application recipe.md",
+            "file": "dual-recipes/Generate paragraph recipe.md",
             "mode": "source"
           }
         }
@@ -68,7 +68,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "dual-recipes/Technology application recipe.md",
+                "file": "dual-recipes/Generate paragraph recipe.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -97,10 +97,11 @@
   },
   "active": "cc024251ff6ff5ec",
   "lastOpenFiles": [
+    "dual-recipes/Generate paragraph recipe.md",
     "dual-recipes/Technology application recipe.md",
-    "dual-recipes/Ask icon recipe.md",
     "dual-recipes/Writing prompt recipe.md",
     "dual-recipes/Untitled.md",
+    "dual-recipes/Ask icon recipe.md",
     "dummy-notes/Abundance signals fitness.md"
   ]
 }

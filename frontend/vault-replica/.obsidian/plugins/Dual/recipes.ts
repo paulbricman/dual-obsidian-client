@@ -148,6 +148,12 @@ export module Recipes {
 
   // Parse one ingredient from the query
   export async function getIngredient(query: string, placeholder: string) {
+    if (placeholder == "quoted content") {
+      var ingredient = RegExp(/".*"/g).exec(query)[0]
+      ingredient = ingredient.substring(1, ingredient.length - 1)
+      return ingredient
+    }
+
     var prompt: string =
       getIngredientPrompt + query + "\n" + placeholder + ': "';
     const rawResponse = await fetch("http://127.0.0.1:5000/generate/", {

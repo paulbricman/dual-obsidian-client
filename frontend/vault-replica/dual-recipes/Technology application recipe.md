@@ -11,19 +11,5 @@ VR in marketing: Offer a prospective tourist the possibility to get an early gli
 *technology* in *field*: 
 
 ```dual
-Generate a paragraph based on #0.
+Generate a paragraph based on "#0".
 ```
-
-ABC
-
-```js
-2+2
-```
-
-DEF
-
-```js
-alert("#2")
-```
-
-GHI
