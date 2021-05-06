@@ -86,7 +86,7 @@ class SampleSettingTab extends PluginSettingTab {
         .setButtonText("Test")
         .setClass("mod-cta")
         .onClick(async () => {
-			      console.log(await Recipes.followRecipe(this.app, "dual-recipes/Technology application recipe.md", "Come up with an application of blockchain in advertising."));
+			      console.log(await Recipes.getIngredient("Come up with an application of blockchain in advertising.", "field"));
         })
     );
 

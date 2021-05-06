@@ -1,7 +1,7 @@
 ---
 examples:
   - "Einstein, what is relativity?"
-  - "Nietzsche, what is your philosophy all about?""
+  - "Nietzsche, what is your philosophy all about?"
   - "What shoud I do in this situation, Aristotle?"
 output: "#1"
 ---

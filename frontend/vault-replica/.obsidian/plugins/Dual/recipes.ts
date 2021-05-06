@@ -2,11 +2,18 @@ import { App } from "obsidian";
 
 export module Recipes {
 
+  export async function runCommand(app: App, query: string) {
+    var recipePath = await matchQuery(app, query);
+    var output = followRecipe(app, recipePath, query);
+
+    return output
+  }
+
   export async function followRecipe(app: App, path: string, query: string) {
     var recipeContents: string = await getRecipeContents(app, path);
     var outputPattern: string = await getOutputPattern(app, path);
     var placeholders: string[] = await getPlaceholders(app, recipeContents);
-    var ingredients: string[] = ["blockchain", "advertising"]; //await getIngredients(query, placeholders);
+    var ingredients: string[] = await getIngredients(query, placeholders);
     recipeContents = removeFrontMatter(recipeContents)
     recipeContents = resolvePlaceholders(recipeContents, placeholders, ingredients);
 
@@ -133,7 +140,6 @@ export module Recipes {
 
     for (let index = 0; index < placeholders.length; index++) {
       res = await getIngredient(query, placeholders[index]);
-      res = res.split('"')[0];
       ingredients = ingredients.concat(res);
     }
 
@@ -159,6 +165,8 @@ export module Recipes {
 
     var content = await rawResponse.json();
     content = content["output"][0];
+    content = content.split('"')[0];
+    
     return content;
   }
 
@@ -205,9 +213,9 @@ export module Recipes {
     }
   }
 
-  // Find closest example to a given query
+  // Find closest recipe to a given query through examples
   export async function matchQuery(app: App, query: string) {
-    var examplePathPairs = this.getExamples(app);
+    var examplePathPairs = getExamples(app);
     var examples = examplePathPairs[0],
       paths = examplePathPairs[1];
 
