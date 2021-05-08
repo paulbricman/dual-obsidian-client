@@ -7,20 +7,21 @@ output: "#1"
 ---
 
 ```js
-const rawResponse = await fetch("http://127.0.0.1:5000/generate/", {
-	method: "POST",
-	headers: {
-		"Accept": "application/json",
-		"Content-Type": "application/json",
-	},
-	body: JSON.stringify({
-		"prompt": "*quoted content*",
-		"early_stopping_criterion": "finish_paragraph",
-		"max_generated_token_count": "*quoted content*".length,
-	}),
-});
+(async () => {
+	const rawResponse = await fetch("http://127.0.0.1:5000/generate/", {
+		"method": "POST",
+		"headers": {
+			"Accept": "application/json",
+			"Content-Type": "application/json",
+		},
+		"body": JSON.stringify({
+			"prompt": `*quoted content*`,
+			"early_stopping_criterion": "finish_paragraph",
+			"max_generated_token_count": `*quoted content*`.length,
+		})
+	});
 
-var content = await rawResponse.json();
-content = content["output"][0];
-content
+	var content = await rawResponse.json();
+	return content["output"][0];
+})();
 ```

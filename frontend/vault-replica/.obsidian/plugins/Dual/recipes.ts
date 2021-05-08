@@ -10,6 +10,7 @@ export module Recipes {
   }
 
   export async function followRecipe(app: App, path: string, query: string) {
+    console.log('FOLLOWING', path, 'based on:', query)
     var recipeContents: string = await getRecipeContents(app, path);
     var outputPattern: string = await getOutputPattern(app, path);
     var placeholders: string[] = await getPlaceholders(app, recipeContents);
@@ -19,14 +20,14 @@ export module Recipes {
 
     var codeBlocks = detectCodeBlocks(recipeContents)
     var [splitBlockList, blockTypes] = splitBlocks(recipeContents, codeBlocks)
-    var [splitBlockList, textSoFar] = interpretBlocks(splitBlockList, blockTypes)
+    var [splitBlockList, textSoFar] = await interpretBlocks(app, splitBlockList, blockTypes)
     var output = resolveOutputReferences(splitBlockList, textSoFar, outputPattern)
 
     return output
   }
 
   // Walk through blocks and take actions based on them
-  export function interpretBlocks(splitBlocks: string[], blockTypes: string[]): [string[], string] {
+  export async function interpretBlocks(app: App, splitBlocks: string[], blockTypes: string[]): Promise<[string[], string]> {
     var newText, textSoFar: string = "";
 
     for (let index = 0; index < splitBlocks.length; index++) {
@@ -38,17 +39,22 @@ export module Recipes {
           textSoFar = textSoFar.concat(newText);
           break;
         case "js":
-          splitBlocks[index] = eval(splitBlocks[index])
+          splitBlocks[index] = await waitEval(splitBlocks[index]);
           textSoFar = textSoFar.concat(splitBlocks[index]);
           break;
         case "dual":
-          splitBlocks[index] = "\n<" + newText + ">\n"; // TODO change to execute command 
+          splitBlocks[index] = await runCommand(app, newText);
           textSoFar = textSoFar.concat(splitBlocks[index]);
       }
     }
 
     return [splitBlocks, textSoFar];
   }
+
+  // Wait for eval wrapper
+  export async function waitEval(toEval: string): Promise<string> {
+    return eval(toEval);
+  };
 
   // Fill in "#N" structures in recipe output based on reference code block output
   export function resolveOutputReferences(splitBlocks: string[], textSoFar: string, outputPattern: string) {
@@ -101,7 +107,7 @@ export module Recipes {
 
   // Get a list of code blocks with details
   export function detectCodeBlocks(recipeContents: string) {
-    var m, res: any = [], re = RegExp(/\`\`\`(?<type>\w+)(?<contents>[^\`]*)\`\`\`/, "g")
+    var m, res: any = [], re = RegExp(/\`\`\`(?<type>\w+)(?<contents>(?:\`[^\`]|[^\`])*)\`\`\`/, "g")
 
     do {
         m = re.exec(recipeContents);
@@ -149,7 +155,7 @@ export module Recipes {
   // Parse one ingredient from the query
   export async function getIngredient(query: string, placeholder: string) {
     if (placeholder == "quoted content") {
-      var ingredient = RegExp(/".*"/g).exec(query)[0]
+      var ingredient = RegExp(/"[\s\S]*"/g).exec(query)[0]
       ingredient = ingredient.substring(1, ingredient.length - 1)
       return ingredient
     }
@@ -221,6 +227,7 @@ export module Recipes {
 
   // Find closest recipe to a given query through examples
   export async function matchQuery(app: App, query: string) {
+    query = query.replace(/".*"/, '""')
     var examplePathPairs = getExamples(app);
     var examples = examplePathPairs[0],
       paths = examplePathPairs[1];

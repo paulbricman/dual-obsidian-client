@@ -3,7 +3,7 @@ examples:
   - "Come up with an application of AI in programming."
   - "What would be an interesting application of virtual reality in tourism?"
   - "Tell me an application of Internet of Things in transportation"
-output: "One idea could be: #1"
+output: "One idea could be:#1"
 ---
 
 AI in programming: Autocomplete for arbitrary code as the programmer is working, based on language models fine-tuned on code.
