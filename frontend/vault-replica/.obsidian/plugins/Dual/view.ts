@@ -1,4 +1,5 @@
 import { ItemView, WorkspaceLeaf, Notice, TextAreaComponent } from "obsidian";
+import { Recipes } from "recipes";
 
 export default class ChatView extends ItemView {
   customName = "";
@@ -35,31 +36,8 @@ export default class ChatView extends ItemView {
         }
       });
 
-      this.makeRequest(input.value).then((response: any) => {
-        if (
-          response["intent"] == "DESCRIPTIVE_SEARCH" ||
-          response["intent"] == "FLUID_SEARCH"
-        ) {
-          if (response["output"].length > 0) {
-            response["output"].forEach((element: string) => {
-              this.drawMessage(
-                element
-                  .split("\\")
-                  .pop()
-                  .split("/")
-                  .pop(),
-                "left"
-              );
-            });
-          } else {
-            this.drawMessage(
-              "I can't find any relevant entries. Try a different search.",
-              "left"
-            );
-          }
-        } else {
-          this.drawMessage(response["output"], "left");
-        }
+      Recipes.runCommand(this.app, input.value).then((response: any) => {
+        this.drawMessage(response, "left");
 
         replied = true;
         this.setStatus("online");

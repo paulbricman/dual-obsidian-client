@@ -10,7 +10,7 @@ export module Recipes {
   }
 
   export async function followRecipe(app: App, path: string, query: string) {
-    console.log('FOLLOWING', path, 'based on:', query)
+    //console.log('FOLLOWING', path, 'based on:', query)
     var recipeContents: string = await getRecipeContents(app, path);
     var outputPattern: string = await getOutputPattern(app, path);
     var placeholders: string[] = await getPlaceholders(app, recipeContents);
