@@ -17,7 +17,13 @@ export module Utils {
         options.useImgAltText = options.hasOwnProperty('useImgAltText') ? options.useImgAltText : true;
     
         var output = md || '';
-        output = output.replace(/^(-\s*?|\*\s*?|_\s*?){3,}\s*$/gm, '');
+        output = output
+            .replace(/^---[\s\S]*---\n*/g, "")
+            .replace(/\[\[[^\|\[\]]*\|([^\|\[\]]*)\]\]/g, "$1")
+            .replace(/\[\[(.*)\]\]/g, "$1")
+            .replace(/```([^`])*```\n*/g, "")
+            .replace(/\$([^$])*\$*/g, "")
+            .replace(/^(-\s*?|\*\s*?|_\s*?){3,}\s*$/gm, '')
     
         try {
         if (options.stripListLeaders) {

@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "dual-recipes/Technology application recipe.md",
+            "file": "dual-recipes/Open dialogue recipe.md",
             "mode": "source"
           }
         }
@@ -52,8 +52,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 244.0036334991455,
-    "collapsed": true
+    "width": 333.0036334991455
   },
   "right": {
     "id": "5d1f799a6fe86f29",
@@ -69,7 +68,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "dual-recipes/Technology application recipe.md",
+                "file": "dual-recipes/Open dialogue recipe.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -93,15 +92,18 @@
       }
     ],
     "direction": "horizontal",
-    "width": 322.16802978515625
+    "width": 328.50042724609375
   },
   "active": "cc024251ff6ff5ec",
   "lastOpenFiles": [
-    "dual-recipes/Technology application recipe.md",
+    "dual-recipes/Open dialogue recipe.md",
     "dual-recipes/Generate paragraph recipe.md",
     "dual-recipes/Writing prompt recipe.md",
-    "dual-recipes/Untitled.md",
     "dual-recipes/Ask icon recipe.md",
+    "dual-recipes/Find notes recipe.md",
+    "dual-recipes/Untitled.md",
+    "Untitled.md",
+    "dual-recipes/Technology application recipe.md",
     "dummy-notes/Abundance signals fitness.md"
   ]
 }

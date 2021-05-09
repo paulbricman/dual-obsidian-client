@@ -1,27 +1,35 @@
 import { App } from "obsidian";
+import { Utils } from "utils";
 
 export module Recipes {
 
+  // Returns final response to a query 
   export async function runCommand(app: App, query: string) {
     var recipePath = await matchQuery(app, query);
+    console.log('FOLLOWING', recipePath, 'USING', query)
     var output = followRecipe(app, recipePath, query);
 
     return output
   }
 
+  // Follows a specific recipe using a certain query
   export async function followRecipe(app: App, path: string, query: string) {
-    //console.log('FOLLOWING', path, 'based on:', query)
     var recipeContents: string = await getRecipeContents(app, path);
     var outputPattern: string = await getOutputPattern(app, path);
+    recipeContents = removeFrontMatter(recipeContents)
+
     var placeholders: string[] = await getPlaceholders(app, recipeContents);
     var ingredients: string[] = await getIngredients(query, placeholders);
-    recipeContents = removeFrontMatter(recipeContents)
     recipeContents = resolvePlaceholders(recipeContents, placeholders, ingredients);
 
     var codeBlocks = detectCodeBlocks(recipeContents)
     var [splitBlockList, blockTypes] = splitBlocks(recipeContents, codeBlocks)
     var [splitBlockList, textSoFar] = await interpretBlocks(app, splitBlockList, blockTypes)
+    
     var output = resolveOutputReferences(splitBlockList, textSoFar, outputPattern)
+    var outputPlaceholders: string[] = await getPlaceholders(app, output);
+    var outputIngredients: string[] = await getIngredients(query, placeholders);
+    output = resolvePlaceholders(output, outputPlaceholders, outputIngredients);
 
     return output
   }
@@ -33,26 +41,26 @@ export module Recipes {
     for (let index = 0; index < splitBlocks.length; index++) {
       newText = resolveBodyReferences(splitBlocks, index, textSoFar)
       splitBlocks[index] = newText
-
+      
       switch (blockTypes[index]) {
         case "text":
           textSoFar = textSoFar.concat(newText);
           break;
-        case "js":
-          splitBlocks[index] = await waitEval(splitBlocks[index]);
-          textSoFar = textSoFar.concat(splitBlocks[index]);
-          break;
-        case "dual":
-          splitBlocks[index] = await runCommand(app, newText);
-          textSoFar = textSoFar.concat(splitBlocks[index]);
-      }
+          case "js":
+            splitBlocks[index] = await waitEval(app, splitBlocks[index]);
+            textSoFar = textSoFar.concat(splitBlocks[index]);
+            break;
+            case "dual":
+              splitBlocks[index] = await runCommand(app, newText);
+              textSoFar = textSoFar.concat(splitBlocks[index]);
+            }
     }
 
     return [splitBlocks, textSoFar];
   }
 
   // Wait for eval wrapper
-  export async function waitEval(toEval: string): Promise<string> {
+  export async function waitEval(app: App, toEval: string): Promise<string> {
     return eval(toEval);
   };
 
@@ -129,11 +137,15 @@ export module Recipes {
     var re = /\*[^\*]*\*/g;
     var placeholders = recipeContents.match(re);
 
-    placeholders.forEach((val, index, placeholders) => {
-      placeholders[index] = val.substring(1, val.length - 1);
-    });
+    if (placeholders != null) {
+      placeholders.forEach((val, index, placeholders) => {
+        placeholders[index] = val.substring(1, val.length - 1);
+      });
 
-    return placeholders;
+      return placeholders;
+    }
+
+    return []
   }
 
   // Parse ingredients from the query
@@ -227,7 +239,7 @@ export module Recipes {
 
   // Find closest recipe to a given query through examples
   export async function matchQuery(app: App, query: string) {
-    query = query.replace(/".*"/, '""')
+    query = query.replace(/"[\s\S]*"/, '""')
     var examplePathPairs = getExamples(app);
     var examples = examplePathPairs[0],
       paths = examplePathPairs[1];
@@ -262,6 +274,21 @@ export module Recipes {
   export function removeFrontMatter(recipeContents: string) {
     recipeContents = recipeContents.replace(/---[\s\S]*---/g, "")
     return recipeContents.trim() 
+  }
+
+  export async function getNotes(app: App) {
+    var markdownFiles = app.vault.getMarkdownFiles();
+    var notes: string[] = [];
+
+    for (let index = 0; index < markdownFiles.length; index++) {
+      if (!markdownFiles[index].path.startsWith('dual-recipes')) {
+        var note = await app.vault.cachedRead(markdownFiles[index]);
+        note = Utils.removeMd(note, {});
+        notes.push(note);
+      }
+    }
+
+    return notes
   }
 
   const getIngredientPrompt: string = `query: Come up with a writing prompt about aliens and robots.
@@ -306,8 +333,14 @@ person: "Darwin"
 query: Look for notes about evolution.
 topic: "evolution"
 
+query: Ask my notes how can version control help
+posed question: "How can version control help?"
+
 query: Isaac Asimov, come up with a writing prompt about space exploration.
-person: "Isaac Asimov" 
+person: "Isaac Asimov"
+
+query: Hey Dual, what is evolution?
+posed question: "What is evolution?"
 
 query: `;
 }

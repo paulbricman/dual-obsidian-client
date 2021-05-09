@@ -24,7 +24,6 @@ def respond_extract():
         )
     }
 
-
 @app.route('/generate/', methods=['POST'])
 @cross_origin()
 def respond_generate():

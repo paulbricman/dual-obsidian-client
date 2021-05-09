@@ -11,9 +11,5 @@ output: "Here's a writing prompt about *topic*: #1"
 - *topic*:
 
 ```dual
-Generate a paragraph based on #0.
-```
-
-```js
-alert("yadayada")
+Generate a paragraph based on "#0"
 ```

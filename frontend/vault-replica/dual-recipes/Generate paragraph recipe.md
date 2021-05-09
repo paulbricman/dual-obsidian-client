@@ -17,7 +17,7 @@ output: "#1"
 		"body": JSON.stringify({
 			"prompt": `*quoted content*`,
 			"early_stopping_criterion": "finish_paragraph",
-			"max_generated_token_count": `*quoted content*`.length,
+			"max_generated_token_count": 60
 		})
 	});
 

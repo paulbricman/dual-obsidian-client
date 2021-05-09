@@ -37,7 +37,9 @@ export default class ChatView extends ItemView {
       });
 
       Recipes.runCommand(this.app, input.value).then((response: any) => {
-        this.drawMessage(response, "left");
+        response.split("\n\n").forEach((res: string) => {
+          this.drawMessage(res, "left");
+        });
 
         replied = true;
         this.setStatus("online");

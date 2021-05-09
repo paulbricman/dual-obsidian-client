@@ -21,7 +21,7 @@ class Core:
         else:
             self.load_cache()
 
-    def extract(self, query, documents, considered_candidates=50, selected_candidates=5, second_pass=True, return_documents=False):        
+    def extract(self, query, documents, considered_candidates=50, selected_candidates=5, second_pass=True, return_documents=False):  
         selected_candidates = min(selected_candidates, considered_candidates)
 
         # Encode novel documents
@@ -51,7 +51,7 @@ class Core:
         return [hit['corpus_id'].item() for hit in hits[:selected_candidates]]
 
     def generate(self, prompt, early_stopping_criterion=None, max_generated_token_count=100):
-        input_ids = self.gen_tokenizer.encode(prompt, return_tensors='pt')
+        input_ids = self.gen_tokenizer.encode(prompt, return_tensors='pt')[-1000:]
 
         if early_stopping_criterion == None:
             bad_words_ids = None

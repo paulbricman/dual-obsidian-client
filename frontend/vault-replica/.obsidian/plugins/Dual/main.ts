@@ -81,15 +81,6 @@ class SampleSettingTab extends PluginSettingTab {
       text: "Follow these instructions to set up your Dual:",
     });
 
-    new Setting(containerEl).setName("RECIPE TEST").addButton((cb) =>
-      cb
-        .setButtonText("Test")
-        .setClass("mod-cta")
-        .onClick(async () => {
-			      console.log(await Recipes.runCommand(this.app, "Come up with an application of blockchain in marketing"));
-        })
-    );
-
     new Setting(containerEl)
       .setName("0. Install Python (3.8+).")
       .setDesc("Press the button to head over to the download page.")
