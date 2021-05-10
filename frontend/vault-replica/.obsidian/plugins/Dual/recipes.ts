@@ -174,6 +174,7 @@ export module Recipes {
 
     var prompt: string =
       getIngredientPrompt + query + "\n" + placeholder + ': "';
+
     const rawResponse = await fetch("http://127.0.0.1:5000/generate/", {
       method: "POST",
       headers: {
@@ -183,7 +184,7 @@ export module Recipes {
       body: JSON.stringify({
         prompt: prompt,
         early_stopping_criterion: "finish_paragraph",
-        max_generated_token_count: Math.floor(query.length * 0.3),
+        max_generated_token_count: Math.floor(query.length * 0.4),
       }),
     });
 
@@ -232,7 +233,7 @@ export module Recipes {
       if (markdownFiles[index].path == path) {
         return app.metadataCache
           .getFileCache(markdownFiles[index])
-          .frontmatter["output"];
+          .frontmatter["output"]
       }
     }
   }
@@ -309,6 +310,12 @@ concept: "working memory capacity"
 query: What specific operations should I perform to model an airplane in Blender?
 object: "airplane"
 
+query: How can first-order logic be used in AI?
+query: "How can first-order logic be used in AI?"
+
+query: What's the connection between a bridge and a metaphor?
+query: "What's the connection between a bridge and a metaphor?"
+
 query: What would be a useful analogy for understanding pupillometry?
 concept: "pupillometry"
 
@@ -318,29 +325,71 @@ technology: "brain-computer interfaces"
 query: How can I say "sprandel" in Romanian?
 language: "Romanian"
 
+query: What's the relation between neuroscience and dynamical systems?
+query: "What's the relation between neuroscience and dynamical systems?"
+
 query: How would a school look like in Victorian London?
 context: "Victorian London"
+
+query: Translate "Ik ben een olifant" in English
+target language: "English"
+
+query: What is the role of genetic material?
+query: "What is the role of genetic material?"
 
 query: Come up with a setting for a science fiction book.
 genre: "science fiction"
 
+query: What is autonomic arousal?
+query: "What is autonomic arousal?"
+
 query: Try to come up with an exercise on thermodynamics.
 subject: "thermodynamics"
+
+query: What's the difference between realism and idealism?
+query: "What's the difference between realism and idealism?"
+
+query: Come up with a parallel for: neuron, brain.
+sequence: "neuron, brain"
 
 query: Darwin, what is the origin of species?
 person: "Darwin"
 
-query: Look for notes about evolution.
-topic: "evolution"
+query: What is the meaning of life?
+query: "What is the meaning of life?"
 
-query: Ask my notes how can version control help
-posed question: "How can version control help?"
+query: Mix the concepts brain and science
+first concept: "brain"
+
+query: How can we build artificial general intelligence?
+query: "How can we build artificial general intelligence?"
 
 query: Isaac Asimov, come up with a writing prompt about space exploration.
 person: "Isaac Asimov"
 
-query: Hey Dual, what is evolution?
-posed question: "What is evolution?"
+query: Why is consciousness a thing?
+query: "Why is consciousness a thing?"
+
+query: How can a conversational interface be used?
+query: "How can a conversational interface be used?"
+
+query: How can version control help
+query: "How can version control help?"
+
+query: Come up with an analogy for: sun, planet, solar system
+sequence: "sun, planet, solar system"
+
+query: Look for notes about pupillometry.
+topic: "pupillometry"
+
+query: Combine the concepts computer and virus.
+second concept: "virus"
+
+query: What is evolution?
+query: "What is evolution?"
+
+query: What's the connection between the brain and a stadium?
+query: "What's the connection between the brain and a stadium?" 
 
 query: `;
 }

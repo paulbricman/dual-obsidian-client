@@ -1,7 +1,7 @@
 ---
 examples:
-  - "Find notes about something."
-  - "Look for notes about \"a subject\"!"
+  - "List notes about something."
+  - "Enumerate notes about \"a subject\"!"
   - "Search for personal notes on something."
 output: "#1"
 ---

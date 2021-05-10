@@ -62,9 +62,8 @@ class Core:
             input_ids, 
             do_sample=True, 
             max_length=len(input_ids[0]) + max_generated_token_count, 
-            top_p=0.9, 
-            top_k=40,
-            temperature=0.9,
+            top_p=0.9,
+            temperature=0.65,
             bad_words_ids=bad_words_ids
         )
 

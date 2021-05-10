@@ -10,7 +10,7 @@
           "type": "markdown",
           "state": {
             "file": "dual-recipes/Open dialogue recipe.md",
-            "mode": "source"
+            "mode": "preview"
           }
         }
       }
@@ -52,7 +52,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 333.0036334991455
+    "width": 333.0036334991455,
+    "collapsed": true
   },
   "right": {
     "id": "5d1f799a6fe86f29",
@@ -92,18 +93,19 @@
       }
     ],
     "direction": "horizontal",
-    "width": 328.50042724609375
+    "width": 327.1679992675781
   },
   "active": "cc024251ff6ff5ec",
   "lastOpenFiles": [
     "dual-recipes/Open dialogue recipe.md",
     "dual-recipes/Generate paragraph recipe.md",
+    "dual-recipes/Find notes recipe.md",
+    "dummy-notes/Biological reward systems are malleable.md",
+    "dummy-notes/Argmin and argmax formalize optimization.md",
     "dual-recipes/Writing prompt recipe.md",
     "dual-recipes/Ask icon recipe.md",
-    "dual-recipes/Find notes recipe.md",
     "dual-recipes/Untitled.md",
     "Untitled.md",
-    "dual-recipes/Technology application recipe.md",
-    "dummy-notes/Abundance signals fitness.md"
+    "dual-recipes/Technology application recipe.md"
   ]
 }

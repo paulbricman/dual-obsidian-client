@@ -1,18 +1,19 @@
 ---
 examples:
-  - "Hey Dual, what is evolution?"
-  - "Ok Dual, how can version control help?"
-  - "Dual, why is this the case?"
+  - "What is this thing?"
+  - "Why is this the case?"
+  - "How can something do that?"
+  - "When was this established?"
+  - "Where does this show up?"
+  - "Who is involved in this?"
 output: "#2"
 ---
 
 ```dual
-Find notes about *topic*
+List notes about "*topic*"
 ```
 
-Questions
-
-Q: *posed question*
+Q: *query*
 A:
 
 ```dual
