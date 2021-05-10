@@ -185,6 +185,7 @@ export module Recipes {
         prompt: prompt,
         early_stopping_criterion: "finish_paragraph",
         max_generated_token_count: Math.floor(query.length * 0.4),
+        attitude: "mechanic"
       }),
     });
 
@@ -372,6 +373,9 @@ query: "Why is consciousness a thing?"
 
 query: How can a conversational interface be used?
 query: "How can a conversational interface be used?"
+
+query: Merge the concepts human and chaos.
+second concept: "chaos"
 
 query: How can version control help
 query: "How can version control help?"
