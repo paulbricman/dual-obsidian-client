@@ -89,7 +89,7 @@ class SampleSettingTab extends PluginSettingTab {
         .setButtonText("TEST")
         .setClass("mod-cta")
         .onClick(async () => {
-          console.log(await Recipes.getIngredient("What is the role of genetic material?", "query"))
+          console.log(await Recipes.getIngredient("What is the role of genetic material?", "concept"))
         })
     );
 

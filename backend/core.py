@@ -65,7 +65,7 @@ class Core:
             forced_eos_token_id = 13
 
             if behavior == 'finish_paragraph':
-                max_sentence_tokens = random.randint(2, 5)
+                max_sentence_tokens = random.randint(1, 5)
                 max_paragraph_tokens = 0
             elif behavior == 'finish_sentence':
                 max_sentence_tokens = 1
@@ -73,15 +73,15 @@ class Core:
 
         elif behavior == 'parse_arguments':
             temperature = 0.2
-            forced_eos_token_id = None
+            forced_eos_token_id = 628
             max_generated_token_count = 100
-            max_sentence_tokens = 1000
+            max_sentence_tokens = 0
             max_paragraph_tokens = 0
 
         generator_output = self.gen_model.generate(
             input_token_ids, 
             do_sample=True, 
-            max_length=input_ids_count + max_generated_token_count, 
+            max_length=input_ids_count + max_generated_token_count,
             top_p=0.9,
             temperature=temperature,
             no_repeat_ngram_size=4,
@@ -99,18 +99,15 @@ class Core:
         used_token_ids = previous_token_ids[input_ids_count:]
         used_sentence_tokens_count = len([e for e in used_token_ids if e in sentence_tokens])
         used_paragraph_tokens_count = len([e for e in used_token_ids if e in paragraph_tokens])
-        
+
+        if behavior == 'parse_arguments':
+            if len(used_token_ids) > 0 and '"' in self.gen_tokenizer.decode(used_token_ids):
+                return [self.gen_tokenizer.eos_token_id]
+
         if used_sentence_tokens_count > max_sentence_tokens or used_paragraph_tokens_count > max_paragraph_tokens:
             return [self.gen_tokenizer.eos_token_id]
 
         return range(0, 50255)
-
-    def sublist_match(self, pool_token_ids, used_token_ids):
-        matches = []
-        for i in range(len(pool_token_ids)):
-            if pool_token_ids[i] == used_token_ids[0] and pool_token_ids[i:i+len(used_token_ids)] == used_token_ids:
-                matches.append(i)
-        return matches
 
     def load_models(self):
         print('Loading models...')
