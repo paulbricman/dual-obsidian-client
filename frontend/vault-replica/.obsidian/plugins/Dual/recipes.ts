@@ -28,7 +28,7 @@ export module Recipes {
     
     var output = resolveOutputReferences(splitBlockList, textSoFar, outputPattern)
     var outputPlaceholders: string[] = await getPlaceholders(app, output);
-    var outputIngredients: string[] = await getIngredients(query, placeholders);
+    var outputIngredients: string[] = await getIngredients(query, outputPlaceholders);
     output = resolvePlaceholders(output, outputPlaceholders, outputIngredients);
 
     return output
@@ -46,14 +46,14 @@ export module Recipes {
         case "text":
           textSoFar = textSoFar.concat(newText);
           break;
-          case "js":
-            splitBlocks[index] = await waitEval(app, splitBlocks[index]);
-            textSoFar = textSoFar.concat(splitBlocks[index]);
-            break;
-            case "dual":
-              splitBlocks[index] = await runCommand(app, newText);
-              textSoFar = textSoFar.concat(splitBlocks[index]);
-            }
+        case "js":
+          splitBlocks[index] = await waitEval(app, splitBlocks[index]);
+          textSoFar = textSoFar.concat(splitBlocks[index]);
+          break;
+        case "dual":
+          splitBlocks[index] = await runCommand(app, newText);
+          textSoFar = textSoFar.concat(splitBlocks[index] + " ");
+      }
     }
 
     return [splitBlocks, textSoFar];
@@ -77,7 +77,7 @@ export module Recipes {
 
   // Fill in "#N" structures in recipe body based on reference code block output
   export function resolveBodyReferences(splitBlocks: string[], reachedIndex: number, textSoFar: string) {
-    var newText = splitBlocks[reachedIndex].trim()
+    var newText = splitBlocks[reachedIndex].trim() + " ";
     newText = newText.replace("#0", textSoFar)
 
     for (let referencedCodeBlock = 1; referencedCodeBlock <= reachedIndex / 2; referencedCodeBlock++) {
@@ -107,7 +107,7 @@ export module Recipes {
     }
 
     splitBlockList.forEach((val, index, arr) => {
-      arr[index] = val.trim()
+      arr[index] = val.trim() + " ";
     })
 
     return [splitBlockList, blockTypes]
@@ -183,15 +183,14 @@ export module Recipes {
       },
       body: JSON.stringify({
         prompt: prompt,
-        early_stopping_criterion: "finish_paragraph",
-        max_generated_token_count: Math.floor(query.length * 0.4),
-        attitude: "mechanic"
+        behavior: "parse_arguments",
+        pool: query
       }),
     });
 
     var content = await rawResponse.json();
     content = content["output"][0];
-    content = content.split('"')[0];
+    //content = content.split('"')[0]; REVERT
     
     return content;
   }
@@ -293,7 +292,121 @@ export module Recipes {
     return notes
   }
 
-  const getIngredientPrompt: string = `query: Come up with a writing prompt about aliens and robots.
+const getIngredientPrompt: string = `query: Come up with a writing prompt about aliens and robots.
+topic: aliens and robots
+
+query: Einstein, what is general relativity?
+person: Einstein
+
+query: Come up with a fitting term for a metaphor which bridges disparate fields.
+description: a metaphor which bridges disparate fields
+
+query: Write a Python query which reverses the contents of a list.
+description: reverses the contents of a list
+
+query: How could one operationalize working memory capacity?
+concept: working memory capacity
+
+query: What specific operations should I perform to model an airplane in Blender?
+object: airplane
+
+query: How can first-order logic be used in AI?
+query: How can first-order logic be used in AI?
+
+query: What's the connection between a bridge and a metaphor?
+query: What's the connection between a bridge and a metaphor?
+
+query: What would be a useful analogy for understanding pupillometry?
+concept: pupillometry
+
+query: What are some possible applications of brain-computer interfaces?
+technology: brain-computer interfaces
+
+query: How can I say sprandel in Romanian?
+language: Romanian
+
+query: What's the relation between neuroscience and dynamical systems?
+query: What's the relation between neuroscience and dynamical systems?
+
+query: How would a school look like in Victorian London?
+context: Victorian London
+
+query: Translate Ik ben een olifant in English
+target language: English
+
+query: What is the role of genetic material?
+query: What is the role of genetic material?
+
+query: Come up with a setting for a science fiction book.
+genre: science fiction
+
+query: What is autonomic arousal?
+query: What is autonomic arousal?
+
+query: Try to come up with an exercise on thermodynamics.
+subject: thermodynamics
+
+query: What's the difference between realism and idealism?
+query: What's the difference between realism and idealism?
+
+query: Come up with a parallel for: neuron, brain.
+sequence: neuron, brain
+
+query: Darwin, what is the origin of species?
+person: Darwin
+
+query: Blue is to color as circle is to...
+query: Blue is to color as circle is to...
+
+query: What is the meaning of life?
+query: What is the meaning of life?
+
+query: Mix the concepts brain and science
+first concept: brain
+
+query: How can we build artificial general intelligence?
+query: How can we build artificial general intelligence?
+
+query: Isaac Asimov, come up with a writing prompt about space exploration.
+person: Isaac Asimov
+
+query: Why is consciousness a thing?
+query: Why is consciousness a thing?
+
+query: A bowl is to a soup as
+query: A bowl is to a soup as
+
+query: How can a conversational interface be used?
+query: How can a conversational interface be used?
+
+query: Merge the concepts human and chaos.
+second concept: chaos
+
+query: How can version control help
+query: How can version control help?
+
+query: A tree is to a bark as a person is to...
+query: A tree is to a bark as a person is to...
+
+query: Come up with an analogy for: sun, planet, solar system
+sequence: sun, planet, solar system
+
+query: Look for notes about pupillometry.
+topic: pupillometry
+
+query: Combine the concepts computer and virus.
+second concept: virus
+
+query: What is evolution?
+query: What is evolution?
+
+query: What's the connection between the brain and a stadium?
+query: What's the connection between the brain and a stadium? 
+
+query: `;
+}
+/*
+query: Come up with a writing prompt about aliens and robots.
 topic: "aliens and robots"
 
 query: Einstein, what is general relativity?
@@ -356,6 +469,9 @@ sequence: "neuron, brain"
 query: Darwin, what is the origin of species?
 person: "Darwin"
 
+query: Blue is to color as circle is to...
+query: "Blue is to color as circle is to..."
+
 query: What is the meaning of life?
 query: "What is the meaning of life?"
 
@@ -371,6 +487,9 @@ person: "Isaac Asimov"
 query: Why is consciousness a thing?
 query: "Why is consciousness a thing?"
 
+query: A bowl is to a soup as
+query: "A bowl is to a soup as"
+
 query: How can a conversational interface be used?
 query: "How can a conversational interface be used?"
 
@@ -379,6 +498,9 @@ second concept: "chaos"
 
 query: How can version control help
 query: "How can version control help?"
+
+query: A tree is to a bark as a person is to...
+query: "A tree is to a bark as a person is to..."
 
 query: Come up with an analogy for: sun, planet, solar system
 sequence: "sun, planet, solar system"
@@ -395,5 +517,5 @@ query: "What is evolution?"
 query: What's the connection between the brain and a stadium?
 query: "What's the connection between the brain and a stadium?" 
 
-query: `;
-}
+query: 
+*/

@@ -1,0 +1,5 @@
+---
+resource: https://www.ai.rug.nl/minds/uploads/LN_NN_RUG.pdf
+---
+
+Continuous-state [[Dynamical systems have a certain anatomy|dynamical systems]] are as diverse as [[Finite-state dynamical systems are diverse|finite-state ones]]. They can either use [[Tense logic formalizes time|discrete]] or continuous [[Time is a relevant dimension of attention|time]], and [[Dynamical systems have a certain anatomy|share the same basic anatomy]], although using continuous states. For the ones with continuous time, the transition function yields rates of change, rather than absolute values. They all exhibit typical behaviors: [[Attractors and repellors have opposite behaviors in dynamical systems|attractors and repellors]], [[Bifurcations slice space of dynamical systems in basins|bifurcation]], and chaos.

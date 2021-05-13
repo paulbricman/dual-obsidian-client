@@ -50,37 +50,102 @@ class Core:
         
         return [hit['corpus_id'].item() for hit in hits[:selected_candidates]]
 
-    def generate(self, prompt, early_stopping_criterion=None, max_generated_token_count=100, attitude='natural'):
-        input_ids = self.gen_tokenizer.encode(prompt, return_tensors='pt')[-1000:]
+    def generate(self, prompt, behavior='finish_paragraph', pool=None):
+        input_token_ids = self.gen_tokenizer.encode(prompt, return_tensors='pt')[-1000:]
+        input_ids_count = len(input_token_ids[0])
 
-        if early_stopping_criterion == None:
-            bad_words_ids = None
-        elif early_stopping_criterion == 'finish_paragraph':
-            bad_words_ids = [[198], [628]]
+        if pool is not None:
+            pool_token_ids = self.gen_tokenizer.encode(pool, return_tensors='pt')[-1000:]
+        else:
+            pool_token_ids = None
 
-        if attitude == 'natural':
+        if behavior in ['finish_paragraph', 'finish_sentence']:
             temperature = 0.7
-        elif attitude == 'mechanic':
-            temperature = 0.01
-        
+            max_generated_token_count = 200
+            forced_eos_token_id = 13
+
+            if behavior == 'finish_paragraph':
+                max_sentence_tokens = random.randint(2, 5)
+                max_paragraph_tokens = 0
+            elif behavior == 'finish_sentence':
+                max_sentence_tokens = 1
+                max_paragraph_tokens = 0
+
+        elif behavior == 'parse_arguments':
+            temperature = 0.8
+            max_generated_token_count = 100
+            forced_eos_token_id = None
+            max_sentence_tokens = None
+            max_paragraph_tokens = None
+
         generator_output = self.gen_model.generate(
-            input_ids, 
+            input_token_ids, 
             do_sample=True, 
-            max_length=len(input_ids[0]) + max_generated_token_count, 
+            max_length=input_ids_count + max_generated_token_count, 
             top_p=0.9,
             temperature=temperature,
-            bad_words_ids=bad_words_ids
+            no_repeat_ngram_size=4,
+            forced_eos_token_id=forced_eos_token_id,
+            prefix_allowed_tokens_fn=lambda x, y: self.allowed_tokens(x, y, input_ids_count, behavior, pool_token_ids, max_sentence_tokens, max_paragraph_tokens)
         )
 
         output_sample = self.gen_tokenizer.decode(generator_output[0], skip_special_tokens=True)[len(prompt):]
         return [output_sample]
+
+    def allowed_tokens(self, batch_id, previous_token_ids, input_ids_count, behavior, pool_token_ids=None, max_sentence_tokens=3, max_paragraph_tokens=1):
+        sentence_tokens = [13, 30, 0]
+        paragraph_tokens = [198, 628]
+
+        used_token_ids = previous_token_ids[input_ids_count:]
+        used_sentence_tokens_count = len([e for e in used_token_ids if e in sentence_tokens])
+        used_paragraph_tokens_count = len([e for e in used_token_ids if e in paragraph_tokens])
+        
+        if behavior in ['finish_paragraph', 'finish_sentence']:
+            if used_sentence_tokens_count > max_sentence_tokens or used_paragraph_tokens_count > max_paragraph_tokens:
+                return [self.gen_tokenizer.eos_token_id]
+
+            return range(0, 50255)
+
+        elif behavior == 'parse_arguments':
+            pool_token_ids = pool_token_ids.tolist()[0]
+            used_token_ids = used_token_ids.tolist()
+
+            return pool_token_ids + [self.gen_tokenizer.eos_token_id, 628]
+
+            if len(used_token_ids) == 0:
+                return pool_token_ids
+
+            if used_token_ids[-1] == 628:
+                return [self.gen_tokenizer.eos_token_id]
+
+            matches = self.sublist_match(pool_token_ids, used_token_ids)
+
+            if len(matches) == 0:
+                return pool_token_ids
+            else:
+                candidate_token_ids = []
+                for match in matches:
+                    if match + len(used_token_ids) < len(pool_token_ids):
+                        candidate_token_ids += [pool_token_ids[match + len(used_token_ids)]]
+
+                candidate_token_ids += [self.gen_tokenizer.eos_token_id, 628]
+
+                print(self.gen_tokenizer.decode(pool_token_ids), self.gen_tokenizer.decode(used_token_ids), self.gen_tokenizer.decode(candidate_token_ids))
+                return candidate_token_ids
+
+    def sublist_match(self, pool_token_ids, used_token_ids):
+        matches = []
+        for i in range(len(pool_token_ids)):
+            if pool_token_ids[i] == used_token_ids[0] and pool_token_ids[i:i+len(used_token_ids)] == used_token_ids:
+                matches.append(i)
+        return matches
 
     def load_models(self):
         print('Loading models...')
         self.bi_encoder = SentenceTransformer('distiluse-base-multilingual-cased-v2')
         self.pair_encoder = CrossEncoder('amberoad/bert-multilingual-passage-reranking-msmarco', max_length=512)
         self.gen_tokenizer = GPT2Tokenizer.from_pretrained('gpt2-medium')
-        self.gen_model = GPT2LMHeadModel.from_pretrained('gpt2-medium')
+        self.gen_model = GPT2LMHeadModel.from_pretrained('model')
 
     def create_cache(self):
         print('Cache file doesn\'t exist, creating a new one...')

@@ -1,0 +1,4 @@
+---
+---
+
+In [[Supervised learning assumes underlying structure|machine learning]], one often fears that [[Regularization penalizes flexibility|models learn to memorize training data]], and simply regurgitate it during training in one way or another. This criticism has been widespread for [[Language models are few-shot learners|few-shot generalization in language models]]. In this, large models which absorb more knowledge can be seen as possessing more [[Cognitive functions decline with age|crystallized intelligence]] than fluid intelligence. How can we [[Wireheading is like addiction|optimize for fluid intelligence]]?

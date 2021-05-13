@@ -16,7 +16,7 @@ output: "#1"
 		},
 		"body": JSON.stringify({
 			"prompt": `*quoted content*`,
-			"early_stopping_criterion": "finish_paragraph"
+			"behavior": "finish_paragraph"
 		})
 	});
 

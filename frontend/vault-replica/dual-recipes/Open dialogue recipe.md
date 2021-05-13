@@ -13,10 +13,8 @@ output: "#2"
 List notes about "*topic*"
 ```
 
-Questions
-
-Q: *query*
-A:
+Q: *question*
+A: 
 
 ```dual
 Generate a paragraph based on "#0"

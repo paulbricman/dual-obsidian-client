@@ -4,13 +4,13 @@
     "type": "split",
     "children": [
       {
-        "id": "cc024251ff6ff5ec",
+        "id": "b80718ecf260e51b",
         "type": "leaf",
         "state": {
           "type": "markdown",
           "state": {
-            "file": "dual-recipes/Open dialogue recipe.md",
-            "mode": "preview"
+            "file": "dummy-notes/Recent memories are malleable.md",
+            "mode": "source"
           }
         }
       }
@@ -39,10 +39,10 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "Find analo",
                 "matchingCase": false,
                 "explainSearch": false,
-                "collapseAll": false,
+                "collapseAll": true,
                 "extraContext": false,
                 "sortOrder": "alphabetical"
               }
@@ -52,7 +52,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 333.0036334991455,
+    "width": 272.0036334991455,
     "collapsed": true
   },
   "right": {
@@ -69,7 +69,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "dual-recipes/Open dialogue recipe.md",
+                "file": "dummy-notes/Recent memories are malleable.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -93,19 +93,19 @@
       }
     ],
     "direction": "horizontal",
-    "width": 327.1679992675781
+    "width": 400.1666259765625
   },
-  "active": "cc024251ff6ff5ec",
+  "active": "b80718ecf260e51b",
   "lastOpenFiles": [
+    "dummy-notes/Recent memories are malleable.md",
     "dual-recipes/Open dialogue recipe.md",
+    "dual-recipes/Question generation recipe.md",
     "dual-recipes/Generate paragraph recipe.md",
+    "dual-recipes/Complete list recipe.md",
     "dual-recipes/Find notes recipe.md",
-    "dummy-notes/Biological reward systems are malleable.md",
-    "dummy-notes/Argmin and argmax formalize optimization.md",
-    "dual-recipes/Writing prompt recipe.md",
-    "dual-recipes/Ask icon recipe.md",
-    "dual-recipes/Untitled.md",
-    "Untitled.md",
-    "dual-recipes/Technology application recipe.md"
+    "dual-recipes/Find one note recipe.md",
+    "dual-recipes/Semantic field recipe.md",
+    "dual-recipes/Technology application recipe.md",
+    "dual-recipes/Translate recipe.md"
   ]
 }

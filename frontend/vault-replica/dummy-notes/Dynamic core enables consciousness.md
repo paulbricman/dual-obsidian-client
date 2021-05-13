@@ -1,0 +1,5 @@
+---
+resource: https://mitpress.mit.edu/books/being-no-one
+---
+
+The [[Continuous-state dynamical systems share a common structure|dynamic]] core hypothesis argues that [[Phenomenal space is adaptive|conscious awareness]] is supported by [[Brains are like oceans|a chaotic neural substrate]] which only represents a minority of [[Neural activity is piano playing|neural activity]]. Specifically, the proponents of this hypothesis argue that the thalamic region is the one housing the dynamic core, as it has both high internal connectivity and is linked to sparse [[Brains are like cities|brain regions]]. What's more, the rest of [[Brain is like carrier wave, mind is like envelope|neural activity]] is argued to [[Representationism in cognition is adaptationism in evolution|represent the contents of consciousness]].

@@ -35,9 +35,8 @@ def respond_generate():
     return {
         "output": c.generate(
             request_body['prompt'],
-            request_body.get('early_stopping_criterion', None),
-            request_body.get('max_generated_token_count', 100),
-            request_body.get('attitude', 'natural')
+            request_body.get('behavior', 'finish_paragraph'),
+            request_body.get('pool', None)
         )
     }
 

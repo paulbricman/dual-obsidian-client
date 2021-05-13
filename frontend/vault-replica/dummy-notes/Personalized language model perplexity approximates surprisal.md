@@ -1,0 +1,4 @@
+---
+---
+
+If a [[Language models are few-shot learners|language model]] has been trained, fine-tuned, or [[Few-shot regime enables extreme customization|few-shot learned]] on the entirety of documents read by a [[Creative output can support educational input in free learning|learner]], then its perplexity in [[Written word is a proxy for thought|predicting the contents of a text]] are a proxy for the surprisal experienced by the [[How could learner-aware tools improve concept learning?|learner]]. Unpredictable passages are both surprising for the learner and perplexing for the language model. In this case, the language model is an approximation of the learner's own (mental) language model.

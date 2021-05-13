@@ -1,0 +1,5 @@
+---
+resource: https://mitpress.mit.edu/books/being-no-one
+---
+
+During [[Dreaming exploits idiosyncratic neural dynamics|dreaming]], planning, or [[Creativity is based on search, not generation|imagining]], we are [[Mental representations connect internal with external state|manipulating representations]] of [[Modal logic proper enables possible worlds semantics|possible worlds]]. This challenges [[Cognitive realism versus idealism|idealism]], in that it highlights the fact that [[Mental representations connect internal with external state|mental representations]] are also useful when the representandum is not an element of [[Representationism in cognition is adaptationism in evolution|the real actual world]], but of a [[Virtual reality renders abstract concepts into tangible objects|virtual one]]. Eidetic children might have not learned yet that there's a distinction between [[Perception is context-dependent|perception]] and [[Visual imagery brightness modulates pupil size|imagination]]. [[Dreaming exploits idiosyncratic neural dynamics|Dreaming]] might be an anomalous state of confounding simulations with representations.

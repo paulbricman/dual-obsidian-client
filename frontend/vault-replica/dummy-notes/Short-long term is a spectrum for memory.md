@@ -1,0 +1,5 @@
+---
+resource: https://www.ai.rug.nl/minds/uploads/LN_NN_RUG.pdf
+---
+
+Rather than having [[Meshing discretizes continuous spaces|discrete]] separate [[Memory is perception of structural artifacts|systems]] supporting [[Second brain buffer is like short-term memory|short-term]], [[Second brain contents resemble long-term memory|long-term]], [[Working memory recruits sensory areas for housing representations|working memory]] etc., the [[Brain is like hardware, mind is like software|brain]] uses a cascade of [[Memory is like a manuscript|memory systems]] at all time scales, from the millisecond-scale memory of [[Experiential scarcity fosters appreciation|Now]], to the decade-scale [[Invariant of consciousness supports fuzzy duplicates|psychological]] [[How can routine cell replacement permit psychological continuity?|continuity]].

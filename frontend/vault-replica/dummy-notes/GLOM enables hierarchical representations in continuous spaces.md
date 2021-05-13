@@ -1,0 +1,5 @@
+---
+resource: https://www.youtube.com/watch?v=cllFzkvrYmE
+---
+
+By representing a [[Tokenization for i+1 language learning is non-trivial|token]] at multiple levels of abstraction concurrently, [[Attention is representational resource allocation|from the fine structure to the coarse one, one can derive hierarchical representations]]. Elements which have [[Sum of elements represents their set in hyperdimensional computing|a lot in common]] at coarse levels might be on the same branch, only to break off at a finer level. This approach might enable consequential explanations in [[Perception is context-dependent|perception]], [[Memory is perception of structural artifacts|memory]], and [[Discrete structure embeddings in continuous space are glitchy|intelligence]].

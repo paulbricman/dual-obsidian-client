@@ -1,0 +1,4 @@
+---
+---
+
+If [[Brains are like orchestras|brain activity]] turns out to resemble a [[Manifolds formalize emergence|manifold]] [[Neuroplasticity is like protein folding|changing its structure in time]], then forgetting and childhood amnesia can be explained by the fact that memories would be coded in locations on a manifold which are currently less accessible. The [[Brain is like hardware, mind is like software|neural substrate]] itself its changing, limiting access to [[Mental representations connect internal with external state|parts of the mental space]]. However, [[How can routine cell replacement permit psychological continuity?|psychological continuity seems to survive routine cell replacement]] unscathed.

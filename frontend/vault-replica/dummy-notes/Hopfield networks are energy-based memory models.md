@@ -1,0 +1,5 @@
+---
+resource: https://www.ai.rug.nl/minds/uploads/LN_NN_RUG.pdf
+---
+
+Hopfield networks are an early attempt at building artificial [[Memory is like a manuscript|memory systems]] based on [[Neural networks merge memory and computation|neural networks]]. They are trained to shape an energy landscape so that the energy of [[Dynamical systems have a certain anatomy|states]] associated with [[Embeddings in machine learning represent prototypes informed by exemplars|prototype patterns]] are located in [[Backpropagation renders gradient descent feasible|local optima]]. When performing [[Memory can be content-based or location-based|content-based addressing]] with a [[Recovery and matching provide self-supervised signals|corrupted pattern]], the Hopfield network dynamics can converge to a [[Prototypical reasoning enriches exemplars|prototype]] based on [[Categorical perception translates in a blindspot for nuance|their basins of attraction]].
