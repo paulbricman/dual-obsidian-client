@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "dummy-notes/Recent memories are malleable.md",
+            "file": "dual-recipes/Open dialogue recipe.md",
             "mode": "source"
           }
         }
@@ -52,8 +52,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 272.0036334991455,
-    "collapsed": true
+    "width": 197
   },
   "right": {
     "id": "5d1f799a6fe86f29",
@@ -69,7 +68,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "dummy-notes/Recent memories are malleable.md",
+                "file": "dual-recipes/Open dialogue recipe.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -97,12 +96,12 @@
   },
   "active": "b80718ecf260e51b",
   "lastOpenFiles": [
-    "dummy-notes/Recent memories are malleable.md",
     "dual-recipes/Open dialogue recipe.md",
-    "dual-recipes/Question generation recipe.md",
-    "dual-recipes/Generate paragraph recipe.md",
-    "dual-recipes/Complete list recipe.md",
     "dual-recipes/Find notes recipe.md",
+    "dual-recipes/Generate paragraph recipe.md",
+    "dummy-notes/Recent memories are malleable.md",
+    "dual-recipes/Question generation recipe.md",
+    "dual-recipes/Complete list recipe.md",
     "dual-recipes/Find one note recipe.md",
     "dual-recipes/Semantic field recipe.md",
     "dual-recipes/Technology application recipe.md",

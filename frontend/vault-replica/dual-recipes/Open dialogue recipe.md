@@ -13,7 +13,7 @@ output: "#2"
 List notes about "*topic*"
 ```
 
-Q: *question*
+Q: *quoted content*
 A: 
 
 ```dual

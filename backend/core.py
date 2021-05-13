@@ -72,11 +72,11 @@ class Core:
                 max_paragraph_tokens = 0
 
         elif behavior == 'parse_arguments':
-            temperature = 0.8
-            max_generated_token_count = 100
+            temperature = 0.2
             forced_eos_token_id = None
-            max_sentence_tokens = None
-            max_paragraph_tokens = None
+            max_generated_token_count = 100
+            max_sentence_tokens = 1000
+            max_paragraph_tokens = 0
 
         generator_output = self.gen_model.generate(
             input_token_ids, 
@@ -100,38 +100,10 @@ class Core:
         used_sentence_tokens_count = len([e for e in used_token_ids if e in sentence_tokens])
         used_paragraph_tokens_count = len([e for e in used_token_ids if e in paragraph_tokens])
         
-        if behavior in ['finish_paragraph', 'finish_sentence']:
-            if used_sentence_tokens_count > max_sentence_tokens or used_paragraph_tokens_count > max_paragraph_tokens:
-                return [self.gen_tokenizer.eos_token_id]
+        if used_sentence_tokens_count > max_sentence_tokens or used_paragraph_tokens_count > max_paragraph_tokens:
+            return [self.gen_tokenizer.eos_token_id]
 
-            return range(0, 50255)
-
-        elif behavior == 'parse_arguments':
-            pool_token_ids = pool_token_ids.tolist()[0]
-            used_token_ids = used_token_ids.tolist()
-
-            return pool_token_ids + [self.gen_tokenizer.eos_token_id, 628]
-
-            if len(used_token_ids) == 0:
-                return pool_token_ids
-
-            if used_token_ids[-1] == 628:
-                return [self.gen_tokenizer.eos_token_id]
-
-            matches = self.sublist_match(pool_token_ids, used_token_ids)
-
-            if len(matches) == 0:
-                return pool_token_ids
-            else:
-                candidate_token_ids = []
-                for match in matches:
-                    if match + len(used_token_ids) < len(pool_token_ids):
-                        candidate_token_ids += [pool_token_ids[match + len(used_token_ids)]]
-
-                candidate_token_ids += [self.gen_tokenizer.eos_token_id, 628]
-
-                print(self.gen_tokenizer.decode(pool_token_ids), self.gen_tokenizer.decode(used_token_ids), self.gen_tokenizer.decode(candidate_token_ids))
-                return candidate_token_ids
+        return range(0, 50255)
 
     def sublist_match(self, pool_token_ids, used_token_ids):
         matches = []
