@@ -55,7 +55,7 @@ class Core:
         input_ids_count = len(input_token_ids[0])
 
         if pool is not None:
-            pool_token_ids = self.gen_tokenizer.encode(pool, return_tensors='pt')[-1000:]
+            pool_token_ids = self.gen_tokenizer.encode(pool + '"', return_tensors='pt')[-1000:]
         else:
             pool_token_ids = None
 
@@ -63,20 +63,22 @@ class Core:
             temperature = 0.7
             max_generated_token_count = 200
             forced_eos_token_id = 13
+            no_repeat_ngram_size = 4
 
             if behavior == 'finish_paragraph':
-                max_sentence_tokens = random.randint(1, 5)
+                max_sentence_tokens = random.randint(1, 4)
                 max_paragraph_tokens = 0
             elif behavior == 'finish_sentence':
                 max_sentence_tokens = 1
                 max_paragraph_tokens = 0
 
         elif behavior == 'parse_arguments':
-            temperature = 0.2
-            forced_eos_token_id = 628
+            temperature = 0.4
             max_generated_token_count = 100
-            max_sentence_tokens = 0
-            max_paragraph_tokens = 0
+            forced_eos_token_id = None
+            max_sentence_tokens = None
+            max_paragraph_tokens = None
+            no_repeat_ngram_size = None
 
         generator_output = self.gen_model.generate(
             input_token_ids, 
@@ -84,13 +86,14 @@ class Core:
             max_length=input_ids_count + max_generated_token_count,
             top_p=0.9,
             temperature=temperature,
-            no_repeat_ngram_size=4,
+            no_repeat_ngram_size=no_repeat_ngram_size,
             forced_eos_token_id=forced_eos_token_id,
             prefix_allowed_tokens_fn=lambda x, y: self.allowed_tokens(x, y, input_ids_count, behavior, pool_token_ids, max_sentence_tokens, max_paragraph_tokens)
         )
 
         output_sample = self.gen_tokenizer.decode(generator_output[0], skip_special_tokens=True)[len(prompt):]
         return [output_sample]
+
 
     def allowed_tokens(self, batch_id, previous_token_ids, input_ids_count, behavior, pool_token_ids=None, max_sentence_tokens=3, max_paragraph_tokens=1):
         sentence_tokens = [13, 30, 0]
@@ -99,15 +102,40 @@ class Core:
         used_token_ids = previous_token_ids[input_ids_count:]
         used_sentence_tokens_count = len([e for e in used_token_ids if e in sentence_tokens])
         used_paragraph_tokens_count = len([e for e in used_token_ids if e in paragraph_tokens])
-
-        if behavior == 'parse_arguments':
-            if len(used_token_ids) > 0 and '"' in self.gen_tokenizer.decode(used_token_ids):
+        
+        if behavior in ['finish_paragraph', 'finish_sentence']:
+            if used_sentence_tokens_count > max_sentence_tokens or used_paragraph_tokens_count > max_paragraph_tokens:
                 return [self.gen_tokenizer.eos_token_id]
 
-        if used_sentence_tokens_count > max_sentence_tokens or used_paragraph_tokens_count > max_paragraph_tokens:
-            return [self.gen_tokenizer.eos_token_id]
+            return range(0, 50255)
 
-        return range(0, 50255)
+        elif behavior == 'parse_arguments':
+            if len(used_token_ids) == 0:
+                return pool_token_ids
+
+            if '"' in self.gen_tokenizer.decode(used_token_ids):
+                return [self.gen_tokenizer.eos_token_id]
+
+            pool_token_ids = pool_token_ids.tolist()[0]
+            used_token_ids = used_token_ids.tolist()
+
+            matches = self.sublist_match(pool_token_ids, used_token_ids)
+
+            candidate_token_ids = []
+            for match in matches:
+                if match + len(used_token_ids) < len(pool_token_ids):
+                    candidate_token_ids += [pool_token_ids[match + len(used_token_ids)]]
+
+            print(self.gen_tokenizer.decode(pool_token_ids), '---', self.gen_tokenizer.decode(used_token_ids), '---', self.gen_tokenizer.decode(candidate_token_ids))
+
+            return candidate_token_ids + [1]
+
+    def sublist_match(self, pool_token_ids, used_token_ids):
+        matches = []
+        for i in range(len(pool_token_ids)):
+            if pool_token_ids[i] == used_token_ids[0] and pool_token_ids[i:i+len(used_token_ids)] == used_token_ids:
+                matches.append(i)
+        return matches
 
     def load_models(self):
         print('Loading models...')

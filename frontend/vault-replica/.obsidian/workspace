@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "dual-recipes/Open dialogue recipe.md",
+            "file": "dual-recipes/Writing prompt recipe.md",
             "mode": "source"
           }
         }
@@ -68,7 +68,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "dual-recipes/Open dialogue recipe.md",
+                "file": "dual-recipes/Writing prompt recipe.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -92,19 +92,19 @@
       }
     ],
     "direction": "horizontal",
-    "width": 400.1666259765625
+    "width": 360
   },
   "active": "b80718ecf260e51b",
   "lastOpenFiles": [
+    "dual-recipes/Writing prompt recipe.md",
+    "dual-recipes/Semantic field recipe.md",
+    "dual-recipes/Question generation recipe.md",
     "dual-recipes/Open dialogue recipe.md",
     "dual-recipes/Find notes recipe.md",
     "dual-recipes/Generate paragraph recipe.md",
     "dummy-notes/Recent memories are malleable.md",
-    "dual-recipes/Question generation recipe.md",
     "dual-recipes/Complete list recipe.md",
     "dual-recipes/Find one note recipe.md",
-    "dual-recipes/Semantic field recipe.md",
-    "dual-recipes/Technology application recipe.md",
-    "dual-recipes/Translate recipe.md"
+    "dual-recipes/Technology application recipe.md"
   ]
 }
