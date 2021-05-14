@@ -60,9 +60,9 @@ class Core:
             pool_token_ids = None
 
         if behavior in ['finish_paragraph', 'finish_sentence']:
-            temperature = 0.7
+            temperature = 0.01 #!!
             max_generated_token_count = 200
-            forced_eos_token_id = 13
+            forced_eos_token_id = None  #!!
             no_repeat_ngram_size = 4
 
             if behavior == 'finish_paragraph':
@@ -107,7 +107,7 @@ class Core:
             if used_sentence_tokens_count > max_sentence_tokens or used_paragraph_tokens_count > max_paragraph_tokens:
                 return [self.gen_tokenizer.eos_token_id]
 
-            return range(0, 50255)
+            return range(0, 50256) # !!
 
         elif behavior == 'parse_arguments':
             if len(used_token_ids) == 0:

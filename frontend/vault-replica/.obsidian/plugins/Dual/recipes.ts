@@ -190,7 +190,7 @@ export module Recipes {
 
     var content = await rawResponse.json();
     content = content["output"][0];
-    content = content.split('"')[0]; // TWEAK
+    content = content.split('"')[0];
     
     return content;
   }
@@ -399,6 +399,9 @@ second concept: "virus"
 
 query: What is evolution?
 query: "What is evolution?"
+
+query: Come up with a fitting term for an indicator of robot cuteness
+description: "an indicator of robot cuteness"
 
 query: What's the connection between the brain and a stadium?
 query: "What's the connection between the brain and a stadium?" 
