@@ -173,7 +173,8 @@ export module Recipes {
     }
 
     var prompt: string =
-      getIngredientPrompt + query + "\n" + placeholder + ': "';
+      demoPrompt + query + " => \"";
+    console.log(prompt)
 
     const rawResponse = await fetch("http://127.0.0.1:5000/generate/", {
       method: "POST",
@@ -407,4 +408,67 @@ query: What's the connection between the brain and a stadium?
 query: "What's the connection between the brain and a stadium?" 
 
 query: `;
+
+const demoPrompt: string = `Identify the person mentioned in the sentences below:
+
+Einstein, what is relativity? => "Einstein"
+
+Nietzsche, what is your philosophy all about? => " Nietzsche"
+
+What shoud I do in this situation, Aristotle? => " Aristotle"
+
+What does architecture mean for you, Le Corbusier? => "Le Corbusier"
+
+Tell me, Gauss, how can I solve this? => "Gauss"
+
+What does mathematics mean for you, Geoffrey Hinton? => " Geoffrey Hinton"
+
+Carl Sagan, how would you describe this phenomenon? => " Carl Sagan"
+
+Issac Newton, how would you describe this phenomenon? => "Isaac Newton"
+
+I'm wondering, Asimov, what's the future like? => "Asimov"
+
+Hey Euler, what is the most beautiful formula in mathematics? => " Euler"
+
+`;
 }
+
+/*
+Come up with an application of blockchain in marketing => "blockchain"
+
+What would be an interesting application of virtual reality in tourism? => "virtual reality"
+
+Tell me an application of Internet of Things in transportation => "Internet of Things"
+
+Come up with an application of self-driving cars in tourism => "self-driving cars"
+
+
+
+
+Extract the first concept from each sentence below:
+
+Combine the concepts life and toaster => "life"
+
+Mix the concepts garden and books => " garden"
+
+Merge the concepts freedom and derivative => " freedom"
+
+Combine the words perception and robot => "perception"
+
+Merge the concepts refraction and sound pattern => "refraction"
+
+Combine the words autonomic arousal and neurons => " autonomic arousal"
+
+Blend the words evolution and planets => " evolution"
+
+Mix the concepts compound interest and intelligence => " compound interest"
+
+Blend the concepts collaboration and mathematics => "collaboration"
+
+Combine the concepts surface and flass => "surface" 
+
+Combine the concepts mind and machine => "mind"
+
+
+*/

@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "dual-recipes/Writing prompt recipe.md",
+            "file": "dual-recipes/Ask icon recipe.md",
             "mode": "source"
           }
         }
@@ -52,8 +52,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 197,
-    "collapsed": true
+    "width": 197
   },
   "right": {
     "id": "5d1f799a6fe86f29",
@@ -69,7 +68,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "dual-recipes/Writing prompt recipe.md",
+                "file": "dual-recipes/Ask icon recipe.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -93,10 +92,13 @@
       }
     ],
     "direction": "horizontal",
-    "width": 360
+    "width": 360,
+    "collapsed": true
   },
   "active": "b80718ecf260e51b",
   "lastOpenFiles": [
+    "dual-recipes/Ask icon recipe.md",
+    "dual-recipes/Technology application recipe.md",
     "dual-recipes/Writing prompt recipe.md",
     "dual-recipes/Semantic field recipe.md",
     "dual-recipes/Question generation recipe.md",
@@ -104,8 +106,6 @@
     "dual-recipes/Find notes recipe.md",
     "dual-recipes/Generate paragraph recipe.md",
     "dummy-notes/Recent memories are malleable.md",
-    "dual-recipes/Complete list recipe.md",
-    "dual-recipes/Find one note recipe.md",
-    "dual-recipes/Technology application recipe.md"
+    "dual-recipes/Complete list recipe.md"
   ]
 }

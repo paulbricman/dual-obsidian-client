@@ -89,7 +89,7 @@ class SampleSettingTab extends PluginSettingTab {
         .setButtonText("TEST")
         .setClass("mod-cta")
         .onClick(async () => {
-          console.log(await Recipes.getIngredient("What are some possible applications of virtual reality?", "technology"))
+          console.log(await Recipes.getIngredient("I was thing about this lately quite a lot. Where does life come from, Mr. Dawkins?", "technology"))
         })
     );
 
