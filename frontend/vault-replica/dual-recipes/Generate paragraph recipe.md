@@ -21,6 +21,6 @@ output: "#1"
 	});
 
 	var content = await rawResponse.json();
-	return content["output"][0];
+	return content["result"][0];
 })();
 ```

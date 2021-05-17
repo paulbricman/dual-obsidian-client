@@ -23,6 +23,6 @@ output: "#1"
 	});
 
 	var content = await rawResponse.json();
-	return content["output"].join('\n\n');
+	return content["result"].join('\n\n');
 })();
 ```

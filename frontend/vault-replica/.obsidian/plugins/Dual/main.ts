@@ -8,7 +8,7 @@ import {
 } from "obsidian";
 import ChatView from "view";
 import { Utils } from "utils";
-import { Recipes } from "recipes";
+import { Skills } from "skills";
 
 interface MyPluginSettings {
   customName: string;
@@ -89,7 +89,7 @@ class SampleSettingTab extends PluginSettingTab {
         .setButtonText("TEST")
         .setClass("mod-cta")
         .onClick(async () => {
-          console.log(await Recipes.getIngredient("I was thing about this lately quite a lot. Where does life come from, Mr. Dawkins?", "technology"))
+          console.log(await Skills.getArg("I was thing about this lately quite a lot. Where does life come from, Mr. Dawkins?", "technology"))
         })
     );
 

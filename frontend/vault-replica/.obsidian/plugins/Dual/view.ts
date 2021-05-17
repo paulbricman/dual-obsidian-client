@@ -1,5 +1,5 @@
 import { ItemView, WorkspaceLeaf, Notice, TextAreaComponent } from "obsidian";
-import { Recipes } from "recipes";
+import { Skills } from "skills";
 
 export default class ChatView extends ItemView {
   customName = "";
@@ -36,7 +36,7 @@ export default class ChatView extends ItemView {
         }
       });
 
-      Recipes.runCommand(this.app, input.value).then((response: any) => {
+      Skills.followCommand(this.app, input.value).then((response: any) => {
         response.split("\n\n").forEach((res: string) => {
           this.drawMessage(res, "left");
         });

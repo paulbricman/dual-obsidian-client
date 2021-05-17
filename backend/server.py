@@ -6,19 +6,18 @@ app = Flask(__name__)
 cors = CORS(app)
 c = Core()
 
-
 @app.route('/extract/', methods=['POST'])
 @cross_origin()
 def respond_extract():
     request_body = request.get_json(force=True)
 
     if 'query' not in request_body.keys() or 'documents' not in request_body.keys():
-        return 'Specify both a query and a list of documents'
+        return 'Specify both a command and a list of documents'
 
     return {
-        "output": c.extract(
-            request_body['query'],
-            request_body['documents'],
+        'result': c.extract(
+            query=request_body['query'],
+            documents=request_body['documents'],
             selected_candidates=request_body.get('selected_candidates', 5),
             return_documents=request_body.get('return_documents', False)
         )
@@ -33,10 +32,10 @@ def respond_generate():
         return 'Specify a prompt'
 
     return {
-        "output": c.generate(
-            request_body['prompt'],
-            request_body.get('behavior', 'finish_paragraph'),
-            request_body.get('pool', None)
+        'result': c.generate(
+            prompt=request_body['prompt'],
+            behavior=request_body.get('behavior', 'finish_paragraph'),
+            pool=request_body.get('pool', None)
         )
     }
 

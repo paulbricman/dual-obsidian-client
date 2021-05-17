@@ -10,7 +10,7 @@ output: "#2"
 ---
 
 ```dual
-List notes about "*topic*"
+List notes about "*query*"
 ```
 
 Q: *query*

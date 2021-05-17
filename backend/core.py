@@ -72,7 +72,7 @@ class Core:
                 max_sentence_tokens = 1
                 max_paragraph_tokens = 0
 
-        elif behavior == 'parse_arguments':
+        elif behavior == 'parse_args':
             temperature = 0.4
             max_generated_token_count = 100
             forced_eos_token_id = None
@@ -109,7 +109,7 @@ class Core:
 
             return range(0, 50255)
 
-        elif behavior == 'parse_arguments':
+        elif behavior == 'parse_args':
             if len(used_token_ids) == 0:
                 return pool_token_ids
 

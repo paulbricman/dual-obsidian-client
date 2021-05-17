@@ -1,37 +1,37 @@
 import { App } from "obsidian";
 import { Utils } from "utils";
 
-export module Recipes {
+export module Skills {
 
-  // Returns final response to a query 
-  export async function runCommand(app: App, query: string) {
-    var recipePath = await matchQuery(app, query);
-    console.log('FOLLOWING', recipePath, 'USING', query)
-    var output = followRecipe(app, recipePath, query);
+  // Returns result of following a command 
+  export async function followCommand(app: App, command: string) {
+    var skillPath = await matchCommand(app, command);
+    console.log('FOLLOWING', command, 'USING', skillPath);
+    var result = useSkill(app, skillPath, command);
 
-    return output
+    return result
   }
 
-  // Follows a specific recipe using a certain query
-  export async function followRecipe(app: App, path: string, query: string) {
-    var recipeContents: string = await getRecipeContents(app, path);
-    var outputPattern: string = await getOutputPattern(app, path);
-    recipeContents = removeFrontMatter(recipeContents)
+  // Uses a skill when following a command
+  export async function useSkill(app: App, skillPath: string, command: string) {
+    var skillContents: string = await getSkillContents(app, skillPath);
+    var resultPattern: string = await getResultPattern(app, skillPath);
+    skillContents = removeFrontMatter(skillContents)
 
-    var placeholders: string[] = await getPlaceholders(app, recipeContents);
-    var ingredients: string[] = await getIngredients(query, placeholders);
-    recipeContents = resolvePlaceholders(recipeContents, placeholders, ingredients);
+    var params: string[] = await getParams(app, skillContents);
+    var args: string[] = await getArgs(command, params);
+    skillContents = resolveParams(skillContents, params, args);
 
-    var codeBlocks = detectCodeBlocks(recipeContents)
-    var [splitBlockList, blockTypes] = splitBlocks(recipeContents, codeBlocks)
+    var codeBlocks = detectCodeBlocks(skillContents)
+    var [splitBlockList, blockTypes] = splitBlocks(skillContents, codeBlocks)
     var [splitBlockList, textSoFar] = await interpretBlocks(app, splitBlockList, blockTypes)
     
-    var output = resolveOutputReferences(splitBlockList, textSoFar, outputPattern)
-    var outputPlaceholders: string[] = await getPlaceholders(app, output);
-    var outputIngredients: string[] = await getIngredients(query, outputPlaceholders);
-    output = resolvePlaceholders(output, outputPlaceholders, outputIngredients);
+    var result = resolveResultReferences(splitBlockList, textSoFar, resultPattern)
+    var resultParams: string[] = await getParams(app, result);
+    var resultArgs: string[] = await getArgs(command, resultParams);
+    result = resolveParams(result, resultParams, resultArgs);
 
-    return output
+    return result
   }
 
   // Walk through blocks and take actions based on them
@@ -51,7 +51,7 @@ export module Recipes {
           textSoFar = textSoFar.concat(splitBlocks[index]);
           break;
         case "dual":
-          splitBlocks[index] = await runCommand(app, newText);
+          splitBlocks[index] = await followCommand(app, newText);
           textSoFar = textSoFar.concat(splitBlocks[index] + " ");
       }
     }
@@ -64,19 +64,20 @@ export module Recipes {
     return eval(toEval);
   };
 
-  // Fill in "#N" structures in recipe output based on reference code block output
-  export function resolveOutputReferences(splitBlocks: string[], textSoFar: string, outputPattern: string) {
-    outputPattern = outputPattern.replace("#0", textSoFar)
+  // Fill in "#N" structures in skill result based on reference code block result
+  export function resolveResultReferences(splitBlocks: string[], textSoFar: string, resultPattern: string) {
+    resultPattern = resultPattern.replace("#0", textSoFar)
 
     for (let referencedCodeBlock = 1; referencedCodeBlock <= 10; referencedCodeBlock++) {
-      outputPattern = outputPattern.replace("#" + referencedCodeBlock, splitBlocks[referencedCodeBlock * 2 - 1])
+      resultPattern = resultPattern.replace("#" + referencedCodeBlock, splitBlocks[referencedCodeBlock * 2 - 1])
     }
 
-    return outputPattern;
+    return resultPattern;
   }
 
-  // Fill in "#N" structures in recipe body based on reference code block output
+  // Fill in "#N" structures in skill body based on reference code block result
   export function resolveBodyReferences(splitBlocks: string[], reachedIndex: number, textSoFar: string) {
+    // change numbering scheme to include text blocks?
     var newText = splitBlocks[reachedIndex].trim() + " ";
     newText = newText.replace("#0", textSoFar)
 
@@ -132,47 +133,46 @@ export module Recipes {
     return res;
   }
 
-  // Get list of ingredient names mentioned in a recipe
-  export async function getPlaceholders(app: App, recipeContents: string) {
+  // Get list of parameters mentioned in a skill
+  export async function getParams(app: App, skillContents: string) {
     var re = /\*[^\*]*\*/g;
-    var placeholders = recipeContents.match(re);
+    var params = skillContents.match(re);
 
-    if (placeholders != null) {
-      placeholders.forEach((val, index, placeholders) => {
-        placeholders[index] = val.substring(1, val.length - 1);
+    if (params != null) {
+      params.forEach((val, index, params) => {
+        params[index] = val.substring(1, val.length - 1);
       });
 
-      return placeholders;
+      return params;
     }
 
     return []
   }
 
-  // Parse ingredients from the query
-  export async function getIngredients(
-    query: string,
-    placeholders: string[]
+  // Parse arguments from the command
+  export async function getArgs(
+    command: string,
+    params: string[]
   ) {
-    var ingredients: string[] = [],
-      res;
+    var args: string[] = [], res;
 
-    for (let index = 0; index < placeholders.length; index++) {
-      res = await getIngredient(query, placeholders[index]);
-      ingredients = ingredients.concat(res);
+    for (let index = 0; index < params.length; index++) {
+      res = await getArg(command, params[index]);
+      args = args.concat(res);
     }
 
-    return ingredients;
+    return args;
   }
 
-  // Parse one ingredient from the query
-  export async function getIngredient(query: string, placeholder: string) {
-    if (placeholder == "quoted content") {
-      var ingredient = RegExp(/"[\s\S]*"/g).exec(query)[0]
-      ingredient = ingredient.substring(1, ingredient.length - 1)
-      return ingredient
+  // Parse one argument from the command
+  export async function getArg(command: string, param: string) {
+    if (param == "quoted content") {
+      var argument = RegExp(/"[\s\S]*"/g).exec(command)[0]
+      argument = argument.substring(1, argument.length - 1)
+      return argument
     }
 
-    var prompt: string = getIngredientPrompt + query + "\n" + placeholder + ": \"";
+    var prompt: string = getArgPrompt + command + "\n" + param + ": \"";
     console.log(prompt)
 
     const rawResponse = await fetch("http://127.0.0.1:5000/generate/", {
@@ -183,19 +183,19 @@ export module Recipes {
       },
       body: JSON.stringify({
         prompt: prompt,
-        behavior: "parse_arguments",
-        pool: query
+        behavior: "parse_args",
+        pool: command
       }),
     });
 
     var content = await rawResponse.json();
-    content = content["output"][0];
+    content = content["result"][0];
     content = content.split('"')[0];
     
     return content;
   }
 
-  // Get two parallel lists of query examples and the paths they originate from
+  // Get two parallel lists of command examples and the paths they originate from
   export function getExamples(app: App) {
     var examples: string[] = [];
     var paths: string[] = [];
@@ -214,19 +214,19 @@ export module Recipes {
     return [examples, paths];
   }
 
-  // Get contents of a recipe at a path
-  export async function getRecipeContents(app: App, path: string) {
+  // Get contents of a skill at a path
+  export async function getSkillContents(app: App, skillPath: string) {
     var markdownFiles = app.vault.getMarkdownFiles();
 
     for (let index = 0; index < markdownFiles.length; index++) {
-      if (markdownFiles[index].path == path) {
+      if (markdownFiles[index].path == skillPath) {
         return await app.vault.cachedRead(markdownFiles[index]);
       }
     }
   }
 
-  // Get output pattern of a recipe at a path
-  export async function getOutputPattern(app: App, path: string) {
+  // Get result pattern of a skill at a path
+  export async function getResultPattern(app: App, path: string) {
     var markdownFiles = app.vault.getMarkdownFiles();
 
     for (let index = 0; index < markdownFiles.length; index++) {
@@ -238,9 +238,9 @@ export module Recipes {
     }
   }
 
-  // Find closest recipe to a given query through examples
-  export async function matchQuery(app: App, query: string) {
-    query = query.replace(/"[\s\S]*"/, '""')
+  // Find closest skill to a given command through examples
+  export async function matchCommand(app: App, command: string) {
+    command = command.replace(/"[\s\S]*"/, '""')
     var examplePathPairs = getExamples(app);
     var examples = examplePathPairs[0],
       paths = examplePathPairs[1];
@@ -252,29 +252,29 @@ export module Recipes {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        query: query,
+        query: command,
         documents: examples,
         selected_candidates: 1,
       }),
     });
 
     var content = await rawResponse.json();
-    return paths[content["output"][0]];
+    return paths[content["result"][0]];
   }
 
-  // Substitute placeholders with ingredients in a recipe
-  export function resolvePlaceholders(recipeContents: string, placeholders: string[], ingredients: string[]) {
-    for (let index = 0; index < placeholders.length; index++) {
-        var re = RegExp("\\*" + placeholders[index] + "\\*", "g")
-        recipeContents = recipeContents.replace(re, ingredients[index])
+  // Substitute parameters with arguments in a skill
+  export function resolveParams(skillContents: string, params: string[], args: string[]) {
+    for (let index = 0; index < params.length; index++) {
+        var re = RegExp("\\*" + params[index] + "\\*", "g")
+        skillContents = skillContents.replace(re, args[index])
     }
 
-    return recipeContents
+    return skillContents
   }
 
-  export function removeFrontMatter(recipeContents: string) {
-    recipeContents = recipeContents.replace(/---[\s\S]*---/g, "")
-    return recipeContents.trim() 
+  export function removeFrontMatter(skillContents: string) {
+    skillContents = skillContents.replace(/---[\s\S]*---/g, "")
+    return skillContents.trim() 
   }
 
   export async function getNotes(app: App) {
@@ -292,7 +292,7 @@ export module Recipes {
     return notes
   }
 
-const getIngredientPrompt: string = `query: Come up with a writing prompt about aliens and robots.
+  const getArgPrompt: string = `query: Come up with a writing prompt about aliens and robots.
 topic: "aliens and robots"
 
 query: Einstein, what is general relativity?
