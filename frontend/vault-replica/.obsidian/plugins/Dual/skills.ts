@@ -196,22 +196,31 @@ export module Skills {
   }
 
   // Get two parallel lists of command examples and the paths they originate from
-  export function getExamples(app: App) {
-    var examples: string[] = [];
-    var paths: string[] = [];
+  export function getCommandExamples(app: App) {
+    var commandExamples: string[] = [];
+    var skillPaths: string[] = [];
+    var commandExampleParameter: string;
 
     app.vault.getMarkdownFiles().forEach((file) => {
-      if (file.path.startsWith("dual-recipes")) {
+      if (file.path.startsWith("skillset")) {
+        commandExampleParameter = Object.keys(app.metadataCache
+          .getFileCache(file)
+          .frontmatter[0])[0]
+
         app.metadataCache
           .getFileCache(file)
-          .frontmatter["examples"].forEach((example: string) => {
-            examples = examples.concat(example);
-            paths = paths.concat(file.path);
-          });
-      }
-    });
+          .frontmatter
+          .forEach((val: any, index: any, array: any) => {
+            if (commandExampleParameter in val) {
+              commandExamples = commandExamples.concat(val[commandExampleParameter])
+              skillPaths = skillPaths.concat(file.path)
+            }
+          })
 
-    return [examples, paths];
+        }
+      });
+      
+    return [commandExamples, skillPaths];
   }
 
   // Get contents of a skill at a path
@@ -233,15 +242,16 @@ export module Skills {
       if (markdownFiles[index].path == path) {
         return app.metadataCache
           .getFileCache(markdownFiles[index])
-          .frontmatter["output"]
+          .frontmatter["result"]
       }
     }
   }
 
   // Find closest skill to a given command through examples
   export async function matchCommand(app: App, command: string) {
+    // Hide quoted content from command matching
     command = command.replace(/"[\s\S]*"/, '""')
-    var examplePathPairs = getExamples(app);
+    var examplePathPairs = getCommandExamples(app);
     var examples = examplePathPairs[0],
       paths = examplePathPairs[1];
 
@@ -282,7 +292,7 @@ export module Skills {
     var notes: string[] = [];
 
     for (let index = 0; index < markdownFiles.length; index++) {
-      if (!markdownFiles[index].path.startsWith('dual-recipes')) {
+      if (!markdownFiles[index].path.startsWith('skillset')) {
         var note = await app.vault.cachedRead(markdownFiles[index]);
         note = Utils.removeMd(note, {});
         notes.push(note);

@@ -1,8 +1,7 @@
 ---
-examples:
-  - "Find concepts related to something"
-  - "List words related to this thing"
-output: "#1"
+- command: Find concepts related to something
+- command: List words related to this thing
+- result: "#1"
 ---
 
 - Those concepts are related to atom: electron, proton, particle, nucleus.

@@ -89,7 +89,7 @@ class SampleSettingTab extends PluginSettingTab {
         .setButtonText("TEST")
         .setClass("mod-cta")
         .onClick(async () => {
-          console.log(await Skills.getArg("I was thing about this lately quite a lot. Where does life come from, Mr. Dawkins?", "technology"))
+          console.log(Skills.getCommandExamples(this.app));
         })
     );
 

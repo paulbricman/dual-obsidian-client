@@ -1,7 +1,6 @@
 ---
-examples:
-  - "Translate \"This is a sentence\""
-output: "#1"
+- command: Translate "This is a sentence"
+- result: "#1"
 ---
 
 Translate Dutch to English:

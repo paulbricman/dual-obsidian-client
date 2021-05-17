@@ -1,9 +1,8 @@
 ---
-examples:
-  - "Find a single note about something."
-  - "Get one note about \"a subject\"!"
-  - "Search for a single note on something."
-output: "#1"
+- command: Find a single note about something.
+- command: Get one note about "a subject"!
+- command: Search for a single note on something.
+- result: "#1"
 ---
 
 ```js

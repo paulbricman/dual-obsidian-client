@@ -1,9 +1,8 @@
 ---
-examples:
-  - "Come up with an application of AI in programming."
-  - "What would be an interesting application of virtual reality in tourism?"
-  - "Tell me an application of Internet of Things in transportation"
-output: "One idea could be:#1"
+- command: Come up with an application of AI in programming.
+- command: What would be an interesting application of virtual reality in tourism?
+- command: Tell me an application of Internet of Things in transportation
+- result: "#1"
 ---
 
 - AI in programming: Autocomplete for arbitrary code as the programmer is working, based on language models fine-tuned on code.

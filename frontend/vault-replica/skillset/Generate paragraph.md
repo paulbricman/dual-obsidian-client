@@ -1,9 +1,8 @@
 ---
-examples:
-  - "Generate a paragraph based on \"something\"."
-  - "Come up with a paragraph based on \"some text\""
-  - "Generate one paragraph based on \"The ultimate answer is:\""
-output: "#1"
+- command: Generate a paragraph based on "something"
+- command: Come up with a paragraph based on "some text"
+- command: Generate one paragraph based on "This is the answer:"
+- result: "#1"
 ---
 
 ```js

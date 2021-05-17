@@ -1,9 +1,8 @@
 ---
-examples:
-  - "Ask me something about something else."
-  - "Test me on this topic"
-  - "Ask me a question on a subject"
-output: "#2"
+- command: Ask me something about something else.
+- command: Test me on this topic
+- command: Ask me a question on a subject
+- result: "#2"
 ---
 
 ```dual

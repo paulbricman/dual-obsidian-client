@@ -1,9 +1,8 @@
 ---
-examples:
-  - "List notes about something."
-  - "Enumerate notes about \"a subject\"!"
-  - "Search for personal notes on something."
-output: "#1"
+- command: List notes about something.
+- command: Enumerate notes about "a subject"!
+- command: Search for personal notes on something.
+- result: "#1"
 ---
 
 ```js
