@@ -137,7 +137,7 @@ export module Skills {
 
   // Get list of parameters mentioned in a skill
   export async function getParams(app: App, skillContents: string) {
-    var re = /\*[^\*]*\*/g;
+    var re = /\*[a-zA-Z0-9\s]*\*/g;
     var params = skillContents.match(re);
 
     if (params != null) {
@@ -165,11 +165,13 @@ export module Skills {
 
   // Parse one argument from the command
   export async function getArg(app: App, command: string, param: string, skillMetadata: any) {
+    /*
     if (param == "quoted content") {
       var argument = RegExp(/"[\s\S]*"/g).exec(command)[0]
       argument = argument.substring(1, argument.length - 1)
       return argument
     }
+    */
 
     if (param == Object.keys(skillMetadata[0])[0]) {
       return command
