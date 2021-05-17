@@ -1,7 +1,10 @@
 ---
-- command: List notes about something.
-- command: Enumerate notes about "a subject"!
-- command: Search for personal notes on something.
+- command: List notes about evolution.
+  topic: evolution
+- command: Enumerate notes about "What is life?"!
+  topic: life
+- command: Search for personal notes on virtual assistants.
+  topic: virtual assistants
 - result: "#1"
 ---
 

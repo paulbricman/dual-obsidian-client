@@ -1,7 +1,10 @@
 ---
 - command: Generate a paragraph based on "something"
+  quoted content: something
 - command: Come up with a paragraph based on "some text"
-- command: Generate one paragraph based on "This is the answer:"
+  quoted content: some text
+- command: Generate one paragraph based on "The answer is "
+  quoted content: The answer is
 - result: "#1"
 ---
 

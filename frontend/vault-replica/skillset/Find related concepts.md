@@ -1,6 +1,8 @@
 ---
-- command: Find concepts related to something
-- command: List words related to this thing
+- command: Find concepts related to atom
+  topic: atom
+- command: List words related to sleeping
+  topic: sleeping
 - result: "#1"
 ---
 

@@ -15,11 +15,13 @@ export module Skills {
   // Uses a skill when following a command
   export async function useSkill(app: App, skillPath: string, command: string) {
     var skillContents: string = await getSkillContents(app, skillPath);
-    var resultPattern: string = await getResultPattern(app, skillPath);
+    var skillMetadata: any = await getSkillMetadata(app, skillPath);
+    var resultPattern: string = await getResultPattern(skillMetadata);
     skillContents = removeFrontMatter(skillContents)
 
     var params: string[] = await getParams(app, skillContents);
-    var args: string[] = await getArgs(command, params);
+    var args: string[] = await getArgs(app, command, params, skillMetadata);
+    console.log(params, args)
     skillContents = resolveParams(skillContents, params, args);
 
     var codeBlocks = detectCodeBlocks(skillContents)
@@ -28,7 +30,7 @@ export module Skills {
     
     var result = resolveResultReferences(splitBlockList, textSoFar, resultPattern)
     var resultParams: string[] = await getParams(app, result);
-    var resultArgs: string[] = await getArgs(command, resultParams);
+    var resultArgs: string[] = await getArgs(app, command, resultParams, skillMetadata);
     result = resolveParams(result, resultParams, resultArgs);
 
     return result
@@ -150,14 +152,11 @@ export module Skills {
   }
 
   // Parse arguments from the command
-  export async function getArgs(
-    command: string,
-    params: string[]
-  ) {
+  export async function getArgs(app: App, command: string, params: string[], skillMetadata: any) {
     var args: string[] = [], res;
 
     for (let index = 0; index < params.length; index++) {
-      res = await getArg(command, params[index]);
+      res = await getArg(app, command, params[index], skillMetadata);
       args = args.concat(res);
     }
 
@@ -165,15 +164,18 @@ export module Skills {
   }
 
   // Parse one argument from the command
-  export async function getArg(command: string, param: string) {
+  export async function getArg(app: App, command: string, param: string, skillMetadata: any) {
     if (param == "quoted content") {
       var argument = RegExp(/"[\s\S]*"/g).exec(command)[0]
       argument = argument.substring(1, argument.length - 1)
       return argument
     }
 
-    var prompt: string = getArgPrompt + command + "\n" + param + ": \"";
-    console.log(prompt)
+    if (param == Object.keys(skillMetadata[0])[0]) {
+      return command
+    }
+
+    var prompt: string = getParamPrompt(app, command, param, skillMetadata);
 
     const rawResponse = await fetch("http://127.0.0.1:5000/generate/", {
       method: "POST",
@@ -195,15 +197,41 @@ export module Skills {
     return content;
   }
 
+  export function getParamPrompt(app: App, command: string, param: string, skillMetadata: any) {
+    var commandParam: string;
+    var prompt: string;
+
+    // TODO do ablation
+    prompt = "Extract " + param + " from the following:\n\n"
+
+    commandParam = Object.keys(skillMetadata[0])[0];
+
+    skillMetadata
+      .forEach((val: any, index: any, array: any) => {
+        if (commandParam in val && param in val) {
+          if (Math.random() >= 0.5) {
+            prompt += val[commandParam] + " => \"" + val[param] + "\"\n\n"
+          } else {
+            prompt += val[commandParam] + " => \" " + val[param] + "\"\n\n"
+          }
+        }
+      })
+
+    prompt += command + " => \"";
+
+    console.log(prompt)
+    return prompt
+  }
+
   // Get two parallel lists of command examples and the paths they originate from
   export function getCommandExamples(app: App) {
     var commandExamples: string[] = [];
     var skillPaths: string[] = [];
-    var commandExampleParameter: string;
+    var commandExampleParam: string;
 
     app.vault.getMarkdownFiles().forEach((file) => {
       if (file.path.startsWith("skillset")) {
-        commandExampleParameter = Object.keys(app.metadataCache
+        commandExampleParam = Object.keys(app.metadataCache
           .getFileCache(file)
           .frontmatter[0])[0]
 
@@ -211,8 +239,8 @@ export module Skills {
           .getFileCache(file)
           .frontmatter
           .forEach((val: any, index: any, array: any) => {
-            if (commandExampleParameter in val) {
-              commandExamples = commandExamples.concat(val[commandExampleParameter])
+            if (commandExampleParam in val) {
+              commandExamples = commandExamples.concat(val[commandExampleParam])
               skillPaths = skillPaths.concat(file.path)
             }
           })
@@ -234,17 +262,30 @@ export module Skills {
     }
   }
 
-  // Get result pattern of a skill at a path
-  export async function getResultPattern(app: App, path: string) {
-    var markdownFiles = app.vault.getMarkdownFiles();
-
-    for (let index = 0; index < markdownFiles.length; index++) {
-      if (markdownFiles[index].path == path) {
-        return app.metadataCache
+    // Get metadata of a skill at a path
+    export async function getSkillMetadata(app: App, skillPath: string) {
+      var markdownFiles = app.vault.getMarkdownFiles();
+  
+      for (let index = 0; index < markdownFiles.length; index++) {
+        if (markdownFiles[index].path == skillPath) {
+          return app.metadataCache
           .getFileCache(markdownFiles[index])
-          .frontmatter["result"]
+          .frontmatter;
+        }
       }
     }
+
+  // Get result pattern of a skill at a path
+  export async function getResultPattern(skillMetadata: any) {
+    var fields = Object.entries(skillMetadata)
+
+    for (let index = 0; index < fields.length; index++) {
+        if ("result" in fields[index][1]) {
+          return fields[index][1]["result"]
+        }
+      }
+
+    return "NO RESULT";
   }
 
   // Find closest skill to a given command through examples

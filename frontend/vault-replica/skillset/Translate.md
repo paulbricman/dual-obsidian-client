@@ -1,5 +1,6 @@
 ---
 - command: Translate "This is a sentence"
+  quoted content: This is a sentence
 - result: "#1"
 ---
 

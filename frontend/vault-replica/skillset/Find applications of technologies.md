@@ -1,7 +1,13 @@
 ---
 - command: Come up with an application of AI in programming.
+  technology: AI
+  field: programming
 - command: What would be an interesting application of virtual reality in tourism?
+  technology: virtual reality
+  field: tourism
 - command: Tell me an application of Internet of Things in transportation
+  technology: Internet of Things
+  field: transportation
 - result: "#1"
 ---
 

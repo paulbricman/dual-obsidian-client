@@ -1,7 +1,10 @@
 ---
 - command: Come up with a writing prompt about aliens.
+  topic: aliens
 - command: Suggest me a writing prompt about space!
+  topic: space
 - command: Tell me what would be a nice writing prompt about robots.
+  topic: robots
 - result: "#1"
 ---
 

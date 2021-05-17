@@ -8,10 +8,10 @@
 ---
 
 ```dual
-List notes about "*query*"
+Find one note about "*question*"
 ```
 
-Q: *query*
+Q: *question*
 A: 
 
 ```dual

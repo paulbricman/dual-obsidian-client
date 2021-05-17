@@ -1,7 +1,14 @@
 ---
-- command: Find a single note about something.
-- command: Get one note about "a subject"!
-- command: Search for a single note on something.
+- command: Get one note about evolution.
+  topic: evolution
+- command: Find a note about "What is life?"
+  topic: life
+- command: Search for one note on virtual assistants.
+  topic: virtual assistants
+- command: Find one note about physics
+  topic: physics
+- command: Search for a note about autonomic arousal
+  topic: autonomic arousal
 - result: "#1"
 ---
 
