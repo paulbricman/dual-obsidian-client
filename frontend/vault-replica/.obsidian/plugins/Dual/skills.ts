@@ -70,7 +70,7 @@ export class SkillManager {
 
   // Fill in "#N" structures in skill body based on reference code block result
   resolveBodyReferences(splitBlocks: string[], blockTypes: string[], reachedIndex: number, textSoFar: string) {
-    var newText = splitBlocks[reachedIndex].trim() + " ";
+    var newText = splitBlocks[reachedIndex];
     newText = newText.replace("#0", textSoFar)
 
     for (let referencedCodeBlock = 1; referencedCodeBlock <= reachedIndex; referencedCodeBlock++) {
@@ -118,10 +118,6 @@ export class SkillManager {
         codeBlocks[indexFuture]["end"] -= splitBlockList[2 * index].length + codeBlocks[index]["end"] - codeBlocks[index]["start"];
       }
     }
-
-    splitBlockList.forEach((val, index, arr) => {
-      arr[index] = val.trim() + " ";
-    })
 
     return [splitBlockList, blockTypes]
   }

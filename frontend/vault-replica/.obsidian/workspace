@@ -4,7 +4,7 @@
     "type": "split",
     "children": [
       {
-        "id": "b80718ecf260e51b",
+        "id": "23282d852d02ebf8",
         "type": "leaf",
         "state": {
           "type": "markdown",
@@ -52,7 +52,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 335
+    "width": 335,
+    "collapsed": true
   },
   "right": {
     "id": "5d1f799a6fe86f29",
@@ -92,19 +93,19 @@
       }
     ],
     "direction": "horizontal",
-    "width": 294
+    "width": 277.03778076171875
   },
-  "active": "b80718ecf260e51b",
+  "active": "23282d852d02ebf8",
   "lastOpenFiles": [
     "skillset/Calculate.md",
-    "skillset/Dummy.md",
-    "skillset/Answer open questions.md",
-    "skillset/Translate.md",
     "skillset/Generate writing prompt.md",
-    "skillset/Generate question.md",
+    "skillset/Answer open questions.md",
     "skillset/Generate paragraph.md",
-    "skillset/Find related concepts.md",
+    "skillset/Dummy.md",
+    "Untitled.md",
+    "skillset/Find notes.md",
+    "skillset/Find applications of technologies.md",
     "skillset/Find one note.md",
-    "skillset/Find notes.md"
+    "skillset/Find related concepts.md"
   ]
 }

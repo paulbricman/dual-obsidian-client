@@ -8,6 +8,7 @@
 (async () => {
     var prompt = RegExp(/"[\s\S]*"/g).exec(`*command*`)[0]
     prompt = prompt.substring(1, prompt.length - 1)
+	prompt = prompt.trimRight()
 	
 	const rawResponse = await fetch("http://127.0.0.1:5000/generate/", {
 		"method": "POST",
