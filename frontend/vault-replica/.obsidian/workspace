@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "skillset/Calculate.md",
+            "file": "skillset/Generate paragraph.md",
             "mode": "source"
           }
         }
@@ -52,8 +52,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 335,
-    "collapsed": true
+    "width": 335
   },
   "right": {
     "id": "5d1f799a6fe86f29",
@@ -69,7 +68,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "skillset/Calculate.md",
+                "file": "skillset/Generate paragraph.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -93,14 +92,14 @@
       }
     ],
     "direction": "horizontal",
-    "width": 277.03778076171875
+    "width": 346.9999694824219
   },
   "active": "23282d852d02ebf8",
   "lastOpenFiles": [
+    "skillset/Generate paragraph.md",
     "skillset/Calculate.md",
     "skillset/Generate writing prompt.md",
     "skillset/Answer open questions.md",
-    "skillset/Generate paragraph.md",
     "skillset/Dummy.md",
     "Untitled.md",
     "skillset/Find notes.md",

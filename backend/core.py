@@ -95,15 +95,21 @@ class Core:
         return [output_sample]
 
 
-    def allowed_tokens(self, batch_id, previous_token_ids, input_ids_count, behavior, pool_token_ids=None, max_sentence_tokens=3, max_paragraph_tokens=1):
-        sentence_tokens = [13, 30, 0]
-        paragraph_tokens = [198, 628]
-
-        used_token_ids = previous_token_ids[input_ids_count:]
-        used_sentence_tokens_count = len([e for e in used_token_ids if e in sentence_tokens])
-        used_paragraph_tokens_count = len([e for e in used_token_ids if e in paragraph_tokens])
-        
+    def allowed_tokens(self, batch_id, previous_token_ids, input_ids_count, behavior, pool_token_ids=None, max_sentence_tokens=3, max_paragraph_tokens=1):        
         if behavior in ['finish_paragraph', 'finish_sentence']:
+            sentence_tokens = [13, 30, 0]
+            paragraph_tokens = [198, 628]
+
+            used_token_ids = previous_token_ids[input_ids_count:]
+
+            clean_used = self.gen_tokenizer.decode(used_token_ids)
+            clean_used = re.sub(r'\.[a-zA-Z0-9]*\.', '', clean_used)
+            clean_used = re.sub(r'[0-9]\.[0-9]*', '', clean_used)
+            clean_used = self.gen_tokenizer(clean_used)
+
+            used_sentence_tokens_count = len([e for e in clean_used if e in sentence_tokens])
+            used_paragraph_tokens_count = len([e for e in clean_used if e in paragraph_tokens])
+
             if used_sentence_tokens_count > max_sentence_tokens or used_paragraph_tokens_count > max_paragraph_tokens:
                 return [self.gen_tokenizer.eos_token_id]
 
