@@ -8,7 +8,7 @@
 ---
 
 ```dual
-Find one note about "*question*"
+List notes about "*question*"
 ```
 
 Q: *question*

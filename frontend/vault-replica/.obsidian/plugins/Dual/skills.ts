@@ -21,7 +21,6 @@ export module Skills {
 
     var params: string[] = await getParams(app, skillContents);
     var args: string[] = await getArgs(app, command, params, skillMetadata);
-    console.log(params, args)
     skillContents = resolveParams(skillContents, params, args);
 
     var codeBlocks = detectCodeBlocks(skillContents)
@@ -165,14 +164,6 @@ export module Skills {
 
   // Parse one argument from the command
   export async function getArg(app: App, command: string, param: string, skillMetadata: any) {
-    /*
-    if (param == "quoted content") {
-      var argument = RegExp(/"[\s\S]*"/g).exec(command)[0]
-      argument = argument.substring(1, argument.length - 1)
-      return argument
-    }
-    */
-
     if (param == Object.keys(skillMetadata[0])[0]) {
       return command
     }
@@ -221,7 +212,7 @@ export module Skills {
 
     prompt += command + " => \"";
 
-    console.log(prompt)
+    //console.log(prompt)
     return prompt
   }
 
@@ -230,6 +221,7 @@ export module Skills {
     var commandExamples: string[] = [];
     var skillPaths: string[] = [];
     var commandExampleParam: string;
+    var newCommandExample: string;
 
     app.vault.getMarkdownFiles().forEach((file) => {
       if (file.path.startsWith("skillset")) {
@@ -242,13 +234,24 @@ export module Skills {
           .frontmatter
           .forEach((val: any, index: any, array: any) => {
             if (commandExampleParam in val) {
-              commandExamples = commandExamples.concat(val[commandExampleParam])
+              newCommandExample = val[commandExampleParam]
+
+              Object.entries(val)
+                .forEach((field, fieldIndex, fieldArray) => {
+                  if (fieldIndex > 0) {
+                    newCommandExample = newCommandExample.replace(field[1], " ___ ")
+                  }
+                })
+
+              commandExamples = commandExamples.concat(newCommandExample)
               skillPaths = skillPaths.concat(file.path)
             }
           })
 
         }
       });
+
+    console.log(commandExamples)
       
     return [commandExamples, skillPaths];
   }
