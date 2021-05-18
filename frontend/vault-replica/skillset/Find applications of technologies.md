@@ -8,7 +8,6 @@
 - command: Tell me an application of Internet of Things in transportation
   technology: Internet of Things
   field: transportation
-- result: "#1"
 ---
 
 - AI in programming: Autocomplete for arbitrary code as the programmer is working, based on language models fine-tuned on code.

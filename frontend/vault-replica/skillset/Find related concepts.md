@@ -3,7 +3,6 @@
   topic: atom
 - command: List words related to sleeping
   topic: sleeping
-- result: "#1"
 ---
 
 - Those concepts are related to atom: electron, proton, particle, nucleus.

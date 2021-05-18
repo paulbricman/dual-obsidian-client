@@ -5,7 +5,6 @@
   topic: thermodynamics
 - command: Ask me a question on theories of attention
   topic: theories of attention  
-- result: "#2"
 ---
 
 ```dual

@@ -37,8 +37,8 @@ export default class ChatView extends ItemView {
       });
 
       var skillManager = new SkillManager(this.app);
-      skillManager.followCommand(input.value).then((response: any) => {
-        response.split("\n\n").forEach((res: string) => {
+      skillManager.followCommand(input.value).then((response: string) => {
+        response.toString().split("\n\n").forEach((res: string) => {
           this.drawMessage(res, "left");
         });
 

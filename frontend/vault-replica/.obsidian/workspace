@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "skillset/Answer open questions.md",
+            "file": "skillset/Calculate.md",
             "mode": "source"
           }
         }
@@ -68,7 +68,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "skillset/Answer open questions.md",
+                "file": "skillset/Calculate.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -92,19 +92,19 @@
       }
     ],
     "direction": "horizontal",
-    "width": 360
+    "width": 294
   },
   "active": "b80718ecf260e51b",
   "lastOpenFiles": [
+    "skillset/Calculate.md",
+    "skillset/Dummy.md",
     "skillset/Answer open questions.md",
-    "skillset/Find notes.md",
-    "skillset/Find one note.md",
-    "skillset/Generate paragraph.md",
+    "skillset/Translate.md",
     "skillset/Generate writing prompt.md",
     "skillset/Generate question.md",
+    "skillset/Generate paragraph.md",
     "skillset/Find related concepts.md",
-    "skillset/Find applications of technologies.md",
-    "skillset/Dummy.md",
-    "Untitled.md"
+    "skillset/Find one note.md",
+    "skillset/Find notes.md"
   ]
 }

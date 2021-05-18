@@ -5,7 +5,6 @@
   topic: life
 - command: Search for personal notes on virtual assistants.
   topic: virtual assistants
-- result: "#1"
 ---
 
 ```js

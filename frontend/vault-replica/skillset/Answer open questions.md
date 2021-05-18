@@ -4,7 +4,6 @@
 - question: How can something do that?
 - question: When was this established?
 - question: Where does this show up?
-- result: "#2"
 ---
 
 ```dual

@@ -9,7 +9,6 @@
   topic: physics
 - command: Search for a note about autonomic arousal
   topic: autonomic arousal
-- result: "#1"
 ---
 
 ```js

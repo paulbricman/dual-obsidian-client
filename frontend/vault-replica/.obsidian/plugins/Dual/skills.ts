@@ -24,8 +24,6 @@ export class SkillManager {
   async useSkill(skillPath: string, command: string) {
     await this.loadSkillContents(skillPath);
     this.loadSkillMetadata(skillPath);
-
-    var resultPattern: string = await this.getResultPattern();
     this.removeFrontMatter()
 
     var params: string[] = await this.getParams(this.skillContents);
@@ -35,12 +33,8 @@ export class SkillManager {
     var codeBlocks = this.detectCodeBlocks()
     var [splitBlockList, blockTypes] = this.splitBlocks(codeBlocks)
     var [splitBlockList, textSoFar] = await this.interpretBlocks(splitBlockList, blockTypes)
-    
-    var result = this.resolveResultReferences(splitBlockList, textSoFar, resultPattern)
-    var resultParams: string[] = await this.getParams(result);
-    var resultArgs: string[] = await this.getArgs(command, resultParams);
-    result = this.resolveParams(result, resultParams, resultArgs);
 
+    var result = this.getLastBlock(splitBlockList)
     return result
   }
 
@@ -49,7 +43,7 @@ export class SkillManager {
     var newText, textSoFar: string = "";
 
     for (let index = 0; index < splitBlocks.length; index++) {
-      newText = this.resolveBodyReferences(splitBlocks, index, textSoFar)
+      newText = this.resolveBodyReferences(splitBlocks, blockTypes, index, textSoFar)
       splitBlocks[index] = newText
       
       switch (blockTypes[index]) {
@@ -74,28 +68,36 @@ export class SkillManager {
     return eval(toEval);
   };
 
-  // Fill in "#N" structures in skill result based on reference code block result
-   resolveResultReferences(splitBlocks: string[], textSoFar: string, resultPattern: string) {
-    resultPattern = resultPattern.replace("#0", textSoFar)
-
-    for (let referencedCodeBlock = 1; referencedCodeBlock <= 10; referencedCodeBlock++) {
-      resultPattern = resultPattern.replace("#" + referencedCodeBlock, splitBlocks[referencedCodeBlock * 2 - 1])
-    }
-
-    return resultPattern;
-  }
-
   // Fill in "#N" structures in skill body based on reference code block result
-  resolveBodyReferences(splitBlocks: string[], reachedIndex: number, textSoFar: string) {
-    // change numbering scheme to include text blocks?
+  resolveBodyReferences(splitBlocks: string[], blockTypes: string[], reachedIndex: number, textSoFar: string) {
     var newText = splitBlocks[reachedIndex].trim() + " ";
     newText = newText.replace("#0", textSoFar)
 
-    for (let referencedCodeBlock = 1; referencedCodeBlock <= reachedIndex / 2; referencedCodeBlock++) {
-      newText = newText.replace("#" + referencedCodeBlock, splitBlocks[referencedCodeBlock * 2 - 1])
+    for (let referencedCodeBlock = 1; referencedCodeBlock <= reachedIndex; referencedCodeBlock++) {
+      if (newText.includes("#" + referencedCodeBlock)) {
+        var remainingCodeBlocks = referencedCodeBlock;
+
+        for (let blockIndex = 0; blockIndex < splitBlocks.length && remainingCodeBlocks > 0; blockIndex++) {
+          if (splitBlocks[blockIndex].toString().trim() != "" || blockTypes[blockIndex] != "text") {
+            remainingCodeBlocks--;
+          }
+
+          if (remainingCodeBlocks == 0) {
+            newText = newText.replace("#" + referencedCodeBlock, splitBlocks[blockIndex])
+          }
+        }
+      }
     }
 
     return newText;
+  }
+
+  getLastBlock(splitBlocks: string[]) {
+    for (let blockIndex = splitBlocks.length - 1; blockIndex > 0; blockIndex--) {
+      if (splitBlocks[blockIndex].toString().trim() != "") {
+        return splitBlocks[blockIndex]
+      }
+    }
   }
 
   // Get list of all blocks with type and contents
@@ -283,19 +285,6 @@ export class SkillManager {
         .frontmatter;
       }
     }
-  }
-
-  // Get result pattern of a skill at a path
-  async getResultPattern() {
-    var fields = Object.entries(this.skillMetadata)
-
-    for (let index = 0; index < fields.length; index++) {
-        if ("result" in fields[index][1]) {
-          return fields[index][1]["result"]
-        }
-      }
-
-    return "NO RESULT";
   }
 
   // Find closest skill to a given command through examples
