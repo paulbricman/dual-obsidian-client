@@ -1,46 +1,55 @@
-import { App } from "obsidian";
+import { App, FrontMatterCache } from "obsidian";
 import { Utils } from "utils";
 
-export module Skills {
+export class SkillManager {
+
+  app: App;
+  skillMetadata: FrontMatterCache;
+  skillContents: string;
+
+  constructor(app: App) {
+    this.app = app;
+  }
 
   // Returns result of following a command 
-  export async function followCommand(app: App, command: string) {
-    var skillPath = await matchCommand(app, command);
+  async followCommand(command: string) {
+    var skillPath = await this.matchCommand(command);
     console.log('FOLLOWING', command, 'USING', skillPath);
-    var result = useSkill(app, skillPath, command);
+    var result = this.useSkill(skillPath, command);
 
     return result
   }
 
   // Uses a skill when following a command
-  export async function useSkill(app: App, skillPath: string, command: string) {
-    var skillContents: string = await getSkillContents(app, skillPath);
-    var skillMetadata: any = await getSkillMetadata(app, skillPath);
-    var resultPattern: string = await getResultPattern(skillMetadata);
-    skillContents = removeFrontMatter(skillContents)
+  async useSkill(skillPath: string, command: string) {
+    await this.loadSkillContents(skillPath);
+    this.loadSkillMetadata(skillPath);
 
-    var params: string[] = await getParams(app, skillContents);
-    var args: string[] = await getArgs(app, command, params, skillMetadata);
-    skillContents = resolveParams(skillContents, params, args);
+    var resultPattern: string = await this.getResultPattern();
+    this.removeFrontMatter()
 
-    var codeBlocks = detectCodeBlocks(skillContents)
-    var [splitBlockList, blockTypes] = splitBlocks(skillContents, codeBlocks)
-    var [splitBlockList, textSoFar] = await interpretBlocks(app, splitBlockList, blockTypes)
+    var params: string[] = await this.getParams(this.skillContents);
+    var args: string[] = await this.getArgs(command, params);
+    this.skillContents = this.resolveParams(this.skillContents, params, args);
+
+    var codeBlocks = this.detectCodeBlocks()
+    var [splitBlockList, blockTypes] = this.splitBlocks(codeBlocks)
+    var [splitBlockList, textSoFar] = await this.interpretBlocks(splitBlockList, blockTypes)
     
-    var result = resolveResultReferences(splitBlockList, textSoFar, resultPattern)
-    var resultParams: string[] = await getParams(app, result);
-    var resultArgs: string[] = await getArgs(app, command, resultParams, skillMetadata);
-    result = resolveParams(result, resultParams, resultArgs);
+    var result = this.resolveResultReferences(splitBlockList, textSoFar, resultPattern)
+    var resultParams: string[] = await this.getParams(result);
+    var resultArgs: string[] = await this.getArgs(command, resultParams);
+    result = this.resolveParams(result, resultParams, resultArgs);
 
     return result
   }
 
   // Walk through blocks and take actions based on them
-  export async function interpretBlocks(app: App, splitBlocks: string[], blockTypes: string[]): Promise<[string[], string]> {
+  async interpretBlocks(splitBlocks: string[], blockTypes: string[]): Promise<[string[], string]> {
     var newText, textSoFar: string = "";
 
     for (let index = 0; index < splitBlocks.length; index++) {
-      newText = resolveBodyReferences(splitBlocks, index, textSoFar)
+      newText = this.resolveBodyReferences(splitBlocks, index, textSoFar)
       splitBlocks[index] = newText
       
       switch (blockTypes[index]) {
@@ -48,11 +57,11 @@ export module Skills {
           textSoFar = textSoFar.concat(newText);
           break;
         case "js":
-          splitBlocks[index] = await waitEval(app, splitBlocks[index]);
+          splitBlocks[index] = await this.waitEval(splitBlocks[index]);
           textSoFar = textSoFar.concat(splitBlocks[index]);
           break;
         case "dual":
-          splitBlocks[index] = await followCommand(app, newText);
+          splitBlocks[index] = await this.followCommand(newText);
           textSoFar = textSoFar.concat(splitBlocks[index] + " ");
       }
     }
@@ -61,12 +70,12 @@ export module Skills {
   }
 
   // Wait for eval wrapper
-  export async function waitEval(app: App, toEval: string): Promise<string> {
+  async waitEval(toEval: string): Promise<string> {
     return eval(toEval);
   };
 
   // Fill in "#N" structures in skill result based on reference code block result
-  export function resolveResultReferences(splitBlocks: string[], textSoFar: string, resultPattern: string) {
+   resolveResultReferences(splitBlocks: string[], textSoFar: string, resultPattern: string) {
     resultPattern = resultPattern.replace("#0", textSoFar)
 
     for (let referencedCodeBlock = 1; referencedCodeBlock <= 10; referencedCodeBlock++) {
@@ -77,7 +86,7 @@ export module Skills {
   }
 
   // Fill in "#N" structures in skill body based on reference code block result
-  export function resolveBodyReferences(splitBlocks: string[], reachedIndex: number, textSoFar: string) {
+  resolveBodyReferences(splitBlocks: string[], reachedIndex: number, textSoFar: string) {
     // change numbering scheme to include text blocks?
     var newText = splitBlocks[reachedIndex].trim() + " ";
     newText = newText.replace("#0", textSoFar)
@@ -90,8 +99,8 @@ export module Skills {
   }
 
   // Get list of all blocks with type and contents
-  export function splitBlocks(recipeContents: string, codeBlocks: [codeBlock: {"type": string, "contents": string, "start": number, "end": number}]) {
-    var splitBlockList = [recipeContents], blockTypes = ["text"];
+  splitBlocks(codeBlocks: [codeBlock: {"type": string, "contents": string, "start": number, "end": number}]) {
+    var splitBlockList = [this.skillContents], blockTypes = ["text"];
 
     for (let index = 0; index < codeBlocks.length; index++) {
       splitBlockList.push(codeBlocks[index]["contents"])
@@ -116,11 +125,11 @@ export module Skills {
   }
 
   // Get a list of code blocks with details
-  export function detectCodeBlocks(recipeContents: string) {
+  detectCodeBlocks() {
     var m, res: any = [], re = RegExp(/\`\`\`(?<type>\w+)(?<contents>(?:\`[^\`]|[^\`])*)\`\`\`/, "g")
 
     do {
-        m = re.exec(recipeContents);
+        m = re.exec(this.skillContents);
         if (m) {
             res = res.concat({
                 type: m["groups"]["type"],
@@ -135,9 +144,9 @@ export module Skills {
   }
 
   // Get list of parameters mentioned in a skill
-  export async function getParams(app: App, skillContents: string) {
+  async getParams(document: string) {
     var re = /\*[a-zA-Z0-9\s]*\*/g;
-    var params = skillContents.match(re);
+    var params = document.match(re);
 
     if (params != null) {
       params.forEach((val, index, params) => {
@@ -151,11 +160,11 @@ export module Skills {
   }
 
   // Parse arguments from the command
-  export async function getArgs(app: App, command: string, params: string[], skillMetadata: any) {
+  async getArgs(command: string, params: string[]) {
     var args: string[] = [], res;
 
     for (let index = 0; index < params.length; index++) {
-      res = await getArg(app, command, params[index], skillMetadata);
+      res = await this.getArg(command, params[index]);
       args = args.concat(res);
     }
 
@@ -163,12 +172,12 @@ export module Skills {
   }
 
   // Parse one argument from the command
-  export async function getArg(app: App, command: string, param: string, skillMetadata: any) {
-    if (param == Object.keys(skillMetadata[0])[0]) {
+  async getArg(command: string, param: string) {
+    if (param == Object.keys(this.skillMetadata[0])[0]) {
       return command
     }
 
-    var prompt: string = getParamPrompt(app, command, param, skillMetadata);
+    var prompt: string = this.getParamPrompt(command, param);
 
     const rawResponse = await fetch("http://127.0.0.1:5000/generate/", {
       method: "POST",
@@ -190,16 +199,16 @@ export module Skills {
     return content;
   }
 
-  export function getParamPrompt(app: App, command: string, param: string, skillMetadata: any) {
+  getParamPrompt(command: string, param: string) {
     var commandParam: string;
     var prompt: string;
 
     // TODO do ablation
     prompt = "Extract " + param + " from the following:\n\n"
 
-    commandParam = Object.keys(skillMetadata[0])[0];
+    commandParam = Object.keys(this.skillMetadata[0])[0];
 
-    skillMetadata
+    this.skillMetadata
       .forEach((val: any, index: any, array: any) => {
         if (commandParam in val && param in val) {
           if (Math.random() >= 0.5) {
@@ -211,25 +220,23 @@ export module Skills {
       })
 
     prompt += command + " => \"";
-
-    //console.log(prompt)
     return prompt
   }
 
   // Get two parallel lists of command examples and the paths they originate from
-  export function getCommandExamples(app: App) {
+  getCommandExamples() {
     var commandExamples: string[] = [];
     var skillPaths: string[] = [];
     var commandExampleParam: string;
     var newCommandExample: string;
 
-    app.vault.getMarkdownFiles().forEach((file) => {
+    this.app.vault.getMarkdownFiles().forEach((file) => {
       if (file.path.startsWith("skillset")) {
-        commandExampleParam = Object.keys(app.metadataCache
+        commandExampleParam = Object.keys(this.app.metadataCache
           .getFileCache(file)
           .frontmatter[0])[0]
 
-        app.metadataCache
+        this.app.metadataCache
           .getFileCache(file)
           .frontmatter
           .forEach((val: any, index: any, array: any) => {
@@ -250,39 +257,37 @@ export module Skills {
 
         }
       });
-
-    console.log(commandExamples)
       
     return [commandExamples, skillPaths];
   }
 
   // Get contents of a skill at a path
-  export async function getSkillContents(app: App, skillPath: string) {
-    var markdownFiles = app.vault.getMarkdownFiles();
+  async loadSkillContents(skillPath: string) {
+    var markdownFiles = this.app.vault.getMarkdownFiles();
 
     for (let index = 0; index < markdownFiles.length; index++) {
       if (markdownFiles[index].path == skillPath) {
-        return await app.vault.cachedRead(markdownFiles[index]);
+        this.skillContents = await this.app.vault.cachedRead(markdownFiles[index]);
       }
     }
   }
 
     // Get metadata of a skill at a path
-    export async function getSkillMetadata(app: App, skillPath: string) {
-      var markdownFiles = app.vault.getMarkdownFiles();
-  
-      for (let index = 0; index < markdownFiles.length; index++) {
-        if (markdownFiles[index].path == skillPath) {
-          return app.metadataCache
-          .getFileCache(markdownFiles[index])
-          .frontmatter;
-        }
+  loadSkillMetadata(skillPath: string) {
+    var markdownFiles = this.app.vault.getMarkdownFiles();
+
+    for (let index = 0; index < markdownFiles.length; index++) {
+      if (markdownFiles[index].path == skillPath) {
+        this.skillMetadata = this.app.metadataCache
+        .getFileCache(markdownFiles[index])
+        .frontmatter;
       }
     }
+  }
 
   // Get result pattern of a skill at a path
-  export async function getResultPattern(skillMetadata: any) {
-    var fields = Object.entries(skillMetadata)
+  async getResultPattern() {
+    var fields = Object.entries(this.skillMetadata)
 
     for (let index = 0; index < fields.length; index++) {
         if ("result" in fields[index][1]) {
@@ -294,10 +299,10 @@ export module Skills {
   }
 
   // Find closest skill to a given command through examples
-  export async function matchCommand(app: App, command: string) {
+  async matchCommand(command: string) {
     // Hide quoted content from command matching
     command = command.replace(/"[\s\S]*"/, '""')
-    var examplePathPairs = getCommandExamples(app);
+    var examplePathPairs = this.getCommandExamples();
     var examples = examplePathPairs[0],
       paths = examplePathPairs[1];
 
@@ -319,27 +324,26 @@ export module Skills {
   }
 
   // Substitute parameters with arguments in a skill
-  export function resolveParams(skillContents: string, params: string[], args: string[]) {
+  resolveParams(document: string, params: string[], args: string[]) {
     for (let index = 0; index < params.length; index++) {
         var re = RegExp("\\*" + params[index] + "\\*", "g")
-        skillContents = skillContents.replace(re, args[index])
+        document = document.replace(re, args[index])
     }
 
-    return skillContents
+    return document;
   }
 
-  export function removeFrontMatter(skillContents: string) {
-    skillContents = skillContents.replace(/---[\s\S]*---/g, "")
-    return skillContents.trim() 
+  removeFrontMatter() {
+    this.skillContents = this.skillContents.replace(/---[\s\S]*---/g, "")
   }
 
-  export async function getNotes(app: App) {
-    var markdownFiles = app.vault.getMarkdownFiles();
+  async getNotes() {
+    var markdownFiles = this.app.vault.getMarkdownFiles();
     var notes: string[] = [];
 
     for (let index = 0; index < markdownFiles.length; index++) {
       if (!markdownFiles[index].path.startsWith('skillset')) {
-        var note = await app.vault.cachedRead(markdownFiles[index]);
+        var note = await this.app.vault.cachedRead(markdownFiles[index]);
         note = Utils.removeMd(note, {});
         notes.push(note);
       }
@@ -347,120 +351,4 @@ export module Skills {
 
     return notes
   }
-
-  const getArgPrompt: string = `query: Come up with a writing prompt about aliens and robots.
-topic: "aliens and robots"
-
-query: Einstein, what is general relativity?
-person: "Einstein"
-
-query: Come up with a fitting term for a metaphor which bridges disparate fields.
-description: "a metaphor which bridges disparate fields"
-
-query: Write a Python query which reverses the contents of a list.
-description: "reverses the contents of a list"
-
-query: How could one operationalize working memory capacity?
-concept: "working memory capacity"
-
-query: What specific operations should I perform to model an airplane in Blender?
-object: "airplane"
-
-query: How can first-order logic be used in AI?
-query: "How can first-order logic be used in AI?"
-
-query: What's the connection between a bridge and a metaphor?
-query: "What's the connection between a bridge and a metaphor?"
-
-query: What would be a useful analogy for understanding pupillometry?
-concept: "pupillometry"
-
-query: What are some possible applications of brain-computer interfaces?
-technology: "brain-computer interfaces"
-
-query: How can I say "sprandel" in Romanian?
-language: "Romanian"
-
-query: What's the relation between neuroscience and dynamical systems?
-query: "What's the relation between neuroscience and dynamical systems?"
-
-query: How would a school look like in Victorian London?
-context: "Victorian London"
-
-query: Translate "Ik ben een olifant" in English
-target language: "English"
-
-query: What is the role of genetic material?
-query: "What is the role of genetic material?"
-
-query: Come up with a setting for a science fiction book.
-genre: "science fiction"
-
-query: What is autonomic arousal?
-query: "What is autonomic arousal?"
-
-query: Try to come up with an exercise on thermodynamics.
-subject: "thermodynamics"
-
-query: What's the difference between realism and idealism?
-query: "What's the difference between realism and idealism?"
-
-query: Come up with a parallel for: neuron, brain.
-sequence: "neuron, brain"
-
-query: Darwin, what is the origin of species?
-person: "Darwin"
-
-query: Blue is to color as circle is to...
-query: "Blue is to color as circle is to..."
-
-query: What is the meaning of life?
-query: "What is the meaning of life?"
-
-query: Mix the concepts brain and science
-first concept: "brain"
-
-query: How can we build artificial general intelligence?
-query: "How can we build artificial general intelligence?"
-
-query: Isaac Asimov, come up with a writing prompt about space exploration.
-person: "Isaac Asimov"
-
-query: Why is consciousness a thing?
-query: "Why is consciousness a thing?"
-
-query: A bowl is to a soup as
-query: "A bowl is to a soup as"
-
-query: How can a conversational interface be used?
-query: "How can a conversational interface be used?"
-
-query: Merge the concepts human and chaos.
-second concept: "chaos"
-
-query: How can version control help
-query: "How can version control help?"
-
-query: A tree is to a bark as a person is to...
-query: "A tree is to a bark as a person is to..."
-
-query: Come up with an analogy for: sun, planet, solar system
-sequence: "sun, planet, solar system"
-
-query: Look for notes about pupillometry.
-topic: "pupillometry"
-
-query: Combine the concepts computer and virus.
-second concept: "virus"
-
-query: What is evolution?
-query: "What is evolution?"
-
-query: Come up with a fitting term for an indicator of robot cuteness
-description: "an indicator of robot cuteness"
-
-query: What's the connection between the brain and a stadium?
-query: "What's the connection between the brain and a stadium?" 
-
-query: `;
 }

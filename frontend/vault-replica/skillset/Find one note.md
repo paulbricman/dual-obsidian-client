@@ -22,7 +22,7 @@
 		},
 		"body": JSON.stringify({
 			"query": "*topic*",
-			"documents": await getNotes(app),
+			"documents": await this.getNotes(),
 			"selected_candidates": 1,
 			"return_documents": true
 		})

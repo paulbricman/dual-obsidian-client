@@ -10,7 +10,7 @@
 
 ```js
 (async () => {
-	const rawResponse = await fetch("http://127.0.0.1:5000/extract/", {
+    const rawResponse = await fetch("http://127.0.0.1:5000/extract/", {
 		"method": "POST",
 		"headers": {
 			"Accept": "application/json",
@@ -18,7 +18,7 @@
 		},
 		"body": JSON.stringify({
 			"query": "*topic*",
-			"documents": await getNotes(app),
+			"documents": await this.getNotes(),
 			"selected_candidates": 3,
 			"return_documents": true
 		})

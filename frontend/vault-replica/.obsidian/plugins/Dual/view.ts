@@ -1,5 +1,5 @@
 import { ItemView, WorkspaceLeaf, Notice, TextAreaComponent } from "obsidian";
-import { Skills } from "skills";
+import { SkillManager } from "skills";
 
 export default class ChatView extends ItemView {
   customName = "";
@@ -36,7 +36,8 @@ export default class ChatView extends ItemView {
         }
       });
 
-      Skills.followCommand(this.app, input.value).then((response: any) => {
+      var skillManager = new SkillManager(this.app);
+      skillManager.followCommand(input.value).then((response: any) => {
         response.split("\n\n").forEach((res: string) => {
           this.drawMessage(res, "left");
         });

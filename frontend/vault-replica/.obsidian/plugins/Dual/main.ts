@@ -8,7 +8,7 @@ import {
 } from "obsidian";
 import ChatView from "view";
 import { Utils } from "utils";
-import { Skills } from "skills";
+import { SkillManager } from "skills";
 
 interface MyPluginSettings {
   customName: string;
@@ -89,7 +89,8 @@ class SampleSettingTab extends PluginSettingTab {
         .setButtonText("TEST")
         .setClass("mod-cta")
         .onClick(async () => {
-          console.log(Skills.getCommandExamples(this.app));
+          var skillManager = new SkillManager(this.app);
+          console.log(skillManager.getCommandExamples());
         })
     );
 

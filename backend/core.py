@@ -21,7 +21,7 @@ class Core:
         else:
             self.load_cache()
 
-    def extract(self, query, documents, considered_candidates=50, selected_candidates=5, second_pass=True, return_documents=False):  
+    def extract(self, query, documents, considered_candidates=20, selected_candidates=5, second_pass=True, return_documents=False):  
         selected_candidates = min(selected_candidates, considered_candidates)
 
         # Encode novel documents
