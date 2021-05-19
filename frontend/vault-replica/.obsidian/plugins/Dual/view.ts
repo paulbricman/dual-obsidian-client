@@ -149,6 +149,8 @@ export default class ChatView extends ItemView {
     p.style.borderRadius = "5px";
     p.style.lineHeight = "18px";
     p.style.padding = "5px";
+    p.style.marginTop = "10px";
+    p.style.marginBottom = "0px";
 
     if (side == "right") {
       p.style.backgroundColor = "var(--background-primary)";
@@ -156,11 +158,13 @@ export default class ChatView extends ItemView {
       p.style.backgroundColor = "var(--background-secondary)";
     }
 
-    p.style.width = "90%";
-    p.style.position = "relative";
+    p.style.display = "inline-block";
+    p.style.clear = "both";
 
     if (side == "right") {
-      p.style.left = "10%";
+      p.style.float = "right";
+    } else {
+      p.style.float = "left";
     }
 
     conversationDiv.scrollBy(0, 1000);

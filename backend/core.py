@@ -95,12 +95,12 @@ class Core:
         return [output_sample]
 
 
-    def allowed_tokens(self, batch_id, previous_token_ids, input_ids_count, behavior, pool_token_ids=None, max_sentence_tokens=3, max_paragraph_tokens=1):        
+    def allowed_tokens(self, batch_id, previous_token_ids, input_ids_count, behavior, pool_token_ids=None, max_sentence_tokens=3, max_paragraph_tokens=1):       
+        used_token_ids = previous_token_ids[input_ids_count:]
+
         if behavior in ['finish_paragraph', 'finish_sentence']:
             sentence_tokens = [13, 30, 0]
             paragraph_tokens = [198, 628]
-
-            used_token_ids = previous_token_ids[input_ids_count:]
 
             clean_used = self.gen_tokenizer.decode(used_token_ids)
             clean_used = re.sub(r'\.[a-zA-Z0-9]*\.', '', clean_used)

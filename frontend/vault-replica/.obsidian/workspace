@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "skillset/Generate paragraph.md",
+            "file": "skillset/Answer open questions.md",
             "mode": "source"
           }
         }
@@ -52,7 +52,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 335
+    "width": 335,
+    "collapsed": true
   },
   "right": {
     "id": "5d1f799a6fe86f29",
@@ -68,7 +69,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "skillset/Generate paragraph.md",
+                "file": "skillset/Answer open questions.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -92,17 +93,17 @@
       }
     ],
     "direction": "horizontal",
-    "width": 346.9999694824219
+    "width": 300.9999694824219
   },
   "active": "23282d852d02ebf8",
   "lastOpenFiles": [
-    "skillset/Generate paragraph.md",
-    "skillset/Calculate.md",
-    "skillset/Generate writing prompt.md",
     "skillset/Answer open questions.md",
+    "skillset/Calculate.md",
+    "skillset/Find notes.md",
+    "skillset/Generate paragraph.md",
+    "skillset/Generate writing prompt.md",
     "skillset/Dummy.md",
     "Untitled.md",
-    "skillset/Find notes.md",
     "skillset/Find applications of technologies.md",
     "skillset/Find one note.md",
     "skillset/Find related concepts.md"

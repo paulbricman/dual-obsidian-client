@@ -4,6 +4,7 @@ import {
   Plugin,
   PluginSettingTab,
   Setting,
+  View,
   Workspace,
 } from "obsidian";
 import ChatView from "view";
@@ -89,8 +90,7 @@ class SampleSettingTab extends PluginSettingTab {
         .setButtonText("TEST")
         .setClass("mod-cta")
         .onClick(async () => {
-          var skillManager = new SkillManager(this.app);
-          console.log(skillManager.getCommandExamples());
+          alert('Testing')
         })
     );
 
