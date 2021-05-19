@@ -1,4 +1,4 @@
-import { ItemView, WorkspaceLeaf, Notice, TextAreaComponent } from "obsidian";
+import { ItemView, WorkspaceLeaf, Notice, TextAreaComponent, MarkdownRenderer, Component } from "obsidian";
 import { SkillManager } from "skills";
 
 export default class ChatView extends ItemView {
@@ -25,6 +25,11 @@ export default class ChatView extends ItemView {
     let input = <HTMLInputElement>document.getElementById("dual-input-box");
     let replied = false;
 
+    this.drawMessage("This *text* contains a [link](https://obsidian.md/)", "right")
+    this.drawMessage("**Short one!**", "left")
+    this.drawMessage("- bullet points?\n- let's hope", "right")
+    this.drawMessage("Let's try our luck with a table\n\n| person | link |\n|---|---|\n| person1 | link1 |\n|person2|link2|", "left")
+    /*
     if (input.value != "") {
       this.drawMessage(input.value, "right");
 
@@ -48,6 +53,7 @@ export default class ChatView extends ItemView {
 
       input.value = "";
     }
+    */
   }
 
   async makeRequest(query: string): Promise<JSON> {
@@ -142,13 +148,16 @@ export default class ChatView extends ItemView {
       document.getElementById("conversationDiv")
     );
     let p = conversationDiv.createEl("p");
-    p.appendText(content);
+    MarkdownRenderer.renderMarkdown(content, p, this.app.vault.getRoot().path, new Component());
+
     p.style.userSelect = "text";
     p.style.textAlign = "left";
     p.style.fontSize = "0.8em";
     p.style.borderRadius = "5px";
     p.style.lineHeight = "18px";
     p.style.padding = "5px";
+    p.style.paddingTop = "-5px";
+    p.style.paddingBottom = "-5px";
     p.style.marginTop = "10px";
     p.style.marginBottom = "0px";
 
