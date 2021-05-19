@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "skillset/Answer open questions.md",
+            "file": "skillset/Dummy.md",
             "mode": "source"
           }
         }
@@ -39,7 +39,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "Find analo",
+                "query": "hopfield",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": true,
@@ -52,8 +52,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 335,
-    "collapsed": true
+    "width": 206.0107650756836
   },
   "right": {
     "id": "5d1f799a6fe86f29",
@@ -69,7 +68,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "skillset/Answer open questions.md",
+                "file": "skillset/Dummy.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -93,19 +92,19 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300.9999694824219
+    "width": 325
   },
   "active": "23282d852d02ebf8",
   "lastOpenFiles": [
+    "skillset/Dummy.md",
+    "dummy-notes/Hopfield networks are energy-based memory models.md",
+    "dummy-notes/Conversational interfaces render knowledge bases into agents.md",
+    "dummy-notes/Apathy is hedonic adaptation to dreadful situations.md",
+    "dummy-notes/Alignment is reflexive, symmetric, and transitive.md",
     "skillset/Answer open questions.md",
     "skillset/Calculate.md",
     "skillset/Find notes.md",
     "skillset/Generate paragraph.md",
-    "skillset/Generate writing prompt.md",
-    "skillset/Dummy.md",
-    "Untitled.md",
-    "skillset/Find applications of technologies.md",
-    "skillset/Find one note.md",
-    "skillset/Find related concepts.md"
+    "skillset/Generate writing prompt.md"
   ]
 }

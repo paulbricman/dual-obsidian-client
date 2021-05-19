@@ -93,7 +93,7 @@ export class SkillManager {
   }
 
   getLastBlock(splitBlocks: string[]) {
-    for (let blockIndex = splitBlocks.length - 1; blockIndex > 0; blockIndex--) {
+    for (let blockIndex = splitBlocks.length - 1; blockIndex >= 0; blockIndex--) {
       if (splitBlocks[blockIndex].toString().trim() != "") {
         return splitBlocks[blockIndex]
       }

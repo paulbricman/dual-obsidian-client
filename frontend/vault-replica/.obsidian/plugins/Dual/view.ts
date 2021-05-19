@@ -25,11 +25,6 @@ export default class ChatView extends ItemView {
     let input = <HTMLInputElement>document.getElementById("dual-input-box");
     let replied = false;
 
-    this.drawMessage("This *text* contains a [link](https://obsidian.md/)", "right")
-    this.drawMessage("**Short one!**", "left")
-    this.drawMessage("- bullet points?\n- let's hope", "right")
-    this.drawMessage("Let's try our luck with a table\n\n| person | link |\n|---|---|\n| person1 | link1 |\n|person2|link2|", "left")
-    /*
     if (input.value != "") {
       this.drawMessage(input.value, "right");
 
@@ -53,7 +48,6 @@ export default class ChatView extends ItemView {
 
       input.value = "";
     }
-    */
   }
 
   async makeRequest(query: string): Promise<JSON> {
@@ -148,16 +142,23 @@ export default class ChatView extends ItemView {
       document.getElementById("conversationDiv")
     );
     let p = conversationDiv.createEl("p");
+
+    p.style.boxSizing = "border-box";
+    p.style.maxWidth = "90%";
+
     MarkdownRenderer.renderMarkdown(content, p, this.app.vault.getRoot().path, new Component());
+
+    for (let childIndex=0; childIndex<p.children.length; childIndex++) {
+      p.children[childIndex].setAttribute("style", "margin: 5px; margin-left: 8px; margin-right: 8px");
+    }
 
     p.style.userSelect = "text";
     p.style.textAlign = "left";
     p.style.fontSize = "0.8em";
     p.style.borderRadius = "5px";
     p.style.lineHeight = "18px";
-    p.style.padding = "5px";
-    p.style.paddingTop = "-5px";
-    p.style.paddingBottom = "-5px";
+    p.style.padding = "0px";
+    p.style.paddingBlockStart = "0px";
     p.style.marginTop = "10px";
     p.style.marginBottom = "0px";
 
@@ -167,14 +168,14 @@ export default class ChatView extends ItemView {
       p.style.backgroundColor = "var(--background-secondary)";
     }
 
-    p.style.display = "inline-block";
-    p.style.clear = "both";
-
     if (side == "right") {
       p.style.float = "right";
     } else {
       p.style.float = "left";
     }
+
+    p.style.display = "inline-block";
+    p.style.clear = "both";
 
     conversationDiv.scrollBy(0, 1000);
   }
