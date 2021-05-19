@@ -1,4 +1,11 @@
-import { ItemView, WorkspaceLeaf, Notice, TextAreaComponent, MarkdownRenderer, Component } from "obsidian";
+import {
+  ItemView,
+  WorkspaceLeaf,
+  Notice,
+  TextAreaComponent,
+  MarkdownRenderer,
+  Component,
+} from "obsidian";
 import { SkillManager } from "skills";
 
 export default class ChatView extends ItemView {
@@ -38,9 +45,12 @@ export default class ChatView extends ItemView {
 
       var skillManager = new SkillManager(this.app);
       skillManager.followCommand(input.value).then((response: string) => {
-        response.toString().split("\n\n").forEach((res: string) => {
-          this.drawMessage(res, "left");
-        });
+        response
+          .toString()
+          .split("\n\n")
+          .forEach((res: string) => {
+            this.drawMessage(res, "left");
+          });
 
         replied = true;
         this.setStatus("online");
@@ -146,10 +156,18 @@ export default class ChatView extends ItemView {
     p.style.boxSizing = "border-box";
     p.style.maxWidth = "90%";
 
-    MarkdownRenderer.renderMarkdown(content, p, this.app.vault.getRoot().path, new Component());
+    MarkdownRenderer.renderMarkdown(
+      content,
+      p,
+      this.app.vault.getRoot().path,
+      new Component()
+    );
 
-    for (let childIndex=0; childIndex<p.children.length; childIndex++) {
-      p.children[childIndex].setAttribute("style", "margin: 5px; margin-left: 8px; margin-right: 8px");
+    for (let childIndex = 0; childIndex < p.children.length; childIndex++) {
+      p.children[childIndex].setAttribute(
+        "style",
+        "margin: 5px; margin-left: 8px; margin-right: 8px"
+      );
     }
 
     p.style.userSelect = "text";

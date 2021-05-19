@@ -83,16 +83,16 @@ class SampleSettingTab extends PluginSettingTab {
     });
 
     new Setting(containerEl)
-    .setName("RECIPE TEST")
-    .setDesc("Press the button to head over to the download page.")
-    .addButton((cb) =>
-      cb
-        .setButtonText("TEST")
-        .setClass("mod-cta")
-        .onClick(async () => {
-          alert('Testing')
-        })
-    );
+      .setName("RECIPE TEST")
+      .setDesc("Press the button to head over to the download page.")
+      .addButton((cb) =>
+        cb
+          .setButtonText("TEST")
+          .setClass("mod-cta")
+          .onClick(async () => {
+            alert("Testing");
+          })
+      );
 
     new Setting(containerEl)
       .setName("0. Install Python (3.8+).")
