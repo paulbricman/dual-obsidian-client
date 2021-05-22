@@ -12,5 +12,5 @@
 - *topic*:
 
 ```dual
-Generate a paragraph based on "#0"
+Write a paragraph based on "#0"
 ```

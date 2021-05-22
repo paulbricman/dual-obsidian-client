@@ -21,41 +21,46 @@ class Core:
         else:
             self.load_cache()
 
-    def extract(self, query, documents, considered_candidates=20, selected_candidates=5, second_pass=True, return_documents=False):  
+    def extract(self, query, documents, considered_candidates=20, selected_candidates=5, second_pass=True, return_documents=False):
         selected_candidates = min(selected_candidates, considered_candidates)
 
         # Encode novel documents
         for document_idx, document in enumerate(documents):
             if document not in self.cache.keys():
-                self.cache[document] = self.bi_encoder.encode(document, convert_to_tensor=True)
-        
+                self.cache[document] = self.bi_encoder.encode(
+                    document, convert_to_tensor=True)
+
         self.update_cache()
 
-        # Load document embeddings, encode query, and use those for a semantic search first pass 
+        # Load document embeddings, encode query, and use those for a semantic search first pass
         document_embeddings = [self.cache[document] for document in documents]
         query_embedding = self.bi_encoder.encode(query, convert_to_tensor=True)
-        hits = util.semantic_search(query_embedding, document_embeddings, top_k=considered_candidates)[0]
+        hits = util.semantic_search(
+            query_embedding, document_embeddings, top_k=considered_candidates)[0]
 
         # Optionally perform a semantic search second pass using pair encoders
         if second_pass:
-            cross_scores = self.pair_encoder.predict([[query, documents[hit['corpus_id']]] for hit in hits])
+            cross_scores = self.pair_encoder.predict(
+                [[query, documents[hit['corpus_id']]] for hit in hits])
             cross_scores = [e[1] for e in cross_scores]
 
             for idx in range(len(cross_scores)):
                 hits[idx]['cross-score'] = cross_scores[idx]
             hits = sorted(hits, key=lambda x: x['cross-score'], reverse=True)
-        
+
         if return_documents:
             return [documents[hit['corpus_id']] for hit in hits[:selected_candidates]]
-        
+
         return [hit['corpus_id'].item() for hit in hits[:selected_candidates]]
 
     def generate(self, prompt, behavior='finish_paragraph', pool=None):
-        input_token_ids = self.gen_tokenizer.encode(prompt, return_tensors='pt')[-1000:]
+        input_token_ids = self.gen_tokenizer.encode(
+            prompt, return_tensors='pt')[-1000:]
         input_ids_count = len(input_token_ids[0])
 
         if pool is not None:
-            pool_token_ids = self.gen_tokenizer.encode(pool + '"', return_tensors='pt')[-1000:]
+            pool_token_ids = self.gen_tokenizer.encode(
+                pool + '"', return_tensors='pt')[-1000:]
         else:
             pool_token_ids = None
 
@@ -81,21 +86,22 @@ class Core:
             no_repeat_ngram_size = None
 
         generator_output = self.gen_model.generate(
-            input_token_ids, 
-            do_sample=True, 
+            input_token_ids,
+            do_sample=True,
             max_length=input_ids_count + max_generated_token_count,
             top_p=0.9,
             temperature=temperature,
             no_repeat_ngram_size=no_repeat_ngram_size,
             forced_eos_token_id=forced_eos_token_id,
-            prefix_allowed_tokens_fn=lambda x, y: self.allowed_tokens(x, y, input_ids_count, behavior, pool_token_ids, max_sentence_tokens, max_paragraph_tokens)
+            prefix_allowed_tokens_fn=lambda x, y: self.allowed_tokens(
+                x, y, input_ids_count, behavior, pool_token_ids, max_sentence_tokens, max_paragraph_tokens)
         )
 
-        output_sample = self.gen_tokenizer.decode(generator_output[0], skip_special_tokens=True)[len(prompt):]
+        output_sample = self.gen_tokenizer.decode(
+            generator_output[0], skip_special_tokens=True)[len(prompt):]
         return [output_sample]
 
-
-    def allowed_tokens(self, batch_id, previous_token_ids, input_ids_count, behavior, pool_token_ids=None, max_sentence_tokens=3, max_paragraph_tokens=1):       
+    def allowed_tokens(self, batch_id, previous_token_ids, input_ids_count, behavior, pool_token_ids=None, max_sentence_tokens=3, max_paragraph_tokens=1):
         used_token_ids = previous_token_ids[input_ids_count:]
 
         if behavior in ['finish_paragraph', 'finish_sentence']:
@@ -105,10 +111,12 @@ class Core:
             clean_used = self.gen_tokenizer.decode(used_token_ids)
             clean_used = re.sub(r'\.[a-zA-Z0-9]*\.', '', clean_used)
             clean_used = re.sub(r'[0-9]\.[0-9]*', '', clean_used)
-            clean_used = self.gen_tokenizer(clean_used)
+            clean_used = self.gen_tokenizer(clean_used)['input_ids']
 
-            used_sentence_tokens_count = len([e for e in clean_used if e in sentence_tokens])
-            used_paragraph_tokens_count = len([e for e in clean_used if e in paragraph_tokens])
+            used_sentence_tokens_count = len(
+                [e for e in clean_used if e in sentence_tokens])
+            used_paragraph_tokens_count = len(
+                [e for e in clean_used if e in paragraph_tokens])
 
             if used_sentence_tokens_count > max_sentence_tokens or used_paragraph_tokens_count > max_paragraph_tokens:
                 return [self.gen_tokenizer.eos_token_id]
@@ -130,9 +138,11 @@ class Core:
             candidate_token_ids = []
             for match in matches:
                 if match + len(used_token_ids) < len(pool_token_ids):
-                    candidate_token_ids += [pool_token_ids[match + len(used_token_ids)]]
+                    candidate_token_ids += [pool_token_ids[match +
+                                                           len(used_token_ids)]]
 
-            print(self.gen_tokenizer.decode(pool_token_ids), '---', self.gen_tokenizer.decode(used_token_ids), '---', self.gen_tokenizer.decode(candidate_token_ids))
+            print(self.gen_tokenizer.decode(pool_token_ids), '---', self.gen_tokenizer.decode(
+                used_token_ids), '---', self.gen_tokenizer.decode(candidate_token_ids))
 
             return candidate_token_ids + [1]
 
@@ -145,8 +155,10 @@ class Core:
 
     def load_models(self):
         print('Loading models...')
-        self.bi_encoder = SentenceTransformer('distiluse-base-multilingual-cased-v2')
-        self.pair_encoder = CrossEncoder('amberoad/bert-multilingual-passage-reranking-msmarco', max_length=512)
+        self.bi_encoder = SentenceTransformer(
+            'distiluse-base-multilingual-cased-v2')
+        self.pair_encoder = CrossEncoder(
+            'amberoad/bert-multilingual-passage-reranking-msmarco', max_length=512)
         self.gen_tokenizer = GPT2Tokenizer.from_pretrained('gpt2-medium')
         self.gen_model = GPT2LMHeadModel.from_pretrained('model')
 

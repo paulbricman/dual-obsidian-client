@@ -1,22 +1,22 @@
 ---
-- command: Translate "This is a sentence"
-  quoted content: This is a sentence
+- command: Translate "Ik ben een olifant"
+  quoted content: Ik ben een olifant
+- command: Translate "Ik spreek een beetje Nederlands."
+  quoted content: Ik spreek een beetje Nederlands.
 ---
 
-Translate Dutch to English:
+"Ik ben een olifant." => I am an elephant.
 
-Ik ben een olifant. => I am an elephant.
+"Ik spreek een beetje Nederlands." => I speek a bit of Dutch.
 
-Ik spreek een beetje Nederlands. => I speek a bit of Dutch.
+"Deze kaas kost 5 euro." => This cheese costs 5 euros.
 
-Deze kaas kost 5 euro. => This cheese costs 5 euros.
+"Hoe gaat het?" => How are you?
 
-Hoe gaat het? => How are you?
+"Ik heb een schattige hond." => I have a cute pet dog.
 
-Ik heb een schattige hond. => I have a cute pet dog.
-
-*quoted content* =>
+"*quoted content*" =>
 
 ```dual
-Generate a paragraph based on "#0"
+Write a sentence based on "#0"
 ```

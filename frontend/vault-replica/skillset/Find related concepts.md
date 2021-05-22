@@ -5,18 +5,20 @@
   topic: sleeping
 ---
 
-- Those concepts are related to atom: electron, proton, particle, nucleus.
+- "atom" is related to: electron, proton, particle, nucleus.
 
-- Those concepts are related to sleeping: bed, dreams, night, pillow.
+- "sleeping" is related to: bed, dreams, night, pillow.
 
-- Those concepts are related to money: value, currency, profit, stocks.
+- "money" is related to: value, currency, profit, stocks.
 
-- Those concepts are related to the Netherlands: Amsterdam, Dutch, bikes, smoking.
+- "virtual assistant" is related to: tool, knowledge work, conversational interface.
 
-- Those concepts are related to computer: binary, machine, robot, AI.
+- "Netherlands" is related to: Amsterdam, Dutch, bikes, smoking.
 
-- Those concepts are related to *topic*:
+- "computer" is related to: binary, machine, robot, AI.
+
+- "*topic*" is related to:
 
 ```dual
-Generate a paragraph based on "#0"
+Write a sentence based on "#0"
 ```

@@ -7,12 +7,12 @@
 ---
 
 ```dual
-List notes about "*question*"
+List notes about *topic*
 ```
 
 Q: *question*
 A: 
 
 ```dual
-Generate a paragraph based on "#0"
+Write a paragraph based on "#0"
 ```

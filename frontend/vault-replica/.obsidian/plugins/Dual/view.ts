@@ -49,7 +49,9 @@ export default class ChatView extends ItemView {
           .toString()
           .split("\n\n")
           .forEach((res: string) => {
-            this.drawMessage(res, "left");
+            if (res.trim() != "") {
+              this.drawMessage(res, "left");
+            }
           });
 
         replied = true;
@@ -177,8 +179,8 @@ export default class ChatView extends ItemView {
     p.style.lineHeight = "18px";
     p.style.padding = "0px";
     p.style.paddingBlockStart = "0px";
-    p.style.marginTop = "10px";
-    p.style.marginBottom = "0px";
+    p.style.marginTop = "5px";
+    p.style.marginBottom = "5px";
 
     if (side == "right") {
       p.style.backgroundColor = "var(--background-primary)";
