@@ -15,6 +15,8 @@ This is the content.
 
 This is more content.
 
+![Image alt text](/image.png)
+
 [1]: Footnote. [A footnote link](http://example.com)
 
 `;
@@ -31,6 +33,8 @@ This is the content.
 Another header
 
 This is more content.
+
+Image alt text
 
 1]: Footnote. [A footnote link
 `);
