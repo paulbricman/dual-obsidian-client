@@ -20,7 +20,7 @@ This is more content.
 `;
 
   test("works", () => {
-    expect(removeMd(exampleNote, {})).toBe(`
+    expect(removeMd(exampleNote)).toBe(`
 
 title: This is a note
 
@@ -39,8 +39,7 @@ This is more content.
   test("strips nothing", () => {
     expect(
       removeMd(exampleNote, {
-        listUnicodeChar: false,
-        stripListLeader: false,
+        stripListLeaders: false,
         gfm: false,
         useImgAltText: false,
       })
@@ -70,7 +69,7 @@ This is more content.
 - List item
 
 - List item`,
-        { listUnicodeChar: "-" }
+        { listUnicodeChar: "-", stripListLeaders: false }
       )
     ).toBe(`-
 
