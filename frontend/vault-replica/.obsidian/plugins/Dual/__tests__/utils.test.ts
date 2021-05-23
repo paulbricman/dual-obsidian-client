@@ -71,13 +71,13 @@ This is more content.
 - List item`,
         { listUnicodeChar: "-", stripListLeaders: false }
       )
-    ).toBe(`-
+    ).toBe(`
 
-List item
--
-List item
--
-List item`);
+- List item
+
+- List item
+
+- List item`);
   });
 
   test("strips list leader when stripping and list character provided", () => {
