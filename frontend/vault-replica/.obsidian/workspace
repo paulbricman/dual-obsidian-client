@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "skillset/Ask Wikipedia.md",
+            "file": "skillset/Concept connection mining.md",
             "mode": "source"
           }
         }
@@ -52,8 +52,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 243.00350189208984,
-    "collapsed": true
+    "width": 275.006872177124
   },
   "right": {
     "id": "5d1f799a6fe86f29",
@@ -77,7 +76,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "skillset/Ask Wikipedia.md",
+                "file": "skillset/Concept connection mining.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -92,19 +91,19 @@
       }
     ],
     "direction": "horizontal",
-    "width": 302.1180114746094
+    "width": 282.11798095703125
   },
   "active": "23282d852d02ebf8",
   "lastOpenFiles": [
-    "skillset/Ask Wikipedia.md",
-    "skillset/Find notes.md",
-    "skillset/Find one note.md",
-    "skillset/Find applications of technologies.md",
+    "skillset/Concept connection mining.md",
+    "skillset/Concept dependency mining.md",
     "Untitled.md",
+    "skillset/Ask Wikipedia.md",
+    "skillset/Write a sentence.md",
+    "skillset/Generate paragraph.md",
+    "skillset/Untitled.md",
     "skillset/Answer open questions.md",
-    "skillset/Find related concepts.md",
-    "skillset/Formulate research question.md",
-    "skillset/Formulate questions.md",
-    "skillset/Generate writing prompt.md"
+    "skillset/Calculate.md",
+    "skillset/Find notes.md"
   ]
 }

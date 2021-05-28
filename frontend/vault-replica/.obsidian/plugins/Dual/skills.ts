@@ -178,9 +178,9 @@ export class SkillManager {
 
   // Get a list of code blocks with details
   detectCodeBlocks() {
-    var m,
-      res: any = [],
-      re = RegExp(
+    let m,
+      res: any = []
+    const re = RegExp(
         /\`\`\`(?<type>\w+)(?<contents>(?:\`[^\`]|[^\`])*)\`\`\`/,
         "g"
       );
@@ -252,7 +252,7 @@ export class SkillManager {
 
     var content = await rawResponse.json();
     content = content["result"][0];
-    content = content.split('"')[0];
+    content = content.split('"')[0].trim();
 
     return content;
   }
@@ -268,7 +268,7 @@ export class SkillManager {
 
     this.skillMetadata.forEach((val: any, index: any, array: any) => {
       if (commandParam in val && param in val) {
-        if (Math.random() >= 0.5) {
+        if (Math.random() >= 0.6) {
           prompt += val[commandParam] + ' => "' + val[param] + '"\n\n';
         } else {
           prompt += val[commandParam] + ' => " ' + val[param] + '"\n\n';

@@ -4,12 +4,10 @@ import {
   Plugin,
   PluginSettingTab,
   Setting,
-  View,
   Workspace,
 } from "obsidian";
 import ChatView from "view";
 import { Utils } from "utils";
-import { SkillManager } from "skills";
 
 interface MyPluginSettings {
   customName: string;
@@ -119,6 +117,8 @@ class SampleSettingTab extends PluginSettingTab {
             new Notice("Loading files...");
 
             let concatenated = "";
+
+            // TODO Use Promise.all() / map / reduce
 
             this.app.vault.getMarkdownFiles().forEach((element) => {
               this.app.vault.cachedRead(element).then((res) => {
