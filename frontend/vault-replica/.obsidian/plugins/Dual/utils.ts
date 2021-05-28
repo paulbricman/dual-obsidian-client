@@ -9,21 +9,23 @@ export module Utils {
     document.body.removeChild(el);
   }
 
-  export function removeMd(md: string, options: any) {
-    options = options || {};
-    options.listUnicodeChar = options.hasOwnProperty("listUnicodeChar")
-      ? options.listUnicodeChar
-      : false;
-    options.stripListLeaders = options.hasOwnProperty("stripListLeaders")
-      ? options.stripListLeaders
-      : true;
-    options.gfm = options.hasOwnProperty("gfm") ? options.gfm : true;
-    options.useImgAltText = options.hasOwnProperty("useImgAltText")
-      ? options.useImgAltText
-      : true;
+  interface RemoveMdOptions {
+    listUnicodeChar?: string;
+    stripListLeaders?: boolean;
+    gfm?: boolean;
+    useImgAltText?: boolean;
+  }
 
-    var output = md || "";
-    output = output
+  export function removeMd(
+    md: string,
+    options: RemoveMdOptions = {
+      listUnicodeChar: "",
+      stripListLeaders: true,
+      gfm: true,
+      useImgAltText: true,
+    }
+  ) {
+    let output = md
       .replace(/^---[\s\S]*---\n*/g, "")
       .replace(/\[\[[^\|\[\]]*\|([^\|\[\]]*)\]\]/g, "$1")
       .replace(/\[\[(.*)\]\]/g, "$1")

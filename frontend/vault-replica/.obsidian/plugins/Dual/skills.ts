@@ -390,7 +390,7 @@ export class SkillManager {
     for (let index = 0; index < markdownFiles.length; index++) {
       if (!markdownFiles[index].path.startsWith("skillset")) {
         var note = await this.app.vault.cachedRead(markdownFiles[index]);
-        note = Utils.removeMd(note, {});
+        note = Utils.removeMd(note);
         notes.push(note);
       }
     }

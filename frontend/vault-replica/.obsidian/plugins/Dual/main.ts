@@ -137,7 +137,7 @@ class SampleSettingTab extends PluginSettingTab {
               setTimeout(resolve, 3000)
             ).then(() => {
               concatenated = concatenated.slice(0, 5000000);
-              concatenated = Utils.removeMd(concatenated, {});
+              concatenated = Utils.removeMd(concatenated);
               Utils.copyStringToClipboard(concatenated);
               new Notice("Snapshot successfully copied to clipboard!");
             });
