@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "skillset/Concept connection mining.md",
+            "file": "skillset/Concept dependency mining.md",
             "mode": "source"
           }
         }
@@ -76,7 +76,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "skillset/Concept connection mining.md",
+                "file": "skillset/Concept dependency mining.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -95,15 +95,15 @@
   },
   "active": "23282d852d02ebf8",
   "lastOpenFiles": [
-    "skillset/Concept connection mining.md",
     "skillset/Concept dependency mining.md",
-    "Untitled.md",
-    "skillset/Ask Wikipedia.md",
+    "skillset/Concept connection mining.md",
+    "skillset/Calculate.md",
+    "skillset/Write a paragraph 1.md",
+    "skillset/Write a paragraph.md",
     "skillset/Write a sentence.md",
     "skillset/Generate paragraph.md",
-    "skillset/Untitled.md",
+    "skillset/Find applications of technologies.md",
     "skillset/Answer open questions.md",
-    "skillset/Calculate.md",
-    "skillset/Find notes.md"
+    "skillset/Translate.md"
   ]
 }
