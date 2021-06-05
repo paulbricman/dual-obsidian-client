@@ -10,3 +10,4 @@ edition = "2018"
 rust-bert = { git = "https://github.com/guillaume-be/rust-bert" }
 anyhow = "1.0.40"
 tch = "0.4.1"
+rocket = "0.4.10"

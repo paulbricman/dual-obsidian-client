@@ -1,3 +1,6 @@
+#![feature(proc_macro_hygiene, decl_macro)]
+#[macro_use]
+extern crate rocket;
 extern crate anyhow;
 
 use rust_bert::gpt2::{
@@ -8,6 +11,20 @@ use rust_bert::resources::{RemoteResource, Resource};
 use std::error::Error;
 use std::ops::Deref;
 use tch::Tensor;
+
+fn string_to_static_str(s: String) -> &'static str {
+    Box::leak(s.into_boxed_str())
+}
+
+#[get("/generate/<prompt>")]
+fn index(prompt: String) -> &'static str {
+    let output = string_to_static_str(generate(&*prompt).expect("Error"));
+    output
+    // let output = generate(&*prompt).expect("Error");
+    // let output = &*output;
+    // // output.to_string();
+    // output
+}
 
 fn generic_force_paragraph_factory() -> Box<dyn Fn(i64, &Tensor) -> Vec<i64>> {
     Box::new(move |_batch_id: i64, previous_token_ids: &Tensor| (0..50256).collect())
@@ -62,10 +79,13 @@ fn generate(prompt: &str) -> Result<String, Box<dyn Error>> {
 }
 
 fn main() -> anyhow::Result<()> {
+    rocket::ignite().mount("/", routes![index]).launch();
+    /*
     let input_context_1 = "Rust is a";
 
     let output = generate(input_context_1).expect("Error");
 
     println!("{:?}", output);
+    */
     Ok(())
 }
