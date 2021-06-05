@@ -1,4 +1,4 @@
 ---
 ---
 
-Scarcity makes things appear more valuable than they would in [[Abundance signals fitness|abundance]]. This tendency can be applied in the context of practicing gratitude. By making the scarcity of individual experiences more salient, one can perceive them as more valuable, and in turn cultivate gratitude towards them. This scarcity even has a [[Phenomenal space is adaptive|phenomenal value]] to it, as some aspects of the experiential now are inaccessible to cognitive reference and therefore are only accessible now.
+Scarcity makes things appear more valuable than they would in [[Abundance signals fitness|abundance]]. This tendency can be applied in the context of practicing gratitude. By making the scarcity of individual experiences more salient, one can perceive them as more valuable, and in turn cultivate gratitude towards them. This scarcity even has a [[Phenomenal space is adaptive|phenomenal value]] to it, as some aspects of the experiential now are inaccessible to cognitive reference and therefore are only accessible now, probably based on [[Attention is a competition|phase-locked oscillations losing fine-grained temporal information]].

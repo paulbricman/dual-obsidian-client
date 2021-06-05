@@ -1,0 +1,5 @@
+---
+resource: https://www.ai.rug.nl/minds/uploads/LN_NN_RUG.pdf
+---
+
+In general, Occam's razor is a [[Technical indicators are heuristics for stock market forecasting|heuristic]] for [[Iterated pruning is a light-weight approach to nudging text generation|pruning]] a [[Candidate solution overload is a problem|set of candidate solutions]] to a certain [[Creativity is based on search, not generation|search problem]]. Concretely, when trying to approximate a [[Boltzmann distribution links macrostates with microstate probabilities|natural phenomenon]] with a [[Finite-state dynamical systems are diverse|dynamical system]], Occam's razor is used to select the minimal system which [[Neural manifold folding explains explanatory drive|explains]] a certain [[Mindfulness breaks self-induced behaviors|behavior]].

@@ -1,0 +1,4 @@
+---
+---
+
+Similar to how [[Constructivism fosters understanding through scaffolding|backlinks are a proxy for how "fundamental" a note is]], [[Tense logic formalizes time|time]] can also inform the [[How could core concepts be identified?|search for core items]]. If a document was created in a certain [[Spatial metaphors provide primitives for latent space navigation|region of semantic space]] (e.g. the original [[Few-shot learning exapts text generation|transformers]] paper), only to be followed by a bunch of new documents in the same region soon afterwards (e.g. papers applying transformers to low-hanging fruit tasks), then it could be labeled as "pioneering" and "[[Powerful seach capabilities reduce friction in note-taking|relevant]]."

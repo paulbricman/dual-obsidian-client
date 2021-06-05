@@ -1,0 +1,4 @@
+---
+---
+
+Trends are [[Boltzmann distribution links macrostates with microstate probabilities|macro]] [[Neural dynamicity has evolutionary advantages|dynamics]] of a system. They can be observed at a [[GLOM enables hierarchical representations in continuous spaces|coarse level]]. Seasonality is a [[Memeplexes resemble grativational attractors|cyclic]] [[Dynamical systems have a certain anatomy|fluctuation]] in such a system. By subtracting a polynomial approximation of the [[Dynamical systems have a certain anatomy|emitted outputs]], one can observe the [[Dataset size influences impact of noise|signal beyond the trend]]. Similarly, deseasonalizing can be performed by subtracting values from season-length time points before.

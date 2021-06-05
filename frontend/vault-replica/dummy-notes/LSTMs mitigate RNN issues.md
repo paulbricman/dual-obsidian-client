@@ -1,0 +1,5 @@
+---
+resource: https://www.ai.rug.nl/minds/uploads/LN_NN_RUG.pdf
+---
+
+LSTMs mitigate some of the issues of [[Recurrent networks approximate dynamical systems|RNNs]], namely the [[Vanilla RNNs often run into vanishing and exploding gradients|vanishing and exploding gradients]], by introducing some specialized neural ensembles. Through three gates (i.e. input, forget, output), the [[Dynamical systems have a certain anatomy|representations]] stored in the [[Recurrent networks approximate dynamical systems|RNN]] are carefully modulated [[Dynamical systems have memory|across time]]. The input gate controls the influence of the input on memory, the output gate controls how much of the memory is written to output, and the forget gate controls [[Short-long term is a spectrum for memory|how much of the memory is preserved]] to the next step.

@@ -1,0 +1,5 @@
+---
+resource: https://fs.blog/2014/04/antifragile-a-definition/
+---
+
+[[Personalized language model perplexity approximates surprisal]]. Similar to flow and [[Body seeks homeostasis|stress]], there is a sweet-spot of perplexity desired. Completely [[Forecasting framing renders neural emulation feasible|predictable]] [[Creative output can support educational input in free learning|resources]] provide little value. Completely unpredictable resources are also not desired, as they're not [[Good learning is inherently pleasurable|pleasant to digest]]. Resources that are somewhat challenging but not [[Misogi radically modifies affordances|impossible to tackle]] should be [[Optimizing for short semantic distances fosters learning|aimed for]]. This would lead to antifragile learning, an attitude of actively patching your weak spots and developing your thinking by systematically challenging yourself.
