@@ -1,6 +1,4 @@
 #![feature(proc_macro_hygiene, decl_macro)]
-#[macro_use]
-extern crate rocket;
 extern crate anyhow;
 
 use rust_bert::gpt2::{
@@ -8,22 +6,108 @@ use rust_bert::gpt2::{
 };
 use rust_bert::pipelines::generation_utils::{GenerateConfig, LanguageGenerator};
 use rust_bert::resources::{RemoteResource, Resource};
-use std::error::Error;
+
 use std::ops::Deref;
 use tch::Tensor;
 
+use serde::Deserialize;
+use std::collections::HashMap;
+use std::convert::Infallible;
+use std::sync::Arc;
+use tokio::sync::Mutex;
+use tokio::task;
+use warp::Filter;
+
+type TextGenModel = Arc<Mutex<GPT2Generator>>;
+
+fn textgen_model_config() -> GenerateConfig {
+    let config = GenerateConfig {
+        max_length: 56,
+        model_resource: Resource::Remote(RemoteResource::from_pretrained(Gpt2ModelResources::GPT2)),
+        config_resource: Resource::Remote(RemoteResource::from_pretrained(
+            Gpt2ConfigResources::GPT2,
+        )),
+        vocab_resource: Resource::Remote(RemoteResource::from_pretrained(Gpt2VocabResources::GPT2)),
+        merges_resource: Resource::Remote(RemoteResource::from_pretrained(
+            Gpt2MergesResources::GPT2,
+        )),
+        do_sample: false,
+        num_beams: 1,
+        ..Default::default()
+    };
+    config
+}
+
+fn textgen_model(config: GenerateConfig) -> TextGenModel {
+    let textgen_model = GPT2Generator::new(config).expect("Model failed to load");
+    Arc::new(Mutex::new(textgen_model))
+}
+
+async fn generate(query: TextGenQuery, textgen_model: TextGenModel)-> Result<impl warp::Reply, Infallible> {
+    let model = textgen_model.lock().await;
+    let custom_force_paragraph = generic_force_paragraph_factory();
+
+    let output = model.generate(
+        Some(&[string_to_static_str(query.prompt.clone())]),
+        None,
+        None,
+        None,
+        None,
+        Some(custom_force_paragraph.deref()),
+    );
+
+    let mut response = HashMap::new();
+    response.insert("output", output);
+
+    Ok(warp::reply::json(&response))
+}
+    
 fn string_to_static_str(s: String) -> &'static str {
     Box::leak(s.into_boxed_str())
 }
 
-#[get("/generate/<prompt>")]
-fn index(prompt: String) -> &'static str {
-    let output = string_to_static_str(generate(&*prompt).expect("Error"));
-    output
-    // let output = generate(&*prompt).expect("Error");
-    // let output = &*output;
-    // // output.to_string();
-    // output
+#[derive(Debug, Deserialize)]
+pub struct TextGenQuery {
+    pub prompt: String,
+}
+
+fn with_model(textgen_model: TextGenModel) -> impl Filter<Extract = (TextGenModel,), Error = std::convert::Infallible> + Clone {
+    warp::any().map(move || textgen_model.clone())
+}
+
+#[tokio::main]
+async fn main() {
+    let textgen_model: TextGenModel = task::spawn_blocking(move || {
+        let c = textgen_model_config();
+        let m = textgen_model(c);
+        m
+    })
+    .await
+    .expect("Working");
+
+    println!("Loaded config and model");
+
+    // FIXME: warp doesn't handle query params array
+    // so this can't parse a unified type with the json
+    // https://github.com/seanmonstar/warp/issues/732
+    let textgen_handler = warp::path!("generate")
+        .and(warp::get())
+        .and(warp::query::<TextGenQuery>())
+        .and(with_model(textgen_model.clone()))
+        .and_then(generate);
+
+    /*
+    let json_handler = warp::path!("ask")
+        .and(warp::get())
+        .and(json_body())
+        .and(with_model(textgen_model))
+        .and_then(generate);
+        */
+        
+    println!("Starting to serve...");
+    warp::serve(textgen_handler)
+        .run(([127, 0, 0, 1], 3030))
+        .await;
 }
 
 fn generic_force_paragraph_factory() -> Box<dyn Fn(i64, &Tensor) -> Vec<i64>> {
@@ -45,47 +129,4 @@ fn generic_force_paragraph_factory() -> Box<dyn Fn(i64, &Tensor) -> Vec<i64>> {
         (0..50255).collect()
     })
     */
-}
-
-fn generate(prompt: &str) -> Result<String, Box<dyn Error>> {
-    let generate_config = GenerateConfig {
-        max_length: 56,
-        model_resource: Resource::Remote(RemoteResource::from_pretrained(Gpt2ModelResources::GPT2)),
-        config_resource: Resource::Remote(RemoteResource::from_pretrained(
-            Gpt2ConfigResources::GPT2,
-        )),
-        vocab_resource: Resource::Remote(RemoteResource::from_pretrained(Gpt2VocabResources::GPT2)),
-        merges_resource: Resource::Remote(RemoteResource::from_pretrained(
-            Gpt2MergesResources::GPT2,
-        )),
-        do_sample: false,
-        num_beams: 1,
-        ..Default::default()
-    };
-
-    let model = GPT2Generator::new(generate_config)?;
-    let custom_force_paragraph = generic_force_paragraph_factory();
-    let output = model.generate(
-        Some(&[prompt]),
-        None,
-        None,
-        None,
-        None,
-        Some(custom_force_paragraph.deref()),
-    );
-
-    let item = output.into_iter().nth(0).expect("Missing element");
-    Ok(item)
-}
-
-fn main() -> anyhow::Result<()> {
-    rocket::ignite().mount("/", routes![index]).launch();
-    /*
-    let input_context_1 = "Rust is a";
-
-    let output = generate(input_context_1).expect("Error");
-
-    println!("{:?}", output);
-    */
-    Ok(())
 }
