@@ -32,7 +32,7 @@ fn textgen_model_config() -> GenerateConfig {
             Gpt2MergesResources::GPT2,
         )),
         do_sample: false,
-        num_beams: 1,
+        num_beams: 5,
         ..Default::default()
     };
     config
@@ -56,8 +56,11 @@ async fn generate(query: TextGenQuery, textgen_model: TextGenModel)-> Result<imp
         Some(custom_force_paragraph.deref()),
     );
 
+    let prompt_len = query.prompt.clone().len();
+    let output_sliced = (&output[0][prompt_len..]).to_string();
+
     let mut response = HashMap::new();
-    response.insert("output", output);
+    response.insert("output", output_sliced);
 
     Ok(warp::reply::json(&response))
 }
@@ -75,6 +78,10 @@ fn with_model(textgen_model: TextGenModel) -> impl Filter<Extract = (TextGenMode
     warp::any().map(move || textgen_model.clone())
 }
 
+fn json_body() -> impl Filter<Extract = (TextGenQuery,), Error = warp::Rejection> + Clone {
+    warp::body::content_length_limit(1024 * 16).and(warp::body::json())
+}
+
 #[tokio::main]
 async fn main() {
     let textgen_model: TextGenModel = task::spawn_blocking(move || {
@@ -87,22 +94,11 @@ async fn main() {
 
     println!("Loaded config and model");
 
-    // FIXME: warp doesn't handle query params array
-    // so this can't parse a unified type with the json
-    // https://github.com/seanmonstar/warp/issues/732
     let textgen_handler = warp::path!("generate")
-        .and(warp::get())
-        .and(warp::query::<TextGenQuery>())
+        .and(warp::post())
+        .and(json_body())
         .and(with_model(textgen_model.clone()))
         .and_then(generate);
-
-    /*
-    let json_handler = warp::path!("ask")
-        .and(warp::get())
-        .and(json_body())
-        .and(with_model(textgen_model))
-        .and_then(generate);
-        */
         
     println!("Starting to serve...");
     warp::serve(textgen_handler)
