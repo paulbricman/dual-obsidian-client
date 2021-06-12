@@ -1362,6 +1362,7 @@ dependencies = [
  "futures",
  "once_cell",
  "rust-bert",
+ "rust_tokenizers",
  "serde",
  "tch",
  "tokio",
@@ -1387,9 +1388,9 @@ dependencies = [
 
 [[package]]
 name = "rust_tokenizers"
-version = "6.2.2"
+version = "6.2.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9a4ccd2aba5b8c61faf9867a31c124d9f4a532abca69f812717c0e64ab46c353"
+checksum = "2e7cb86bbf1dba5ff0a35b658fe0b52f5ffc0ff7a540db2b32ee178386f3ecb4"
 dependencies = [
  "csv",
  "hashbrown",
