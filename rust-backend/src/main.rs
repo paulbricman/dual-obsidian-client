@@ -1,6 +1,7 @@
 #![feature(proc_macro_hygiene, decl_macro)]
 extern crate anyhow;
 
+use regex::Regex;
 use rust_bert::gpt2::{
     GPT2Generator, Gpt2ConfigResources, Gpt2MergesResources, Gpt2ModelResources, Gpt2VocabResources,
 };
@@ -106,11 +107,20 @@ fn allowed_tokens_factory<'a>(
         let tokenized_prompt = tokenizer.tokenize(prompt);
         let generated_tokens = &previous_token_ids_vec[tokenized_prompt.len()..];
 
-        let sentence_token_count: usize = generated_tokens
+        let generated_text = tokenizer.decode(generated_tokens.into(), true, true);
+        let re = Regex::new(
+            r"([a-zA-Z0-9]?\.[a-zA-Z0-9]*\.|[0-9]+\.[0-9]*|[A-Z]+[a-z]*\.\s[a-zA-Z]{1})",
+        )
+        .unwrap();
+        let clean_generated_text = re.replace_all(generated_text.as_str(), "");
+        let clean_generated_tokens = tokenizer.tokenize(&clean_generated_text);
+        let clean_generated_ids = tokenizer.convert_tokens_to_ids(clean_generated_tokens);
+
+        let sentence_token_count: usize = clean_generated_ids
             .iter()
             .filter(|&n| *n == 13 || *n == 30 || *n == 0)
             .count();
-        let paragraph_token_count: usize = generated_tokens
+        let paragraph_token_count: usize = clean_generated_ids
             .iter()
             .filter(|&n| *n == 198 || *n == 628)
             .count();

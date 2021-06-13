@@ -1361,6 +1361,7 @@ dependencies = [
  "anyhow",
  "futures",
  "once_cell",
+ "regex",
  "rust-bert",
  "rust_tokenizers",
  "serde",
