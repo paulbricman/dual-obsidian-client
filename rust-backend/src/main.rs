@@ -71,8 +71,12 @@ async fn generate(
     let model = textgen_model.lock().await;
     let tokenizer = textgen_tokenizer.lock().await;
 
-    let allowed_tokens =
-        allowed_tokens_factory(string_to_static_str(query.prompt.clone()), &tokenizer, 3, 1);
+    let allowed_tokens = allowed_tokens_factory(
+        string_to_static_str(query.prompt.clone()),
+        &tokenizer,
+        query.generate_sentences.clone(),
+        query.generate_paragraphs.clone(),
+    );
 
     let output = model.generate(
         Some(&[string_to_static_str(query.prompt.clone())]),
@@ -99,8 +103,8 @@ fn string_to_static_str(s: String) -> &'static str {
 fn allowed_tokens_factory<'a>(
     prompt: &'a str,
     tokenizer: &'a MutexGuard<TokenizerOption>,
-    generated_sentences: usize,
-    generated_paragraphs: usize,
+    generated_sentences: Option<usize>,
+    generated_paragraphs: Option<usize>,
 ) -> Box<dyn Fn(i64, &Tensor) -> Vec<i64> + 'a> {
     Box::new(move |_batch_id: i64, previous_token_ids: &Tensor| {
         let previous_token_ids_vec: Vec<i64> = previous_token_ids.into();
@@ -125,10 +129,16 @@ fn allowed_tokens_factory<'a>(
             .filter(|&n| *n == 198 || *n == 628)
             .count();
 
-        if sentence_token_count == generated_sentences
-            || paragraph_token_count == generated_paragraphs
-        {
-            return vec![50256];
+        if let Some(gs) = generated_sentences {
+            if sentence_token_count == gs {
+                return vec![50256];
+            }
+        }
+
+        if let Some(gp) = generated_paragraphs {
+            if paragraph_token_count == gp {
+                return vec![50256];
+            }
         }
 
         (0..50255).collect()
@@ -138,6 +148,8 @@ fn allowed_tokens_factory<'a>(
 #[derive(Debug, Deserialize)]
 pub struct TextGenQuery {
     pub prompt: String,
+    pub generate_sentences: Option<usize>,
+    pub generate_paragraphs: Option<usize>,
 }
 
 fn with_model(
