@@ -36,7 +36,7 @@ fn textgen_model_config() -> GenerateConfig {
             Gpt2MergesResources::GPT2,
         )),
         do_sample: false,
-        num_beams: 5,
+        num_beams: 1,
         ..Default::default()
     };
     config
@@ -76,6 +76,7 @@ async fn generate(
         &tokenizer,
         query.generate_sentences.clone(),
         query.generate_paragraphs.clone(),
+        query.context.clone(),
     );
 
     let output = model.generate(
@@ -105,13 +106,14 @@ fn allowed_tokens_factory<'a>(
     tokenizer: &'a MutexGuard<TokenizerOption>,
     generated_sentences: Option<usize>,
     generated_paragraphs: Option<usize>,
+    context: Option<String>,
 ) -> Box<dyn Fn(i64, &Tensor) -> Vec<i64> + 'a> {
     Box::new(move |_batch_id: i64, previous_token_ids: &Tensor| {
         let previous_token_ids_vec: Vec<i64> = previous_token_ids.into();
         let tokenized_prompt = tokenizer.tokenize(prompt);
-        let generated_tokens = &previous_token_ids_vec[tokenized_prompt.len()..];
+        let generated_ids = &previous_token_ids_vec[tokenized_prompt.len()..];
 
-        let generated_text = tokenizer.decode(generated_tokens.into(), true, true);
+        let generated_text = tokenizer.decode(generated_ids.into(), true, true);
         let re = Regex::new(
             r"([a-zA-Z0-9]?\.[a-zA-Z0-9]*\.|[0-9]+\.[0-9]*|[A-Z]+[a-z]*\.\s[a-zA-Z]{1})",
         )
@@ -141,8 +143,37 @@ fn allowed_tokens_factory<'a>(
             }
         }
 
+        if let Some(c) = &context {
+            let context_tokens = tokenizer.tokenize(c);
+            let mut context_ids = tokenizer.convert_tokens_to_ids(context_tokens);
+            let mut candidate_ids = vec![50256];
+
+            if generated_ids.len() == 0 {
+                return context_ids;
+            }
+
+            while let Some(start) = find_subsequence(&context_ids, &generated_ids) {
+                let end = start + generated_ids.len();
+                if end < context_ids.len() {
+                    candidate_ids.push(context_ids[end]);
+                }
+                context_ids = context_ids[end..].into();
+            }
+
+            return candidate_ids;
+        }
+
         (0..50255).collect()
     })
+}
+
+fn find_subsequence<T>(haystack: &[T], needle: &[T]) -> Option<usize>
+where
+    for<'a> &'a [T]: PartialEq,
+{
+    haystack
+        .windows(needle.len())
+        .position(|window| window == needle)
 }
 
 #[derive(Debug, Deserialize)]
@@ -150,6 +181,7 @@ pub struct TextGenQuery {
     pub prompt: String,
     pub generate_sentences: Option<usize>,
     pub generate_paragraphs: Option<usize>,
+    pub context: Option<String>,
 }
 
 fn with_model(
