@@ -106,7 +106,7 @@ fn allowed_tokens_factory<'a>(
     tokenizer: &'a MutexGuard<TokenizerOption>,
     generated_sentences: Option<usize>,
     generated_paragraphs: Option<usize>,
-    context: Option<String>,
+    context: Option<Vec<String>>,
 ) -> Box<dyn Fn(i64, &Tensor) -> Vec<i64> + 'a> {
     Box::new(move |_batch_id: i64, previous_token_ids: &Tensor| {
         let previous_token_ids_vec: Vec<i64> = previous_token_ids.into();
@@ -144,23 +144,44 @@ fn allowed_tokens_factory<'a>(
         }
 
         if let Some(c) = &context {
-            let context_tokens = tokenizer.tokenize(c);
-            let mut context_ids = tokenizer.convert_tokens_to_ids(context_tokens);
-            let mut candidate_ids = vec![50256];
+            let context_tokens: Vec<Vec<String>> =
+                c.iter().map(|e| tokenizer.tokenize(e.as_str())).collect();
+            let context_ids: Vec<Vec<i64>> = context_tokens
+                .iter()
+                .map(|e| tokenizer.convert_tokens_to_ids(e))
+                .collect();
 
             if generated_ids.len() == 0 {
-                return context_ids;
+                return context_ids.iter().fold(vec![], |mut a, b| {
+                    a.append(&mut b.clone());
+                    a
+                });
             }
 
-            while let Some(start) = find_subsequence(&context_ids, &generated_ids) {
-                let end = start + generated_ids.len();
-                if end < context_ids.len() {
-                    candidate_ids.push(context_ids[end]);
-                }
-                context_ids = context_ids[end..].into();
-            }
+            let allowed_token_ids: Vec<Vec<i64>> = context_ids
+                .iter()
+                .map(|e| {
+                    let mut local_context_ids = e.clone();
+                    let mut local_candidate_ids: Vec<i64> = vec![];
 
-            return candidate_ids;
+                    while let Some(start) = find_subsequence(&local_context_ids, &generated_ids) {
+                        let end = start + generated_ids.len();
+                        if end < local_context_ids.len() {
+                            local_candidate_ids.push(local_context_ids[end]);
+                        }
+                        local_context_ids = local_context_ids[end..].into();
+                    }
+                    local_candidate_ids
+                })
+                .collect();
+
+            let mut all_allowed_token_ids = allowed_token_ids.iter().fold(vec![], |mut a, b| {
+                a.append(&mut b.clone());
+                a
+            });
+
+            all_allowed_token_ids.append(&mut vec![50256]);
+            return all_allowed_token_ids;
         }
 
         (0..50255).collect()
@@ -181,7 +202,7 @@ pub struct TextGenQuery {
     pub prompt: String,
     pub generate_sentences: Option<usize>,
     pub generate_paragraphs: Option<usize>,
-    pub context: Option<String>,
+    pub context: Option<Vec<String>>,
 }
 
 fn with_model(
