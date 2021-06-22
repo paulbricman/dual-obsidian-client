@@ -71,12 +71,30 @@ async fn generate(
     let model = textgen_model.lock().await;
     let tokenizer = textgen_tokenizer.lock().await;
 
+    let context_tokens: Vec<Vec<String>>;
+    let context_ids: Option<Vec<Vec<i64>>>;
+
+    if let Some(context) = query.context.clone() {
+        context_tokens = context
+            .iter()
+            .map(|e| tokenizer.tokenize(e.clone().as_str()))
+            .collect();
+        context_ids = Some(
+            context_tokens
+                .iter()
+                .map(|e| tokenizer.convert_tokens_to_ids(e))
+                .collect(),
+        );
+    } else {
+        context_ids = None;
+    }
+
     let allowed_tokens = allowed_tokens_factory(
         string_to_static_str(query.prompt.clone()),
         &tokenizer,
         query.generate_sentences.clone(),
         query.generate_paragraphs.clone(),
-        query.context.clone(),
+        context_ids,
     );
 
     let output = model.generate(
@@ -106,7 +124,7 @@ fn allowed_tokens_factory<'a>(
     tokenizer: &'a MutexGuard<TokenizerOption>,
     generated_sentences: Option<usize>,
     generated_paragraphs: Option<usize>,
-    context: Option<Vec<String>>,
+    context_ids: Option<Vec<Vec<i64>>>,
 ) -> Box<dyn Fn(i64, &Tensor) -> Vec<i64> + 'a> {
     Box::new(move |_batch_id: i64, previous_token_ids: &Tensor| {
         let previous_token_ids_vec: Vec<i64> = previous_token_ids.into();
@@ -143,22 +161,15 @@ fn allowed_tokens_factory<'a>(
             }
         }
 
-        if let Some(c) = &context {
-            let context_tokens: Vec<Vec<String>> =
-                c.iter().map(|e| tokenizer.tokenize(e.as_str())).collect();
-            let context_ids: Vec<Vec<i64>> = context_tokens
-                .iter()
-                .map(|e| tokenizer.convert_tokens_to_ids(e))
-                .collect();
-
+        if let Some(c) = &context_ids {
             if generated_ids.len() == 0 {
-                return context_ids.iter().fold(vec![], |mut a, b| {
+                return c.iter().fold(vec![], |mut a, b| {
                     a.append(&mut b.clone());
                     a
                 });
             }
 
-            let allowed_token_ids: Vec<Vec<i64>> = context_ids
+            let allowed_token_ids: Vec<Vec<i64>> = c
                 .iter()
                 .map(|e| {
                     let mut local_context_ids = e.clone();
