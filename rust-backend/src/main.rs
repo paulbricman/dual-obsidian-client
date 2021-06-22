@@ -9,6 +9,7 @@ use rust_bert::pipelines::common::{ModelType, TokenizerOption};
 use rust_bert::pipelines::generation_utils::{GenerateConfig, LanguageGenerator};
 use rust_bert::resources::{RemoteResource, Resource};
 
+use itertools::Itertools;
 use std::ops::Deref;
 use tch::Tensor;
 
@@ -36,7 +37,8 @@ fn textgen_model_config() -> GenerateConfig {
             Gpt2MergesResources::GPT2,
         )),
         do_sample: false,
-        num_beams: 1,
+        num_beams: 5,
+        num_return_sequences: 5,
         ..Default::default()
     };
     config
@@ -67,9 +69,10 @@ async fn generate(
     query: TextGenQuery,
     textgen_model: TextGenModel,
     textgen_tokenizer: TextGenTokenizer,
-) -> Result<impl warp::Reply, Infallible> {
+) -> Vec<String> {
     let model = textgen_model.lock().await;
     let tokenizer = textgen_tokenizer.lock().await;
+    let prompt_len = query.prompt.clone().len();
 
     let context_tokens: Vec<Vec<String>>;
     let context_ids: Option<Vec<Vec<i64>>>;
@@ -106,11 +109,44 @@ async fn generate(
         Some(allowed_tokens.deref()),
     );
 
-    let prompt_len = query.prompt.clone().len();
-    let output_sliced = (&output[0][prompt_len..]).to_string();
+    output
+        .iter()
+        .map(|e| (&e[prompt_len..]).to_string())
+        .collect()
+}
+
+async fn generate_handler_fn(
+    query: TextGenQuery,
+    textgen_model: TextGenModel,
+    textgen_tokenizer: TextGenTokenizer,
+) -> Result<impl warp::Reply, Infallible> {
+    let textgen_output = generate(query, textgen_model, textgen_tokenizer).await;
+    let mut response = HashMap::new();
+    response.insert("output", textgen_output);
+
+    Ok(warp::reply::json(&response))
+}
+
+async fn search_handler_fn(
+    query: TextGenQuery,
+    textgen_model: TextGenModel,
+    textgen_tokenizer: TextGenTokenizer,
+) -> Result<impl warp::Reply, Infallible> {
+    let context = query.context.clone().unwrap();
+    let textgen_output = generate(query, textgen_model, textgen_tokenizer).await;
+    let idx: Vec<usize> = textgen_output
+        .iter()
+        .map(|quote| {
+            context
+                .iter()
+                .position(|source| source.contains(quote))
+                .unwrap()
+        })
+        .unique()
+        .collect();
 
     let mut response = HashMap::new();
-    response.insert("output", output_sliced);
+    response.insert("output", idx);
 
     Ok(warp::reply::json(&response))
 }
@@ -252,15 +288,22 @@ async fn main() {
 
     println!("Loaded config and model");
 
-    let textgen_handler = warp::path!("generate")
+    let generate_handler = warp::path!("generate")
         .and(warp::post())
         .and(json_body())
         .and(with_model(textgen_model.clone()))
         .and(with_tokenizer(textgen_tokenizer.clone()))
-        .and_then(generate);
+        .and_then(generate_handler_fn);
+
+    let search_handler = warp::path!("search")
+        .and(warp::post())
+        .and(json_body())
+        .and(with_model(textgen_model.clone()))
+        .and(with_tokenizer(textgen_tokenizer.clone()))
+        .and_then(search_handler_fn);
 
     println!("Starting to serve...");
-    warp::serve(textgen_handler)
+    warp::serve(generate_handler.or(search_handler))
         .run(([127, 0, 0, 1], 3030))
         .await;
 }
