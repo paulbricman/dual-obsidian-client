@@ -9,12 +9,12 @@ use warp::Filter;
 /// Get completions and package them up in a JSON
 async fn generate_handler_fn(
     query: Query,
-    textgen_model: TextGenModel,
-    textgen_tokenizer: TextGenTokenizer,
+    model: Model,
+    tokenizer: Tokenizer,
 ) -> Result<impl warp::Reply, Infallible> {
-    let textgen_output = generate(query, textgen_model, textgen_tokenizer).await;
+    let output = generate(query, model, tokenizer).await;
     let mut response = HashMap::new();
-    response.insert("output", textgen_output);
+    response.insert("output", output);
 
     Ok(warp::reply::json(&response))
 }
@@ -22,12 +22,12 @@ async fn generate_handler_fn(
 /// Get search results and package them up in a JSON
 async fn search_handler_fn(
     query: Query,
-    textgen_model: TextGenModel,
-    textgen_tokenizer: TextGenTokenizer,
+    model: Model,
+    tokenizer: Tokenizer,
 ) -> Result<impl warp::Reply, Infallible> {
     let context = query.context.clone().unwrap();
-    let textgen_output = generate(query, textgen_model, textgen_tokenizer).await;
-    let idx: Vec<usize> = textgen_output
+    let output = generate(query, model, tokenizer).await;
+    let idx: Vec<usize> = output
         .iter()
         .map(|quote| {
             context
@@ -55,16 +55,16 @@ pub struct Query {
 
 /// Reuse loaded model on each request
 fn with_model(
-    textgen_model: TextGenModel,
-) -> impl Filter<Extract = (TextGenModel,), Error = std::convert::Infallible> + Clone {
-    warp::any().map(move || textgen_model.clone())
+    model: Model,
+) -> impl Filter<Extract = (Model,), Error = std::convert::Infallible> + Clone {
+    warp::any().map(move || model.clone())
 }
 
 /// Reuse loaded tokenizer on each request
 fn with_tokenizer(
-    textgen_tokenizer: TextGenTokenizer,
-) -> impl Filter<Extract = (TextGenTokenizer,), Error = std::convert::Infallible> + Clone {
-    warp::any().map(move || textgen_tokenizer.clone())
+    tokenizer: Tokenizer,
+) -> impl Filter<Extract = (Tokenizer,), Error = std::convert::Infallible> + Clone {
+    warp::any().map(move || tokenizer.clone())
 }
 
 fn json_body() -> impl Filter<Extract = (Query,), Error = warp::Rejection> + Clone {
@@ -73,17 +73,17 @@ fn json_body() -> impl Filter<Extract = (Query,), Error = warp::Rejection> + Clo
 
 /// Load model and tokenizer, define handlers, serve
 pub async fn serve() {
-    let textgen_tokenizer: TextGenTokenizer = task::spawn_blocking(move || {
-        let c = textgen_model_config();
-        let t = textgen_tokenizer(c);
+    let tokenizer: Tokenizer = task::spawn_blocking(move || {
+        let c = model_config();
+        let t = tokenizer(c);
         t
     })
     .await
     .expect("Working");
 
-    let textgen_model: TextGenModel = task::spawn_blocking(move || {
-        let c = textgen_model_config();
-        let m = textgen_model(c);
+    let model: Model = task::spawn_blocking(move || {
+        let c = model_config();
+        let m = model(c);
         m
     })
     .await
@@ -94,15 +94,15 @@ pub async fn serve() {
     let generate_handler = warp::path!("generate")
         .and(warp::post())
         .and(json_body())
-        .and(with_model(textgen_model.clone()))
-        .and(with_tokenizer(textgen_tokenizer.clone()))
+        .and(with_model(model.clone()))
+        .and(with_tokenizer(tokenizer.clone()))
         .and_then(generate_handler_fn);
 
     let search_handler = warp::path!("search")
         .and(warp::post())
         .and(json_body())
-        .and(with_model(textgen_model.clone()))
-        .and(with_tokenizer(textgen_tokenizer.clone()))
+        .and(with_model(model.clone()))
+        .and(with_tokenizer(tokenizer.clone()))
         .and_then(search_handler_fn);
 
     println!("Starting to serve...");

@@ -15,11 +15,11 @@ use std::sync::Arc;
 use tokio::sync::Mutex;
 use tokio::sync::MutexGuard;
 
-pub type TextGenModel = Arc<Mutex<GPT2Generator>>;
-pub type TextGenTokenizer = Arc<Mutex<TokenizerOption>>;
+pub type Model = Arc<Mutex<GPT2Generator>>;
+pub type Tokenizer = Arc<Mutex<TokenizerOption>>;
 
 /// Initialize model config
-pub fn textgen_model_config() -> GenerateConfig {
+pub fn model_config() -> GenerateConfig {
     let config = GenerateConfig {
         max_length: 200,
         model_resource: Resource::Remote(RemoteResource::from_pretrained(Gpt2ModelResources::GPT2)),
@@ -39,17 +39,17 @@ pub fn textgen_model_config() -> GenerateConfig {
 }
 
 /// Load model
-pub fn textgen_model(config: GenerateConfig) -> TextGenModel {
-    let textgen_model = GPT2Generator::new(config).expect("Model failed to load");
-    Arc::new(Mutex::new(textgen_model))
+pub fn model(config: GenerateConfig) -> Model {
+    let model = GPT2Generator::new(config).expect("Model failed to load");
+    Arc::new(Mutex::new(model))
 }
 
 /// Load tokenizer
-pub fn textgen_tokenizer(config: GenerateConfig) -> TextGenTokenizer {
+pub fn tokenizer(config: GenerateConfig) -> Tokenizer {
     let vocab_path = config.vocab_resource.get_local_path().expect("Failed");
     let merges_path = config.merges_resource.get_local_path().expect("Failed");
 
-    let textgen_tokenizer = TokenizerOption::from_file(
+    let tokenizer = TokenizerOption::from_file(
         ModelType::GPT2,
         vocab_path.to_str().unwrap(),
         Some(merges_path.to_str().unwrap()),
@@ -58,17 +58,13 @@ pub fn textgen_tokenizer(config: GenerateConfig) -> TextGenTokenizer {
         None,
     )
     .unwrap();
-    Arc::new(Mutex::new(textgen_tokenizer))
+    Arc::new(Mutex::new(tokenizer))
 }
 
 /// Generate completions
-pub async fn generate(
-    query: Query,
-    textgen_model: TextGenModel,
-    textgen_tokenizer: TextGenTokenizer,
-) -> Vec<String> {
-    let model = textgen_model.lock().await;
-    let tokenizer = textgen_tokenizer.lock().await;
+pub async fn generate(query: Query, model: Model, tokenizer: Tokenizer) -> Vec<String> {
+    let model = model.lock().await;
+    let tokenizer = tokenizer.lock().await;
     let prompt = query.prompt.clone();
     let prompt_len = prompt.len();
 
