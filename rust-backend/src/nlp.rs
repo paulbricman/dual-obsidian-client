@@ -21,7 +21,7 @@ pub type Tokenizer = Arc<Mutex<TokenizerOption>>;
 /// Initialize model config
 pub fn model_config() -> GenerateConfig {
     let config = GenerateConfig {
-        max_length: 200,
+        max_length: 100,
         model_resource: Resource::Remote(RemoteResource::from_pretrained(Gpt2ModelResources::GPT2)),
         config_resource: Resource::Remote(RemoteResource::from_pretrained(
             Gpt2ConfigResources::GPT2,
@@ -30,9 +30,12 @@ pub fn model_config() -> GenerateConfig {
         merges_resource: Resource::Remote(RemoteResource::from_pretrained(
             Gpt2MergesResources::GPT2,
         )),
-        do_sample: false,
-        num_beams: 5,
-        num_return_sequences: 5,
+        do_sample: true,
+        top_p: 0.9,
+        top_k: 40,
+        temperature: 0.8,
+        num_return_sequences: 1,
+        no_repeat_ngram_size: 3,
         ..Default::default()
     };
     config
