@@ -105,8 +105,13 @@ pub async fn serve() {
         .and(with_tokenizer(tokenizer.clone()))
         .and_then(search_handler_fn);
 
+    let cors = warp::cors()
+        .allow_any_origin()
+        .allow_headers(vec!["content-type"])
+        .allow_methods(vec!["POST"]);
+
     println!("Starting to serve...");
-    warp::serve(generate_handler.or(search_handler))
+    warp::serve(generate_handler.or(search_handler).with(cors))
         .run(([127, 0, 0, 1], 3030))
         .await;
 }

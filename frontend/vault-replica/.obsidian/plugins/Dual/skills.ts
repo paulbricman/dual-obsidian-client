@@ -13,8 +13,8 @@ export class SkillManager {
   // Returns result of following a command
   async followCommand(command: string) {
     var skillPath = await this.matchCommand(command);
-    console.log("FOLLOWING", command, "USING", skillPath);
-    var result = this.useSkill(skillPath, command);
+    //console.log("FOLLOWING", command, "USING", skillPath);
+    var result = "meh"; // this.useSkill(skillPath, command);
 
     return result;
   }
@@ -179,11 +179,11 @@ export class SkillManager {
   // Get a list of code blocks with details
   detectCodeBlocks() {
     let m,
-      res: any = []
+      res: any = [];
     const re = RegExp(
-        /\`\`\`(?<type>\w+)(?<contents>(?:\`[^\`]|[^\`])*)\`\`\`/,
-        "g"
-      );
+      /\`\`\`(?<type>\w+)(?<contents>(?:\`[^\`]|[^\`])*)\`\`\`/,
+      "g"
+    );
 
     do {
       m = re.exec(this.skillContents);
@@ -237,7 +237,7 @@ export class SkillManager {
 
     var prompt: string = this.getParamPrompt(command, param);
 
-    const rawResponse = await fetch("http://127.0.0.1:5000/generate/", {
+    const rawResponse = await fetch("http://127.0.0.1:3030/generate/", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -245,8 +245,8 @@ export class SkillManager {
       },
       body: JSON.stringify({
         prompt: prompt,
-        behavior: "parse_args",
-        pool: command,
+        context: [command],
+        generate_paragraphs: 1,
       }),
     });
 
@@ -269,14 +269,14 @@ export class SkillManager {
     this.skillMetadata.forEach((val: any, index: any, array: any) => {
       if (commandParam in val && param in val) {
         if (Math.random() >= 0.6) {
-          prompt += val[commandParam] + ' => "' + val[param] + '"\n\n';
+          prompt += val[commandParam] + " => " + val[param] + '"\n\n';
         } else {
-          prompt += val[commandParam] + ' => " ' + val[param] + '"\n\n';
+          prompt += val[commandParam] + " =>  " + val[param] + '"\n\n';
         }
       }
     });
 
-    prompt += command + ' => "';
+    prompt += command + " => ";
     return prompt;
   }
 
@@ -352,21 +352,34 @@ export class SkillManager {
     var examples = examplePathPairs[0],
       paths = examplePathPairs[1];
 
-    const rawResponse = await fetch("http://127.0.0.1:5000/extract/", {
+    const searchPrompt = examples
+      .map((e) => {
+        return e + " => " + e + "\n\n";
+      })
+      .slice(0, -1)
+      .join("");
+
+    const rawResponse = await fetch("http://127.0.0.1:3030/search/", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        query: command,
-        documents: examples,
-        selected_candidates: 1,
+        prompt: searchPrompt + command + " =>",
+        context: examples.map((e) => " " + e),
+        generate_paragraphs: 1,
       }),
     });
 
     var content = await rawResponse.json();
-    return paths[content["result"][0]];
+    console.log("USING", searchPrompt + command + " =>");
+    console.log(
+      "FOUND",
+      examples[content["output"][0]],
+      paths[content["output"][0]]
+    );
+    return paths[content["output"][0]];
   }
 
   // Substitute parameters with arguments in a skill

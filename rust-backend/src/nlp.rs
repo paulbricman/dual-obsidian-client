@@ -21,7 +21,7 @@ pub type Tokenizer = Arc<Mutex<TokenizerOption>>;
 /// Initialize model config
 pub fn model_config() -> GenerateConfig {
     let config = GenerateConfig {
-        max_length: 100,
+        max_length: 1000,
         model_resource: Resource::Remote(RemoteResource::from_pretrained(Gpt2ModelResources::GPT2)),
         config_resource: Resource::Remote(RemoteResource::from_pretrained(
             Gpt2ConfigResources::GPT2,
@@ -30,10 +30,8 @@ pub fn model_config() -> GenerateConfig {
         merges_resource: Resource::Remote(RemoteResource::from_pretrained(
             Gpt2MergesResources::GPT2,
         )),
-        do_sample: true,
-        top_p: 0.9,
-        top_k: 40,
-        temperature: 0.8,
+        do_sample: false,
+        num_beams: 10,
         num_return_sequences: 1,
         no_repeat_ngram_size: 3,
         ..Default::default()
@@ -68,8 +66,13 @@ pub fn tokenizer(config: GenerateConfig) -> Tokenizer {
 pub async fn generate(query: Query, model: Model, tokenizer: Tokenizer) -> Vec<String> {
     let model = model.lock().await;
     let tokenizer = tokenizer.lock().await;
-    let prompt = query.prompt.clone();
-    let prompt_len = prompt.len();
+    let mut prompt = query.prompt.clone();
+    let mut prompt_len = prompt.chars().count();
+
+    if prompt_len > 800 {
+        prompt = String::from(&prompt[prompt_len - 800..]);
+        prompt_len = 800;
+    }
 
     let context_tokens: Vec<Vec<String>>;
     let context_ids: Option<Vec<Vec<i64>>>;
@@ -98,7 +101,7 @@ pub async fn generate(query: Query, model: Model, tokenizer: Tokenizer) -> Vec<S
     );
 
     let output = model.generate(
-        Some(&[query.prompt.clone().as_str()]),
+        Some(&[prompt.as_str()]),
         None,
         None,
         None,
@@ -108,7 +111,7 @@ pub async fn generate(query: Query, model: Model, tokenizer: Tokenizer) -> Vec<S
 
     output
         .iter()
-        .map(|e| (&e[prompt_len..]).to_string())
+        .map(|e| (&e)[prompt_len..].to_string())
         .collect()
 }
 
@@ -124,6 +127,10 @@ fn allowed_tokens_factory<'a>(
         let previous_token_ids_vec: Vec<i64> = previous_token_ids.into();
         let tokenized_prompt = tokenizer.tokenize(prompt);
         let generated_ids = &previous_token_ids_vec[tokenized_prompt.len()..];
+
+        if generated_ids.len() > 100 {
+            return vec![50256];
+        }
 
         let generated_text = tokenizer.decode(generated_ids.into(), true, true);
         let re = Regex::new(
