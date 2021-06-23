@@ -1,4 +1,4 @@
-use crate::server::TextGenQuery;
+use crate::server::Query;
 use crate::utils::*;
 
 use rust_bert::gpt2::{
@@ -18,6 +18,7 @@ use tokio::sync::MutexGuard;
 pub type TextGenModel = Arc<Mutex<GPT2Generator>>;
 pub type TextGenTokenizer = Arc<Mutex<TokenizerOption>>;
 
+/// Initialize model config
 pub fn textgen_model_config() -> GenerateConfig {
     let config = GenerateConfig {
         max_length: 200,
@@ -37,11 +38,13 @@ pub fn textgen_model_config() -> GenerateConfig {
     config
 }
 
+/// Load model
 pub fn textgen_model(config: GenerateConfig) -> TextGenModel {
     let textgen_model = GPT2Generator::new(config).expect("Model failed to load");
     Arc::new(Mutex::new(textgen_model))
 }
 
+/// Load tokenizer
 pub fn textgen_tokenizer(config: GenerateConfig) -> TextGenTokenizer {
     let vocab_path = config.vocab_resource.get_local_path().expect("Failed");
     let merges_path = config.merges_resource.get_local_path().expect("Failed");
@@ -58,14 +61,16 @@ pub fn textgen_tokenizer(config: GenerateConfig) -> TextGenTokenizer {
     Arc::new(Mutex::new(textgen_tokenizer))
 }
 
+/// Generate completions
 pub async fn generate(
-    query: TextGenQuery,
+    query: Query,
     textgen_model: TextGenModel,
     textgen_tokenizer: TextGenTokenizer,
 ) -> Vec<String> {
     let model = textgen_model.lock().await;
     let tokenizer = textgen_tokenizer.lock().await;
-    let prompt_len = query.prompt.clone().len();
+    let prompt = query.prompt.clone();
+    let prompt_len = prompt.len();
 
     let context_tokens: Vec<Vec<String>>;
     let context_ids: Option<Vec<Vec<i64>>>;
@@ -86,7 +91,7 @@ pub async fn generate(
     }
 
     let allowed_tokens = allowed_tokens_factory(
-        string_to_static_str(query.prompt.clone()),
+        prompt.as_str(),
         &tokenizer,
         query.generate_sentences.clone(),
         query.generate_paragraphs.clone(),
@@ -94,7 +99,7 @@ pub async fn generate(
     );
 
     let output = model.generate(
-        Some(&[string_to_static_str(query.prompt.clone())]),
+        Some(&[query.prompt.clone().as_str()]),
         None,
         None,
         None,
@@ -108,6 +113,7 @@ pub async fn generate(
         .collect()
 }
 
+/// Specify allowed tokens at each generation step
 fn allowed_tokens_factory<'a>(
     prompt: &'a str,
     tokenizer: &'a MutexGuard<TokenizerOption>,
