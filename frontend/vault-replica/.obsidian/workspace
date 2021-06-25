@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "skillset/Test.md",
+            "file": "skillset/Answer test.md",
             "mode": "source"
           }
         }
@@ -52,7 +52,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 275.006872177124,
+    "width": 169,
     "collapsed": true
   },
   "right": {
@@ -77,7 +77,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "skillset/Test.md",
+                "file": "skillset/Answer test.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -96,15 +96,15 @@
   },
   "active": "23282d852d02ebf8",
   "lastOpenFiles": [
-    "skillset/Test.md",
+    "skillset/Answer test.md",
+    "skillset/Formulate questions.md",
     "skillset/Untitled.md",
-    "skillset/Concept connection mining.md",
-    "skillset/Ask Wikipedia.md",
-    "skillset/Concept dependency mining.md",
-    "skillset/Calculate.md",
-    "skillset/Write a paragraph 1.md",
     "skillset/Write a paragraph.md",
+    "skillset/Find conceptual connections.md",
+    "skillset/Calculate.md",
+    "skillset/Formulate research question.md",
+    "skillset/Search Wikipedia.md",
     "skillset/Write a sentence.md",
-    "skillset/Generate paragraph.md"
+    "skillset/Find conceptual dependencies.md"
   ]
 }

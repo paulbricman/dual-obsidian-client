@@ -1,6 +1,7 @@
 use crate::server::Query;
 use crate::utils::*;
 
+use itertools::Itertools;
 use rust_bert::gpt2::{
     GPT2Generator, Gpt2ConfigResources, Gpt2MergesResources, Gpt2ModelResources, Gpt2VocabResources,
 };
@@ -22,18 +23,22 @@ pub type Tokenizer = Arc<Mutex<TokenizerOption>>;
 pub fn model_config() -> GenerateConfig {
     let config = GenerateConfig {
         max_length: 1000,
-        model_resource: Resource::Remote(RemoteResource::from_pretrained(Gpt2ModelResources::GPT2)),
-        config_resource: Resource::Remote(RemoteResource::from_pretrained(
-            Gpt2ConfigResources::GPT2,
+        model_resource: Resource::Remote(RemoteResource::from_pretrained(
+            Gpt2ModelResources::GPT2_MEDIUM,
         )),
-        vocab_resource: Resource::Remote(RemoteResource::from_pretrained(Gpt2VocabResources::GPT2)),
+        config_resource: Resource::Remote(RemoteResource::from_pretrained(
+            Gpt2ConfigResources::GPT2_MEDIUM,
+        )),
+        vocab_resource: Resource::Remote(RemoteResource::from_pretrained(
+            Gpt2VocabResources::GPT2_MEDIUM,
+        )),
         merges_resource: Resource::Remote(RemoteResource::from_pretrained(
-            Gpt2MergesResources::GPT2,
+            Gpt2MergesResources::GPT2_MEDIUM,
         )),
         do_sample: false,
-        num_beams: 10,
+        num_beams: 1,
         num_return_sequences: 1,
-        no_repeat_ngram_size: 3,
+        no_repeat_ngram_size: 0,
         ..Default::default()
     };
     config
@@ -69,9 +74,9 @@ pub async fn generate(query: Query, model: Model, tokenizer: Tokenizer) -> Vec<S
     let mut prompt = query.prompt.clone();
     let mut prompt_len = prompt.chars().count();
 
-    if prompt_len > 800 {
-        prompt = String::from(&prompt[prompt_len - 800..]);
-        prompt_len = 800;
+    if prompt_len > 900 {
+        prompt = String::from(&prompt[prompt_len - 900..]);
+        prompt_len = 900;
     }
 
     let context_tokens: Vec<Vec<String>>;
@@ -100,7 +105,7 @@ pub async fn generate(query: Query, model: Model, tokenizer: Tokenizer) -> Vec<S
         context_ids,
     );
 
-    let output = model.generate(
+    let output = model.generate_indices(
         Some(&[prompt.as_str()]),
         None,
         None,
@@ -111,7 +116,7 @@ pub async fn generate(query: Query, model: Model, tokenizer: Tokenizer) -> Vec<S
 
     output
         .iter()
-        .map(|e| (&e)[prompt_len..].to_string())
+        .map(|e| tokenizer.decode(e.clone(), true, false)[prompt_len..].to_string())
         .collect()
 }
 
@@ -132,7 +137,7 @@ fn allowed_tokens_factory<'a>(
             return vec![50256];
         }
 
-        let generated_text = tokenizer.decode(generated_ids.into(), true, true);
+        let generated_text = tokenizer.decode(generated_ids.into(), false, false);
         let re = Regex::new(
             r"([a-zA-Z0-9]?\.[a-zA-Z0-9]*\.|[0-9]+\.[0-9]*|[A-Z]+[a-z]*\.\s[a-zA-Z]{1})",
         )
@@ -191,8 +196,13 @@ fn allowed_tokens_factory<'a>(
                 a.append(&mut b.clone());
                 a
             });
+            all_allowed_token_ids = all_allowed_token_ids.iter().unique().cloned().collect();
+            //all_allowed_token_ids.append(&mut all_allowed_token_ids.clone());
 
-            all_allowed_token_ids.append(&mut vec![50256]);
+            if all_allowed_token_ids.len() == 0 {
+                all_allowed_token_ids = vec![50256];
+            }
+
             return all_allowed_token_ids;
         }
 

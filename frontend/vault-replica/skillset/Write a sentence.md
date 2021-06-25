@@ -1,7 +1,7 @@
 ---
-- command: Write a sentence based on "something"
-- command: Come up with a sentence starting with "some text"
-- command: Formulate one sentence starting with "The answer is "
+- command: Write a sentence based on " ___ "
+- command: Come up with a sentence starting with " ___ "
+- command: Formulate one sentence starting with " ___ "
 ---
 
 ```js

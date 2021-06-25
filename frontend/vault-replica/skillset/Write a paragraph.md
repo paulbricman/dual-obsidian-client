@@ -1,7 +1,7 @@
 ---
-- command: Write a paragraph based on "something"
-- command: Come up with a paragraph starting with "some text"
-- command: Formulate one paragraph starting with "The answer is "
+- command: Write a paragraph based on ""
+- command: Come up with a paragraph starting with ""
+- command: Formulate one paragraph starting with ""
 ---
 
 ```js

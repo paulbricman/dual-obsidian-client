@@ -13,8 +13,8 @@ export class SkillManager {
   // Returns result of following a command
   async followCommand(command: string) {
     var skillPath = await this.matchCommand(command);
-    //console.log("FOLLOWING", command, "USING", skillPath);
-    var result = "meh"; // this.useSkill(skillPath, command);
+    console.log("FOLLOWING", command, "USING", skillPath);
+    var result = this.useSkill(skillPath, command);
 
     return result;
   }
@@ -236,6 +236,7 @@ export class SkillManager {
     }
 
     var prompt: string = this.getParamPrompt(command, param);
+    console.log(prompt);
 
     const rawResponse = await fetch("http://127.0.0.1:3030/generate/", {
       method: "POST",
@@ -251,8 +252,7 @@ export class SkillManager {
     });
 
     var content = await rawResponse.json();
-    content = content["result"][0];
-    content = content.split('"')[0].trim();
+    content = content["output"][0].trim();
 
     return content;
   }
@@ -269,9 +269,9 @@ export class SkillManager {
     this.skillMetadata.forEach((val: any, index: any, array: any) => {
       if (commandParam in val && param in val) {
         if (Math.random() >= 0.6) {
-          prompt += val[commandParam] + " => " + val[param] + '"\n\n';
+          prompt += val[commandParam] + " => " + val[param] + "\n\n";
         } else {
-          prompt += val[commandParam] + " =>  " + val[param] + '"\n\n';
+          prompt += val[commandParam] + " =>  " + val[param] + "\n\n";
         }
       }
     });
@@ -301,10 +301,7 @@ export class SkillManager {
 
               Object.entries(val).forEach((field, fieldIndex, fieldArray) => {
                 if (fieldIndex > 0) {
-                  newCommandExample = newCommandExample.replace(
-                    field[1],
-                    " ___ "
-                  );
+                  newCommandExample = newCommandExample.replace(field[1], "");
                 }
               });
 
@@ -330,7 +327,6 @@ export class SkillManager {
       }
     }
   }
-
   // Get metadata of a skill at a path
   loadSkillMetadata(skillPath: string) {
     var markdownFiles = this.app.vault.getMarkdownFiles();
@@ -351,13 +347,16 @@ export class SkillManager {
     var examplePathPairs = this.getCommandExamples();
     var examples = examplePathPairs[0],
       paths = examplePathPairs[1];
+    this.shuffle(examples, paths);
 
-    const searchPrompt = examples
-      .map((e) => {
-        return e + " => " + e + "\n\n";
-      })
-      .slice(0, -1)
-      .join("");
+    var searchPrompt =
+      examples
+        .map((e) => {
+          return e + " => " + e + "\n\n";
+        })
+        .join("") +
+      command +
+      " =>";
 
     const rawResponse = await fetch("http://127.0.0.1:3030/search/", {
       method: "POST",
@@ -366,20 +365,32 @@ export class SkillManager {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        prompt: searchPrompt + command + " =>",
-        context: examples.map((e) => " " + e),
+        prompt: searchPrompt.slice(-100, searchPrompt.length),
+        context: examples.map((e) => {
+          return " " + e + "\n\n";
+        }),
         generate_paragraphs: 1,
       }),
     });
 
     var content = await rawResponse.json();
-    console.log("USING", searchPrompt + command + " =>");
-    console.log(
-      "FOUND",
-      examples[content["output"][0]],
-      paths[content["output"][0]]
-    );
     return paths[content["output"][0]];
+  }
+
+  shuffle(obj1: string[], obj2: string[]) {
+    var index = obj1.length;
+    var rnd, tmp1, tmp2;
+
+    while (index) {
+      rnd = Math.floor(Math.random() * index);
+      index -= 1;
+      tmp1 = obj1[index];
+      tmp2 = obj2[index];
+      obj1[index] = obj1[rnd];
+      obj2[index] = obj2[rnd];
+      obj1[rnd] = tmp1;
+      obj2[rnd] = tmp2;
+    }
   }
 
   // Substitute parameters with arguments in a skill
@@ -411,3 +422,40 @@ export class SkillManager {
     return notes;
   }
 }
+
+/*
+searchPrompt =
+      `Please calculate 3*7  => Determine what's  ___ 
+
+Now determine what concepts does evolution rely on? => What are some of the concepts on which  ___  is based on?
+
+Go look through Wikipedia for the director of Interstellar.  => Search Wikipedia for the  ___  of  ___ 
+
+I'm learning about multi-threading. Quiz me on it. => Test me on  ___ .
+
+Hey, search for one note on virtual assistants! => Find a note on  ___ .
+
+Get me one note about dynamics, please. => Search for a note about  ___ .
+
+Determine what's (85*7) next => Compute  ___ 
+
+Find a handful of notes on temporal attention, will you? => Search for personal notes on  ___ .
+
+It would be nice if you could suggest me a research question on sustainability. => Suggest me an RQ on ___
+
+Complete the following: The answer is... => Formulate one sentence starting with " ___ "
+
+Test me on  ___  => Ask me something about  ___ 
+
+Hey you, what does Rust depend on? => List the dependencies of  ___ 
+
+Enumerate the dependencies of analogy, please. => List the dependencies of  ___ 
+
+Ask me stuff about topology now => Test me on stuff about  ___ 
+
+Search Wikipedia for the designer of Python!  => Search Wikipedia for the  ___  of  ___ 
+
+` +
+      command +
+      " =>";
+*/

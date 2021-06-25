@@ -1,5 +1,5 @@
 ---
-- query: Search Wikipedia for the director of Insterstellar
+- query: Search Wikipedia for the director of Interstellar
   entity: Interstellar
   property: director
 - query: Now search Wikipedia for the budget of Ender's Game
