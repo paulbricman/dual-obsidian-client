@@ -160,7 +160,7 @@ class Core:
         self.pair_encoder = CrossEncoder(
             'amberoad/bert-multilingual-passage-reranking-msmarco', max_length=512)
         self.gen_tokenizer = GPT2Tokenizer.from_pretrained('gpt2-medium')
-        self.gen_model = GPT2LMHeadModel.from_pretrained('model')
+        self.gen_model = GPT2LMHeadModel.from_pretrained('gpt2-medium')
 
     def create_cache(self):
         print('Cache file doesn\'t exist, creating a new one...')

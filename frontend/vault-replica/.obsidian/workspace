@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "skillset/Concept dependency mining.md",
+            "file": "skillset/Formulate research question.md",
             "mode": "source"
           }
         }
@@ -52,7 +52,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 275.006872177124
+    "width": 169
   },
   "right": {
     "id": "5d1f799a6fe86f29",
@@ -76,7 +76,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "skillset/Concept dependency mining.md",
+                "file": "skillset/Formulate research question.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -95,15 +95,15 @@
   },
   "active": "23282d852d02ebf8",
   "lastOpenFiles": [
-    "skillset/Concept dependency mining.md",
-    "skillset/Concept connection mining.md",
+    "skillset/Formulate research question.md",
+    "skillset/Formulate questions.md",
     "skillset/Calculate.md",
-    "skillset/Write a paragraph 1.md",
-    "skillset/Write a paragraph.md",
-    "skillset/Write a sentence.md",
-    "skillset/Generate paragraph.md",
-    "skillset/Find applications of technologies.md",
     "skillset/Answer open questions.md",
-    "skillset/Translate.md"
+    "skillset/Find notes.md",
+    "skillset/Answer test.md",
+    "skillset/Untitled.md",
+    "skillset/Write a paragraph.md",
+    "skillset/Find conceptual connections.md",
+    "skillset/Search Wikipedia.md"
   ]
 }
