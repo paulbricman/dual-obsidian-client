@@ -4,7 +4,7 @@
 - command: Test me on thermodynamics
   topic: thermodynamics
 - command: Quiz me on theories of attention
-  topic: theories of attention  
+  topic: theories of attention 
 - command: Test me on human-computer interaction
   topic: human-computer interaction
 - command: Ask me stuff about neuromorphic computing

@@ -24,5 +24,5 @@ argument mining: How effective is few-shot learning in extracting arguments from
 *subject*:
 
 ```dual
-Write a sentence starting with "#0"
+Write a sentence which starts with "#0"
 ```

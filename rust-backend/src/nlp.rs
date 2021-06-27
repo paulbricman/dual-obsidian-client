@@ -36,8 +36,8 @@ pub fn model_config() -> GenerateConfig {
             Gpt2MergesResources::GPT2_MEDIUM,
         )),
         do_sample: false,
-        num_beams: 1,
-        num_return_sequences: 1,
+        num_beams: 5,
+        num_return_sequences: 5,
         no_repeat_ngram_size: 0,
         ..Default::default()
     };
@@ -199,9 +199,7 @@ fn allowed_tokens_factory<'a>(
             all_allowed_token_ids = all_allowed_token_ids.iter().unique().cloned().collect();
             //all_allowed_token_ids.append(&mut all_allowed_token_ids.clone());
 
-            if all_allowed_token_ids.len() == 0 {
-                all_allowed_token_ids = vec![50256];
-            }
+            all_allowed_token_ids.push(50256);
 
             return all_allowed_token_ids;
         }

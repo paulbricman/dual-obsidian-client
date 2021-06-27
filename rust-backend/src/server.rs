@@ -68,7 +68,7 @@ fn with_tokenizer(
 }
 
 fn json_body() -> impl Filter<Extract = (Query,), Error = warp::Rejection> + Clone {
-    warp::body::content_length_limit(1024 * 16).and(warp::body::json())
+    warp::body::content_length_limit(1024 * 512).and(warp::body::json())
 }
 
 /// Load model and tokenizer, define handlers, serve

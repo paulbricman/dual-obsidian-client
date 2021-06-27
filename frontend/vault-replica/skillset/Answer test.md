@@ -12,3 +12,7 @@
 ---
 
 Yeah oke, testing *topic*
+
+```dual
+Write a sentence which starts with "Hello, there!"
+```

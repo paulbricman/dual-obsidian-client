@@ -27,6 +27,7 @@ export class SkillManager {
 
     var params: string[] = await this.getParams(this.skillContents);
     var args: string[] = await this.getArgs(command, params);
+    console.log("ARGS", args);
     this.skillContents = this.resolveParams(this.skillContents, params, args);
 
     var codeBlocks = this.detectCodeBlocks();
@@ -236,7 +237,7 @@ export class SkillManager {
     }
 
     var prompt: string = this.getParamPrompt(command, param);
-    console.log(prompt);
+    console.log("prompt for", param, prompt);
 
     const rawResponse = await fetch("http://127.0.0.1:3030/generate/", {
       method: "POST",
@@ -349,6 +350,22 @@ export class SkillManager {
       paths = examplePathPairs[1];
     this.shuffle(examples, paths);
 
+    var filenames = paths.map((e) => e.replace(/^.*[\\\/]/, "").slice(0, -3)),
+      searchPrompt = "";
+
+    for (let index = 0; index < examples.length; index++) {
+      searchPrompt += examples[index] + " => " + filenames[index] + "\\n\\n";
+    }
+    searchPrompt += command + " =>";
+
+    console.log(searchPrompt);
+    console.log(
+      filenames.map((e) => {
+        return " " + e + "\n\n";
+      })
+    );
+
+    /*
     var searchPrompt =
       examples
         .map((e) => {
@@ -357,6 +374,7 @@ export class SkillManager {
         .join("") +
       command +
       " =>";
+      */
 
     const rawResponse = await fetch("http://127.0.0.1:3030/search/", {
       method: "POST",
@@ -365,8 +383,8 @@ export class SkillManager {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        prompt: searchPrompt.slice(-100, searchPrompt.length),
-        context: examples.map((e) => {
+        prompt: searchPrompt.slice(-800, searchPrompt.length),
+        context: filenames.map((e) => {
           return " " + e + "\n\n";
         }),
         generate_paragraphs: 1,

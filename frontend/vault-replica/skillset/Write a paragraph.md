@@ -1,7 +1,7 @@
 ---
 - command: Write a paragraph based on ""
-- command: Come up with a paragraph starting with ""
-- command: Formulate one paragraph starting with ""
+- command: Write a paragraph which starts with ""
+- command: Write one paragraph which starts with ""
 ---
 
 ```js
@@ -10,7 +10,7 @@
     prompt = prompt.substring(1, prompt.length - 1)
 	prompt = prompt.trimRight()
 	
-	const rawResponse = await fetch("http://127.0.0.1:5000/generate/", {
+	const rawResponse = await fetch("http://127.0.0.1:3030/generate/", {
 		"method": "POST",
 		"headers": {
 			"Accept": "application/json",
@@ -18,11 +18,11 @@
 		},
 		"body": JSON.stringify({
 			"prompt": prompt,
-			"behavior": "finish_paragraph"
+			"generate_paragraphs": 1
 		})
 	});
 
 	var content = await rawResponse.json();
-	return content["result"][0];
+	return content["output"][0];
 })();
 ```
