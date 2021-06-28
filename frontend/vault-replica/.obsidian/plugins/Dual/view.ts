@@ -7,6 +7,7 @@ import {
   Component,
 } from "obsidian";
 import { SkillManager } from "skills";
+import { fetchQuery } from "./network";
 
 export default class ChatView extends ItemView {
   customName = "";
@@ -63,9 +64,8 @@ export default class ChatView extends ItemView {
   }
 
   async makeRequest(query: string): Promise<JSON> {
-    const response = await fetch(
-      "http://127.0.0.1:5000/query/" + encodeURIComponent(query)
-    );
+    const response = await fetchQuery(query);
+
     const responseJSON = await response.json();
     return responseJSON;
   }

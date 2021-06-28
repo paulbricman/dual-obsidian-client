@@ -1,5 +1,6 @@
 import { App, FrontMatterCache } from "obsidian";
-import { Utils } from "utils";
+import { Utils } from "./utils";
+import { fetchGenerate, fetchSearch } from "./network";
 
 export class SkillManager {
   app: App;
@@ -239,17 +240,10 @@ export class SkillManager {
     var prompt: string = this.getParamPrompt(command, param);
     console.log("prompt for", param, prompt);
 
-    const rawResponse = await fetch("http://127.0.0.1:3030/generate/", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        prompt: prompt,
-        context: [command],
-        generate_paragraphs: 1,
-      }),
+    const rawResponse = await fetchGenerate({
+      prompt: prompt,
+      context: [command],
+      generate_paragraphs: 1,
     });
 
     var content = await rawResponse.json();
@@ -359,11 +353,7 @@ export class SkillManager {
     searchPrompt += command + " =>";
 
     console.log(searchPrompt);
-    console.log(
-      filenames.map((e) => {
-        return " " + e + "\n\n";
-      })
-    );
+    console.log(filenames.map((e) => " " + e + "\n\n"));
 
     /*
     var searchPrompt =
@@ -376,19 +366,11 @@ export class SkillManager {
       " =>";
       */
 
-    const rawResponse = await fetch("http://127.0.0.1:3030/search/", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        prompt: searchPrompt.slice(-800, searchPrompt.length),
-        context: filenames.map((e) => {
-          return " " + e + "\n\n";
-        }),
-        generate_paragraphs: 1,
-      }),
+    // TODO: Refactor into network
+    const rawResponse = await fetchSearch({
+      prompt: searchPrompt.slice(-800, searchPrompt.length),
+      context: filenames.map((e) => " " + e + "\n\n"),
+      generate_paragraphs: 1,
     });
 
     var content = await rawResponse.json();
