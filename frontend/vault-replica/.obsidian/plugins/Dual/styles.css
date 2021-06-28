@@ -1,26 +1,41 @@
-.h3 {
-  text-align: left;
-  margin-top: 0;
-  margin-bottom: 0;
-  position: absolute;
-  top: 15px;
+#dual-root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
-#status {
-  text-align: left;
-  margin-top: 0;
-  margin-bottom: 5px;
+#dual-header,
+#dual-content,
+#dual-footer {
+  display: flex;
+}
+
+#dual-header {
+  gap: 8px;
+  align-items: center;
+  height: 32px;
+}
+
+.dual-header-title {
+  margin: 0;
+}
+
+#dual-status {
+  margin: 0;
   color: grey;
+  margin-left: auto;
+  font-weight: normal;
+  text-transform: uppercase;
 }
 
-#conversationDiv {
-  padding: 16px 12px;
+#dual-content {
+  flex-direction: column;
+  padding: 12px 12px 4px;
   background-color: var(--background-secondary-alt);
-  position: absolute;
-  left: 0;
-  width: 100%;
   overflow-y: scroll;
-  height: calc(100% - 110px);
+  flex: 1 0;
+  border-radius: 2px;
+  align-items: flex-start;
 }
 
 .dual-msg {
@@ -35,9 +50,9 @@
   border-radius: 8px 8px 8px 0;
 }
 
-.msg-right {
+.dual-msg-right {
   background-color: var(--background-primary);
-  float: right;
+  align-self: flex-end;
   border-radius: 8px 8px 0 8px;
 }
 
@@ -46,33 +61,25 @@
   padding: 0;
   display: inline-block;
   margin: 0;
+  overflow-wrap: break-word;
 }
 
 .dual-msg p + p {
   margin-top: 0.8em;
 }
 
-#dual-input-box {
-  font-size: 0.8em;
-  padding-inline-start: 2%;
-  padding-inline-end: 2%;
-  margin-top: 0px;
-  margin-bottom: 10px;
-  max-width: 68%;
-  min-width: 68%;
-  position: absolute;
-  bottom: 0;
-  left: 5%;
+#dual-footer {
+  padding: 8px 0 0;
+  gap: 4px;
 }
 
-#send-button {
-  align-items: left;
-  padding-inline-start: 2%;
-  padding-inline-end: 2%;
-  margin-top: 0px;
-  margin-bottom: 10px;
-  width: 20%;
-  position: absolute;
-  bottom: 0;
-  left: 75%;
+#dual-input {
+  font-size: 0.8em;
+  padding: 0.5em 1em;
+  flex: 1 0 auto;
+}
+
+#dual-btn-send {
+  padding: 0.5em 0.75em;
+  margin: 0;
 }

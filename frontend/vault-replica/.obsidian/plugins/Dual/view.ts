@@ -1,6 +1,9 @@
 import { ItemView, WorkspaceLeaf, MarkdownRenderer, Component } from "obsidian";
 import { SkillManager } from "skills";
 
+const contentId = "dual-content";
+const statusId = "dual-status";
+const inputId = "dual-input";
 export default class ChatView extends ItemView {
   customName = "";
 
@@ -22,10 +25,10 @@ export default class ChatView extends ItemView {
   }
 
   sendMessage(): void {
-    let input = <HTMLInputElement>document.getElementById("dual-input-box");
+    const input = <HTMLInputElement>document.getElementById(inputId);
     let replied = false;
 
-    if (input.value != "") {
+    if (input.value !== "") {
       this.drawMessage(input.value, "right");
 
       let typingPromise = new Promise((resolve) =>
@@ -36,6 +39,7 @@ export default class ChatView extends ItemView {
         }
       });
 
+      // TODO: Move text sanitation code out of View
       var skillManager = new SkillManager(this.app);
       skillManager.followCommand(input.value).then((response: string) => {
         response
@@ -71,32 +75,45 @@ export default class ChatView extends ItemView {
   private draw(): void {
     const container = this.containerEl.children[1];
 
+    // Root node
     const rootEl = document.createElement("div");
+    rootEl.id = "dual-root";
 
-    const headerDiv = rootEl.createDiv({ cls: "nav-header" });
-    const footerDiv = rootEl.createDiv({ cls: "nav-header" });
+    // Header
+    const headerDiv = rootEl.createEl("header", {
+      attr: { id: "dual-header" },
+    });
 
-    let header = headerDiv.createEl("h3");
-    header.appendText(this.customName);
+    // Title and status
+    headerDiv.createEl("h3", {
+      cls: "dual-header-title",
+      text: this.customName,
+    });
+    headerDiv.createEl("h6", { text: "Online", attr: { id: statusId } });
 
-    let status = headerDiv.createEl("h6");
-    status.id = "status";
-    status.appendText("online");
+    // Conversation content
+    rootEl.createDiv({ attr: { id: contentId } });
 
-    let conversationDiv = headerDiv.createDiv({ cls: "nav-header" });
-    conversationDiv.id = "conversationDiv";
+    // Footer
+    const footerDiv = rootEl.createEl("footer", {
+      attr: { id: "dual-footer" },
+    });
 
-    let input = footerDiv.createEl("input");
-    input.id = "dual-input-box";
-    input.type = "text";
+    // Input element
+    const input = footerDiv.createEl("input", {
+      type: "text",
+      attr: { id: inputId },
+    });
 
-    let button = footerDiv.createEl("button");
-    button.appendText("Send");
-    button.id = "send-button";
+    // Send button
+    const button = footerDiv.createEl("button", {
+      text: "Send",
+      attr: { id: "dual-btn-send" },
+    });
 
     this.registerDomEvent(button, "click", () => this.sendMessage());
     this.registerDomEvent(input, "keydown", (event) => {
-      if (event.key == "Enter") {
+      if (event.key === "Enter") {
         this.sendMessage();
       }
     });
@@ -106,10 +123,8 @@ export default class ChatView extends ItemView {
   }
 
   private drawMessage(content: string, side: "left" | "right"): void {
-    const conversationDiv = <HTMLDivElement>(
-      document.getElementById("conversationDiv")
-    );
-    const msg = conversationDiv.createDiv({ cls: `dual-msg msg-${side}` });
+    const conversationDiv = <HTMLDivElement>document.getElementById(contentId);
+    const msg = conversationDiv.createDiv({ cls: `dual-msg dual-msg-${side}` });
 
     MarkdownRenderer.renderMarkdown(
       content,
@@ -122,7 +137,7 @@ export default class ChatView extends ItemView {
   }
 
   private setStatus(content: string): void {
-    let statusP = <HTMLParagraphElement>document.getElementById("status");
+    let statusP = <HTMLParagraphElement>document.getElementById(statusId);
     statusP.setText(content);
   }
 }
