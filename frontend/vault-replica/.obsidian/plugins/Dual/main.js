@@ -470,6 +470,9 @@ Search Wikipedia for the designer of Python!  => Search Wikipedia for the  ___  
       " =>";
 */
 
+const contentId = "dual-content";
+const statusId = "dual-status";
+const inputId = "dual-input";
 class ChatView extends obsidian.ItemView {
     constructor(leaf, customName) {
         super(leaf);
@@ -486,15 +489,16 @@ class ChatView extends obsidian.ItemView {
         return "info";
     }
     sendMessage() {
-        let input = document.getElementById("dual-input-box");
+        const input = document.getElementById(inputId);
         let replied = false;
-        if (input.value != "") {
+        if (input.value !== "") {
             this.drawMessage(input.value, "right");
             new Promise((resolve) => setTimeout(resolve, 3000)).then(() => {
                 if (replied == false) {
                     this.setStatus("typing...");
                 }
             });
+            // TODO: Move text sanitation code out of View
             var skillManager = new SkillManager(this.app);
             skillManager.followCommand(input.value).then((response) => {
                 response
@@ -524,62 +528,38 @@ class ChatView extends obsidian.ItemView {
     }
     draw() {
         const container = this.containerEl.children[1];
+        // Root node
         const rootEl = document.createElement("div");
-        const headerDiv = rootEl.createDiv({ cls: "nav-header" });
-        const footerDiv = rootEl.createDiv({ cls: "nav-header" });
-        let header = headerDiv.createEl("h3");
-        header.appendText(this.customName);
-        header.style.textAlign = "left";
-        header.style.marginTop = "0px";
-        header.style.marginBottom = "0px";
-        header.style.position = "absolute";
-        header.style.top = "15px";
-        let status = headerDiv.createEl("h6");
-        status.id = "status";
-        status.appendText("online");
-        status.style.textAlign = "left";
-        status.style.marginTop = "0px";
-        status.style.marginBottom = "5px";
-        status.style.color = "grey";
-        let conversationDiv = headerDiv.createDiv({ cls: "nav-header" });
-        conversationDiv.id = "conversationDiv";
-        conversationDiv.style.padding = "0";
-        conversationDiv.style.backgroundColor = "var(--background-secondary-alt)";
-        conversationDiv.style.position = "absolute";
-        conversationDiv.style.left = "0";
-        conversationDiv.style.width = "100%";
-        conversationDiv.style.paddingLeft = "10px";
-        conversationDiv.style.paddingRight = "10px";
-        conversationDiv.style.overflowY = "scroll";
-        conversationDiv.style.height = "calc(100% - 110px)";
-        let input = footerDiv.createEl("input");
-        input.id = "dual-input-box";
-        input.type = "text";
-        input.style.fontSize = "0.8em";
-        input.style.paddingInlineStart = "2%";
-        input.style.paddingInlineEnd = "2%";
-        input.style.marginTop = "0px";
-        input.style.marginBottom = "10px";
-        input.style.maxWidth = "68%";
-        input.style.minWidth = "68%";
-        input.style.position = "absolute";
-        input.style.bottom = "0";
-        input.style.left = "5%";
-        let button = footerDiv.createEl("button");
-        button.appendText("Send");
-        button.id = "send-button";
-        button.style.alignItems = "left";
-        button.style.paddingInlineStart = "2%";
-        button.style.paddingInlineEnd = "2%";
-        button.style.marginTop = "0px";
-        button.style.marginBottom = "10px";
-        button.style.width = "20%";
-        button.style.position = "absolute";
-        button.style.bottom = "0";
-        button.style.left = "75%";
+        rootEl.id = "dual-root";
+        // Header
+        const headerDiv = rootEl.createEl("header", {
+            attr: { id: "dual-header" },
+        });
+        // Title and status
+        headerDiv.createEl("h3", {
+            cls: "dual-header-title",
+            text: this.customName,
+        });
+        headerDiv.createEl("h6", { text: "Online", attr: { id: statusId } });
+        // Conversation content
+        rootEl.createDiv({ attr: { id: contentId } });
+        // Footer
+        const footerDiv = rootEl.createEl("footer", {
+            attr: { id: "dual-footer" },
+        });
+        // Input element
+        const input = footerDiv.createEl("input", {
+            type: "text",
+            attr: { id: inputId },
+        });
+        // Send button
+        const button = footerDiv.createEl("button", {
+            text: "Send",
+            attr: { id: "dual-btn-send" },
+        });
         this.registerDomEvent(button, "click", () => this.sendMessage());
         this.registerDomEvent(input, "keydown", (event) => {
-            if (event.key == "Enter") {
+            if (event.key === "Enter") {
                 this.sendMessage();
             }
         });
@@ -587,41 +567,13 @@ class ChatView extends obsidian.ItemView {
         container.appendChild(rootEl);
     }
     drawMessage(content, side) {
-        let conversationDiv = (document.getElementById("conversationDiv"));
-        let p = conversationDiv.createEl("p");
-        p.style.boxSizing = "border-box";
-        p.style.maxWidth = "90%";
-        obsidian.MarkdownRenderer.renderMarkdown(content, p, this.app.vault.getRoot().path, new obsidian.Component());
-        for (let childIndex = 0; childIndex < p.children.length; childIndex++) {
-            p.children[childIndex].setAttribute("style", "margin: 5px; margin-left: 8px; margin-right: 8px");
-        }
-        p.style.userSelect = "text";
-        p.style.textAlign = "left";
-        p.style.fontSize = "0.8em";
-        p.style.borderRadius = "5px";
-        p.style.lineHeight = "18px";
-        p.style.padding = "0px";
-        p.style.paddingBlockStart = "0px";
-        p.style.marginTop = "5px";
-        p.style.marginBottom = "5px";
-        if (side == "right") {
-            p.style.backgroundColor = "var(--background-primary)";
-        }
-        else {
-            p.style.backgroundColor = "var(--background-secondary)";
-        }
-        if (side == "right") {
-            p.style.float = "right";
-        }
-        else {
-            p.style.float = "left";
-        }
-        p.style.display = "inline-block";
-        p.style.clear = "both";
+        const conversationDiv = document.getElementById(contentId);
+        const msg = conversationDiv.createDiv({ cls: `dual-msg dual-msg-${side}` });
+        obsidian.MarkdownRenderer.renderMarkdown(content, msg, this.app.vault.getRoot().path, new obsidian.Component());
         conversationDiv.scrollBy(0, 1000);
     }
     setStatus(content) {
-        let statusP = document.getElementById("status");
+        let statusP = document.getElementById(statusId);
         statusP.setText(content);
     }
 }
@@ -643,7 +595,9 @@ class MyPlugin extends obsidian.Plugin {
                 id: "focus-dual-input",
                 name: "Focus Dual input box",
                 callback: () => {
-                    document.getElementById("dual-input-box").focus();
+                    console.log(document.activeElement);
+                    document.getElementById(inputId).focus();
+                    console.log(document.activeElement);
                 },
             });
         });
