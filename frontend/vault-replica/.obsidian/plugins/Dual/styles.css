@@ -14,31 +14,42 @@
 }
 
 #conversationDiv {
-  padding: 0;
+  padding: 16px 12px;
   background-color: var(--background-secondary-alt);
   position: absolute;
   left: 0;
   width: 100%;
-  padding-left: 10px;
-  padding-right: 10px;
   overflow-y: scroll;
   height: calc(100% - 110px);
 }
 
-#conversationDiv p {
-  box-sizing: border-box;
+.dual-msg {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-secondary);
   max-width: 90%;
-  user-select: text;
-  text-align: left;
   font-size: 0.8em;
-  border-radius: 5px;
-  line-height: 18px;
-  padding: 0px;
-  padding-block-start: 0px;
-  margin-top: 5px;
-  margin-bottom: 5px;
+  line-height: 1.2em;
+  margin: 0 0 0.5em 0;
+  padding: 0.5em 0.75em;
+  border-radius: 8px 8px 8px 0;
+}
+
+.msg-right {
+  background-color: var(--background-primary);
+  float: right;
+  border-radius: 8px 8px 0 8px;
+}
+
+.dual-msg p {
+  user-select: text;
+  padding: 0;
   display: inline-block;
-  clear: both;
+  margin: 0;
+}
+
+.dual-msg p + p {
+  margin-top: 0.8em;
 }
 
 #dual-input-box {

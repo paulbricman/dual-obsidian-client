@@ -105,37 +105,18 @@ export default class ChatView extends ItemView {
     container.appendChild(rootEl);
   }
 
-  private drawMessage(content: string, side: string): void {
-    let conversationDiv = <HTMLDivElement>(
+  private drawMessage(content: string, side: "left" | "right"): void {
+    const conversationDiv = <HTMLDivElement>(
       document.getElementById("conversationDiv")
     );
-    let p = conversationDiv.createEl("p");
+    const msg = conversationDiv.createDiv({ cls: `dual-msg msg-${side}` });
 
     MarkdownRenderer.renderMarkdown(
       content,
-      p,
+      msg,
       this.app.vault.getRoot().path,
       new Component()
     );
-
-    for (let childIndex = 0; childIndex < p.children.length; childIndex++) {
-      p.children[childIndex].setAttribute(
-        "style",
-        "margin: 5px; margin-left: 8px; margin-right: 8px"
-      );
-    }
-
-    if (side == "right") {
-      p.style.backgroundColor = "var(--background-primary)";
-    } else {
-      p.style.backgroundColor = "var(--background-secondary)";
-    }
-
-    if (side == "right") {
-      p.style.float = "right";
-    } else {
-      p.style.float = "left";
-    }
 
     conversationDiv.scrollBy(0, 1000);
   }
