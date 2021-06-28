@@ -6,7 +6,7 @@ import {
   Setting,
   Workspace,
 } from "obsidian";
-import ChatView from "view";
+import ChatView, { inputId } from "view";
 import { Utils } from "utils";
 
 interface MyPluginSettings {
@@ -39,9 +39,7 @@ export default class MyPlugin extends Plugin {
     this.addCommand({
       id: "focus-dual-input",
       name: "Focus Dual input box",
-      callback: () => {
-        document.getElementById("dual-input-box").focus();
-      },
+      callback: () => document.getElementById(inputId).focus(),
     });
   }
 
