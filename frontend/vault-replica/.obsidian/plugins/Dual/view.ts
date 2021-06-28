@@ -3,7 +3,7 @@ import { SkillManager } from "skills";
 
 const contentId = "dual-content";
 const statusId = "dual-status";
-const inputId = "dual-input";
+export const inputId = "dual-input";
 export default class ChatView extends ItemView {
   customName = "";
 
