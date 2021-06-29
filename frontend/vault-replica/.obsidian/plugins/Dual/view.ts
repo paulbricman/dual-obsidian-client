@@ -102,7 +102,7 @@ export default class ChatView extends ItemView {
     // Input element
     const input = footerDiv.createEl("input", {
       type: "text",
-      attr: { id: inputId },
+      attr: { id: inputId, size: 1 },
     });
 
     // Send button
