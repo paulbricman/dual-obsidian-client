@@ -74,10 +74,12 @@ pub async fn generate(query: Query, model: Model, tokenizer: Tokenizer) -> Vec<S
     let mut prompt = query.prompt.clone();
     let mut prompt_len = prompt.chars().count();
 
+    /*
     if prompt_len > 900 {
         prompt = String::from(&prompt[prompt_len - 900..]);
         prompt_len = 900;
     }
+    */
 
     let context_tokens: Vec<Vec<String>>;
     let context_ids: Option<Vec<Vec<i64>>>;

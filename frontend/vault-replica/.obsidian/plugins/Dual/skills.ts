@@ -15,7 +15,7 @@ export class SkillManager {
   async followCommand(command: string) {
     var skillPath = await this.matchCommand(command);
     console.log("FOLLOWING", command, "USING", skillPath);
-    var result = this.useSkill(skillPath, command);
+    var result = "meh"; //this.useSkill(skillPath, command);
 
     return result;
   }
@@ -287,20 +287,10 @@ export class SkillManager {
 
         this.app.metadataCache
           .getFileCache(file)
-          .frontmatter.slice(0, 1)
+          .frontmatter.slice(0, 2)
           .forEach((val: any, index: any, array: any) => {
             if (commandExampleParam in val) {
               newCommandExample = val[commandExampleParam];
-
-              Object.entries(val).forEach((field, fieldIndex, fieldArray) => {
-                if (fieldIndex > 0) {
-                  newCommandExample = newCommandExample.replace(
-                    field[1],
-                    "..."
-                  );
-                }
-              });
-
               commandExamples = commandExamples.concat(newCommandExample);
               skillPaths = skillPaths.concat(file.path);
             }
@@ -356,7 +346,7 @@ export class SkillManager {
 
     // TODO: Refactor into network
     const rawResponse = await fetchSearch({
-      prompt: searchPrompt.slice(-900, searchPrompt.length),
+      prompt: searchPrompt,
       context: filenames.map((e) => " " + e + "\n\n"),
       generate_paragraphs: 1,
     });
