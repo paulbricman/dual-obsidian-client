@@ -4,12 +4,12 @@
     "type": "split",
     "children": [
       {
-        "id": "23282d852d02ebf8",
+        "id": "345655008a7cafe9",
         "type": "leaf",
         "state": {
           "type": "markdown",
           "state": {
-            "file": "skillset/Answer open questions.md",
+            "file": "skillset/Find note.md",
             "mode": "source"
           }
         }
@@ -52,7 +52,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 238.00868225097656
+    "width": 238.00868225097656,
+    "collapsed": true
   },
   "right": {
     "id": "5d1f799a6fe86f29",
@@ -76,7 +77,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "skillset/Answer open questions.md",
+                "file": "skillset/Find note.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -91,19 +92,19 @@
       }
     ],
     "direction": "horizontal",
-    "width": 260.7308654785156
+    "width": 357.50860595703125
   },
-  "active": "23282d852d02ebf8",
+  "active": "345655008a7cafe9",
   "lastOpenFiles": [
-    "skillset/Answer open questions.md",
-    "skillset/Find applications of technologies.md",
-    "skillset/Find conceptual connections.md",
-    "skillset/Find conceptual dependencies.md",
-    "skillset/Find related concepts.md",
-    "skillset/Formulate questions.md",
-    "skillset/Formulate research question.md",
-    "skillset/List note.md",
-    "skillset/Search Wikipedia.md",
-    "skillset/Write a sentence.md"
+    "skillset/Find note.md",
+    "dummy-notes/Conscious awareness modulates neural activity.md",
+    "dummy-notes/Concepts are like rooms.md",
+    "dummy-notes/Computer networking idealizes social structures.md",
+    "dummy-notes/Cognitive magnification results in topographic organization.md",
+    "dummy-notes/Brains are like oceans.md",
+    "dummy-notes/Brains are like cities.md",
+    "dummy-notes/Brain waves are consonant with momentariness.md",
+    "dummy-notes/BPTT trains all weights, while RC only output weights.md",
+    "dummy-notes/Boltzmann distribution links macrostates with microstate probabilities.md"
   ]
 }

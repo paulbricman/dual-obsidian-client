@@ -28,7 +28,6 @@ export class SkillManager {
 
     var params: string[] = await this.getParams(this.skillContents);
     var args: string[] = await this.getArgs(command, params);
-    console.log("ARGS", args);
     this.skillContents = this.resolveParams(this.skillContents, params, args);
 
     var codeBlocks = this.detectCodeBlocks();
@@ -238,8 +237,6 @@ export class SkillManager {
     }
 
     var prompt: string = this.getParamPrompt(command, param);
-    console.log("prompt for", param, prompt);
-
     const rawResponse = await fetchGenerate({
       prompt: prompt,
       context: [command],
@@ -290,13 +287,17 @@ export class SkillManager {
 
         this.app.metadataCache
           .getFileCache(file)
-          .frontmatter.forEach((val: any, index: any, array: any) => {
+          .frontmatter.slice(0, 1)
+          .forEach((val: any, index: any, array: any) => {
             if (commandExampleParam in val) {
               newCommandExample = val[commandExampleParam];
 
               Object.entries(val).forEach((field, fieldIndex, fieldArray) => {
                 if (fieldIndex > 0) {
-                  newCommandExample = newCommandExample.replace(field[1], "");
+                  newCommandExample = newCommandExample.replace(
+                    field[1],
+                    "..."
+                  );
                 }
               });
 
@@ -340,35 +341,22 @@ export class SkillManager {
     // Hide quoted content from command matching
     command = command.replace(/"[\s\S]*"/, '""');
     var examplePathPairs = this.getCommandExamples();
-    var examples = examplePathPairs[0],
-      paths = examplePathPairs[1];
-    this.shuffle(examples, paths);
+    var examples = examplePathPairs[0].reverse(),
+      paths = examplePathPairs[1].reverse();
+    //this.shuffle(examples, paths);
 
     var filenames = paths.map((e) => e.replace(/^.*[\\\/]/, "").slice(0, -3)),
       searchPrompt = "";
 
     for (let index = 0; index < examples.length; index++) {
-      searchPrompt += examples[index] + " => " + filenames[index] + "\\n\\n";
+      searchPrompt += examples[index] + " => " + filenames[index] + "\n\n";
     }
     searchPrompt += command + " =>";
-
     console.log(searchPrompt);
-    console.log(filenames.map((e) => " " + e + "\n\n"));
-
-    /*
-    var searchPrompt =
-      examples
-        .map((e) => {
-          return e + " => " + e + "\n\n";
-        })
-        .join("") +
-      command +
-      " =>";
-      */
 
     // TODO: Refactor into network
     const rawResponse = await fetchSearch({
-      prompt: searchPrompt.slice(-800, searchPrompt.length),
+      prompt: searchPrompt.slice(-900, searchPrompt.length),
       context: filenames.map((e) => " " + e + "\n\n"),
       generate_paragraphs: 1,
     });
@@ -424,38 +412,15 @@ export class SkillManager {
 }
 
 /*
-searchPrompt =
-      `Please calculate 3*7  => Determine what's  ___ 
+argmin => Argmin
 
-Now determine what concepts does evolution rely on? => What are some of the concepts on which  ___  is based on?
+reward systems => neural systems which regulate reward
 
-Go look through Wikipedia for the director of Interstellar.  => Search Wikipedia for the  ___  of  ___ 
+RNNs and backpropagation => backpropagation through time with RNNs
 
-I'm learning about multi-threading. Quiz me on it. => Test me on  ___ .
+metaphors of concepts => concepts are associated with rooms
 
-Hey, search for one note on virtual assistants! => Find a note on  ___ .
+NCC => neural correlates of consciousness
 
-Get me one note about dynamics, please. => Search for a note about  ___ .
-
-Determine what's (85*7) next => Compute  ___ 
-
-Find a handful of notes on temporal attention, will you? => Search for personal notes on  ___ .
-
-It would be nice if you could suggest me a research question on sustainability. => Suggest me an RQ on ___
-
-Complete the following: The answer is... => Formulate one sentence starting with " ___ "
-
-Test me on  ___  => Ask me something about  ___ 
-
-Hey you, what does Rust depend on? => List the dependencies of  ___ 
-
-Enumerate the dependencies of analogy, please. => List the dependencies of  ___ 
-
-Ask me stuff about topology now => Test me on stuff about  ___ 
-
-Search Wikipedia for the designer of Python!  => Search Wikipedia for the  ___  of  ___ 
-
-` +
-      command +
-      " =>";
+*topic* =>
 */
