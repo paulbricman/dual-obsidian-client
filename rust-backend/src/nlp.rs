@@ -113,12 +113,14 @@ pub async fn generate(query: Query, model: Model, tokenizer: Tokenizer) -> Vec<S
         None,
         None,
         None,
+        None,
         Some(allowed_tokens.deref()),
+        false,
     );
 
     output
         .iter()
-        .map(|e| tokenizer.decode(e.clone(), true, false)[prompt_len..].to_string())
+        .map(|e| tokenizer.decode(e.indices.clone(), true, false)[prompt_len..].to_string())
         .collect()
 }
 
