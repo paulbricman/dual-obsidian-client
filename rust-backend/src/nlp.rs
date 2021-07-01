@@ -17,8 +17,10 @@ use tokio::sync::Mutex;
 use tokio::sync::MutexGuard;
 
 use ngt::{DistanceType, Index, Properties, EPSILON};
+use pickledb::{PickleDb, PickleDbDumpPolicy};
 use sbert::SBertRT;
 use std::env;
+use std::path::Path;
 use std::path::PathBuf;
 
 pub type GenModel = Arc<Mutex<GPT2Generator>>;
@@ -221,8 +223,34 @@ pub async fn search(query: Query, emb_model: EmbModel) -> Vec<u32> {
     let prompt = query.prompt;
     let context = query.context.unwrap();
     let emb_model = emb_model.lock().await;
+    let mut db: PickleDb;
 
-    let output_emb = emb_model.forward(&context, 64).unwrap();
+    if Path::new("emb_cache.db").exists() {
+        db = PickleDb::load_bin("emb_cache.db", PickleDbDumpPolicy::AutoDump).unwrap();
+    } else {
+        db = PickleDb::new_bin("emb_cache.db", PickleDbDumpPolicy::AutoDump);
+    }
+
+    let output_emb: Vec<Vec<f32>> = context
+        .iter()
+        .map(|e| {
+            let key = e.as_str().clone();
+            if db.exists(key) {
+                let new_emb: Vec<f32> = db.get(key).unwrap();
+                new_emb
+            } else {
+                let new_emb = emb_model
+                    .forward(&[key], 1)
+                    .unwrap()
+                    .get(0)
+                    .unwrap()
+                    .clone();
+                db.set(key, &new_emb);
+                new_emb
+            }
+        })
+        .collect();
+
     let prompt_emb = emb_model.forward(&[prompt], 1).unwrap();
     let prop = Properties::dimension(512)
         .unwrap()

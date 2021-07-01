@@ -4,3 +4,4 @@ frontend/vault-replica/.obsidian/plugins/Dual/coverage
 rust-backend/target/*
 rust-backend/models/*
 rust-backend/index/*
+rust-backend/emb_cache.db

@@ -15,7 +15,7 @@ export class SkillManager {
   async followCommand(command: string) {
     var skillPath = await this.matchCommand(command);
     console.log("FOLLOWING", command, "USING", skillPath);
-    var result = "meh"; //this.useSkill(skillPath, command);
+    var result = this.useSkill(skillPath, command);
 
     return result;
   }

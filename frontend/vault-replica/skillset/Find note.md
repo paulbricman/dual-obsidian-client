@@ -17,9 +17,8 @@
 			"Content-Type": "application/json",
 		},
 		"body": JSON.stringify({
-			"prompt": "argmin => Argmin\n\nreward systems => neural systems which regulate reward\n\nRNNs and backpropagation => backpropagation through time with RNNs\n\nmetaphors of concepts => concepts are associated with rooms\n\nNCC => neural correlates of consciousness\n\n*topic* =>",
-			"context": notes.map((e) => " " + e),
-			"generate_sentences": 1
+			"prompt": "*topic*",
+			"context": notes
 		})
 	});
 
