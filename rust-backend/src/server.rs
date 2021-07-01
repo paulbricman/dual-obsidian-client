@@ -8,10 +8,10 @@ use warp::Filter;
 /// Get completions and package them up in a JSON
 async fn generate_handler_fn(
     query: Query,
-    model: GenModel,
+    gen_model: GenModel,
     tokenizer: Tokenizer,
 ) -> Result<impl warp::Reply, Infallible> {
-    let output = generate(query, model, tokenizer).await;
+    let output = generate(query, gen_model, tokenizer).await;
     let mut response = HashMap::new();
     response.insert("output", output);
 
@@ -19,10 +19,12 @@ async fn generate_handler_fn(
 }
 
 /// Get search results and package them up in a JSON
-async fn search_handler_fn(query: Query, model: EmbModel) -> Result<impl warp::Reply, Infallible> {
-    let context = query.context.clone().unwrap();
+async fn search_handler_fn(
+    query: Query,
+    emb_model: EmbModel,
+) -> Result<impl warp::Reply, Infallible> {
     let mut response = HashMap::new();
-    response.insert("output", 123);
+    response.insert("output", search(query, emb_model).await);
 
     Ok(warp::reply::json(&response))
 }

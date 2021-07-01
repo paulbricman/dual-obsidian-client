@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "skillset/Find note.md",
+            "file": "skillset/Find applications of technologies.md",
             "mode": "source"
           }
         }
@@ -76,7 +76,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "skillset/Find note.md",
+                "file": "skillset/Find applications of technologies.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -95,6 +95,7 @@
   },
   "active": "345655008a7cafe9",
   "lastOpenFiles": [
+    "skillset/Find applications of technologies.md",
     "skillset/Find note.md",
     "dummy-notes/Conscious awareness modulates neural activity.md",
     "dummy-notes/Concepts are like rooms.md",
@@ -103,7 +104,6 @@
     "dummy-notes/Brains are like oceans.md",
     "dummy-notes/Brains are like cities.md",
     "dummy-notes/Brain waves are consonant with momentariness.md",
-    "dummy-notes/BPTT trains all weights, while RC only output weights.md",
-    "dummy-notes/Boltzmann distribution links macrostates with microstate probabilities.md"
+    "dummy-notes/BPTT trains all weights, while RC only output weights.md"
   ]
 }

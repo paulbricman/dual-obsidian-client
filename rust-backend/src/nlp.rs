@@ -16,6 +16,7 @@ use std::sync::Arc;
 use tokio::sync::Mutex;
 use tokio::sync::MutexGuard;
 
+use ngt::{DistanceType, Index, Properties, EPSILON};
 use sbert::SBertRT;
 use std::env;
 use std::path::PathBuf;
@@ -214,4 +215,27 @@ fn allowed_tokens_factory<'a>(
 
         (0..50255).collect()
     })
+}
+
+pub async fn search(query: Query, emb_model: EmbModel) -> Vec<u32> {
+    let prompt = query.prompt;
+    let context = query.context.unwrap();
+    let emb_model = emb_model.lock().await;
+
+    let output_emb = emb_model.forward(&context, 64).unwrap();
+    let prompt_emb = emb_model.forward(&[prompt], 1).unwrap();
+    let prop = Properties::dimension(512)
+        .unwrap()
+        .distance_type(DistanceType::Cosine)
+        .unwrap();
+    let mut index = Index::create("index/", prop).unwrap();
+
+    for emb in output_emb.iter() {
+        index.insert(emb.clone().into());
+    }
+    index.build(4);
+
+    let prompt_emb: Vec<f64> = prompt_emb[0].iter().map(|&e| e as f64).collect();
+    let res = index.search(prompt_emb.as_slice(), 3, EPSILON).unwrap();
+    res.iter().map(|e| e.id).collect()
 }

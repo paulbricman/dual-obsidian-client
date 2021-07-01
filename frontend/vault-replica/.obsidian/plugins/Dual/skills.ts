@@ -15,7 +15,7 @@ export class SkillManager {
   async followCommand(command: string) {
     var skillPath = await this.matchCommand(command);
     console.log("FOLLOWING", command, "USING", skillPath);
-    var result = this.useSkill(skillPath, command);
+    var result = "meh"; //this.useSkill(skillPath, command);
 
     return result;
   }
@@ -287,10 +287,19 @@ export class SkillManager {
 
         this.app.metadataCache
           .getFileCache(file)
-          .frontmatter.slice(0, 2)
-          .forEach((val: any, index: any, array: any) => {
+          .frontmatter.forEach((val: any, index: any, array: any) => {
             if (commandExampleParam in val) {
               newCommandExample = val[commandExampleParam];
+
+              Object.entries(val).forEach((field, fieldIndex, fieldArray) => {
+                if (fieldIndex > 0) {
+                  newCommandExample = newCommandExample.replace(
+                    field[1],
+                    " ___ "
+                  );
+                }
+              });
+
               commandExamples = commandExamples.concat(newCommandExample);
               skillPaths = skillPaths.concat(file.path);
             }
@@ -331,44 +340,18 @@ export class SkillManager {
     // Hide quoted content from command matching
     command = command.replace(/"[\s\S]*"/, '""');
     var examplePathPairs = this.getCommandExamples();
-    var examples = examplePathPairs[0].reverse(),
-      paths = examplePathPairs[1].reverse();
-    //this.shuffle(examples, paths);
-
-    var filenames = paths.map((e) => e.replace(/^.*[\\\/]/, "").slice(0, -3)),
-      searchPrompt = "";
-
-    for (let index = 0; index < examples.length; index++) {
-      searchPrompt += examples[index] + " => " + filenames[index] + "\n\n";
-    }
-    searchPrompt += command + " =>";
-    console.log(searchPrompt);
+    var examples = examplePathPairs[0],
+      paths = examplePathPairs[1];
 
     // TODO: Refactor into network
     const rawResponse = await fetchSearch({
-      prompt: searchPrompt,
-      context: filenames.map((e) => " " + e + "\n\n"),
+      prompt: command,
+      context: examples,
       generate_paragraphs: 1,
     });
 
     var content = await rawResponse.json();
     return paths[content["output"][0]];
-  }
-
-  shuffle(obj1: string[], obj2: string[]) {
-    var index = obj1.length;
-    var rnd, tmp1, tmp2;
-
-    while (index) {
-      rnd = Math.floor(Math.random() * index);
-      index -= 1;
-      tmp1 = obj1[index];
-      tmp2 = obj2[index];
-      obj1[index] = obj1[rnd];
-      obj2[index] = obj2[rnd];
-      obj1[rnd] = tmp1;
-      obj2[rnd] = tmp2;
-    }
   }
 
   // Substitute parameters with arguments in a skill
