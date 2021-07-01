@@ -16,11 +16,16 @@ use std::sync::Arc;
 use tokio::sync::Mutex;
 use tokio::sync::MutexGuard;
 
-pub type Model = Arc<Mutex<GPT2Generator>>;
-pub type Tokenizer = Arc<Mutex<TokenizerOption>>;
+use sbert::SBertRT;
+use std::env;
+use std::path::PathBuf;
 
-/// Initialize model config
-pub fn model_config() -> GenerateConfig {
+pub type GenModel = Arc<Mutex<GPT2Generator>>;
+pub type Tokenizer = Arc<Mutex<TokenizerOption>>;
+pub type EmbModel = Arc<Mutex<SBertRT>>;
+
+/// Initialize gen_model config
+pub fn gen_model_config() -> GenerateConfig {
     let config = GenerateConfig {
         max_length: 1000,
         model_resource: Resource::Remote(RemoteResource::from_pretrained(
@@ -44,10 +49,19 @@ pub fn model_config() -> GenerateConfig {
     config
 }
 
-/// Load model
-pub fn model(config: GenerateConfig) -> Model {
-    let model = GPT2Generator::new(config).expect("Model failed to load");
-    Arc::new(Mutex::new(model))
+/// Load gen_model
+pub fn gen_model(config: GenerateConfig) -> GenModel {
+    let gen_model = GPT2Generator::new(config).expect("Model failed to load");
+    Arc::new(Mutex::new(gen_model))
+}
+
+pub fn emb_model() -> EmbModel {
+    let mut home: PathBuf = env::current_dir().unwrap();
+    home.push("models");
+    home.push("distiluse-base-multilingual-cased");
+
+    let emb_model = SBertRT::new(home.to_str().unwrap()).unwrap();
+    Arc::new(Mutex::new(emb_model))
 }
 
 /// Load tokenizer
@@ -68,19 +82,11 @@ pub fn tokenizer(config: GenerateConfig) -> Tokenizer {
 }
 
 /// Generate completions
-pub async fn generate(query: Query, model: Model, tokenizer: Tokenizer) -> Vec<String> {
-    let model = model.lock().await;
+pub async fn generate(query: Query, gen_model: GenModel, tokenizer: Tokenizer) -> Vec<String> {
+    let gen_model = gen_model.lock().await;
     let tokenizer = tokenizer.lock().await;
-    let mut prompt = query.prompt.clone();
-    let mut prompt_len = prompt.chars().count();
-
-    /*
-    if prompt_len > 900 {
-        prompt = String::from(&prompt[prompt_len - 900..]);
-        prompt_len = 900;
-    }
-    */
-
+    let prompt = query.prompt.clone();
+    let prompt_len = prompt.chars().count();
     let context_tokens: Vec<Vec<String>>;
     let context_ids: Option<Vec<Vec<i64>>>;
 
@@ -107,7 +113,7 @@ pub async fn generate(query: Query, model: Model, tokenizer: Tokenizer) -> Vec<S
         context_ids,
     );
 
-    let output = model.generate_indices(
+    let output = gen_model.generate_indices(
         Some(&[prompt.as_str()]),
         None,
         None,

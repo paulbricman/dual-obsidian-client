@@ -1697,7 +1697,7 @@ checksum = "ef703b7cb59335eae2eb93ceb664c0eb7ea6bf567079d843e09420219668e072"
 [[package]]
 name = "sbert"
 version = "0.5.0"
-source = "git+https://github.com/paulbricman/rust-sbert/#c0dea298284eae864f9041f5eb1b869fcdd7ac63"
+source = "git+https://github.com/paulbricman/rust-sbert/#5c0b632ed3f9c0fff0162d06baf5ed577357b772"
 dependencies = [
  "lazy_static",
  "log",

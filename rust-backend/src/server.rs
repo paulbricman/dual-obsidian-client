@@ -1,5 +1,4 @@
 use crate::nlp::*;
-use itertools::Itertools;
 use serde::Deserialize;
 use std::collections::HashMap;
 use std::convert::Infallible;
@@ -9,7 +8,7 @@ use warp::Filter;
 /// Get completions and package them up in a JSON
 async fn generate_handler_fn(
     query: Query,
-    model: Model,
+    model: GenModel,
     tokenizer: Tokenizer,
 ) -> Result<impl warp::Reply, Infallible> {
     let output = generate(query, model, tokenizer).await;
@@ -20,26 +19,10 @@ async fn generate_handler_fn(
 }
 
 /// Get search results and package them up in a JSON
-async fn search_handler_fn(
-    query: Query,
-    model: Model,
-    tokenizer: Tokenizer,
-) -> Result<impl warp::Reply, Infallible> {
+async fn search_handler_fn(query: Query, model: EmbModel) -> Result<impl warp::Reply, Infallible> {
     let context = query.context.clone().unwrap();
-    let output = generate(query, model, tokenizer).await;
-    let idx: Vec<usize> = output
-        .iter()
-        .map(|quote| {
-            context
-                .iter()
-                .position(|source| source.contains(quote))
-                .unwrap()
-        })
-        .unique()
-        .collect();
-
     let mut response = HashMap::new();
-    response.insert("output", idx);
+    response.insert("output", 123);
 
     Ok(warp::reply::json(&response))
 }
@@ -54,9 +37,15 @@ pub struct Query {
 }
 
 /// Reuse loaded model on each request
-fn with_model(
-    model: Model,
-) -> impl Filter<Extract = (Model,), Error = std::convert::Infallible> + Clone {
+fn with_gen_model(
+    model: GenModel,
+) -> impl Filter<Extract = (GenModel,), Error = std::convert::Infallible> + Clone {
+    warp::any().map(move || model.clone())
+}
+
+fn with_emb_model(
+    model: EmbModel,
+) -> impl Filter<Extract = (EmbModel,), Error = std::convert::Infallible> + Clone {
     warp::any().map(move || model.clone())
 }
 
@@ -74,35 +63,41 @@ fn json_body() -> impl Filter<Extract = (Query,), Error = warp::Rejection> + Clo
 /// Load model and tokenizer, define handlers, serve
 pub async fn serve() {
     let tokenizer: Tokenizer = task::spawn_blocking(move || {
-        let c = model_config();
+        let c = gen_model_config();
         let t = tokenizer(c);
         t
     })
     .await
     .expect("Working");
 
-    let model: Model = task::spawn_blocking(move || {
-        let c = model_config();
-        let m = model(c);
+    let gen_model: GenModel = task::spawn_blocking(move || {
+        let c = gen_model_config();
+        let m = gen_model(c);
         m
     })
     .await
     .expect("Working");
 
-    println!("Loaded config and model");
+    let emb_model: EmbModel = task::spawn_blocking(move || {
+        let m = emb_model();
+        m
+    })
+    .await
+    .expect("Working");
+
+    println!("Loaded models.");
 
     let generate_handler = warp::path!("generate")
         .and(warp::post())
         .and(json_body())
-        .and(with_model(model.clone()))
+        .and(with_gen_model(gen_model.clone()))
         .and(with_tokenizer(tokenizer.clone()))
         .and_then(generate_handler_fn);
 
     let search_handler = warp::path!("search")
         .and(warp::post())
         .and(json_body())
-        .and(with_model(model.clone()))
-        .and(with_tokenizer(tokenizer.clone()))
+        .and(with_emb_model(emb_model.clone()))
         .and_then(search_handler_fn);
 
     let cors = warp::cors()
