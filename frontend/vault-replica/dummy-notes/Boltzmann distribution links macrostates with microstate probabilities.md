@@ -1,0 +1,5 @@
+---
+resource: https://www.ai.rug.nl/minds/uploads/LN_NN_RUG.pdf
+---
+
+The [[Boltzmann machine is a universal learning machine|Boltzmann]] [[KL-divergence formalizes difference between discrete probability distributions|distribution]] is a [[Joint, marginal, and conditional probabilities are primitives of probability theory|probability]] distribution of [[Dynamical systems have a certain anatomy|microstates]] determined by the observed macrostate and the energies of microstates. For example, the Boltzmann distribution offers a probability distribution over the possible states of a gas in a container (i.e. location & momentum of each [[Particle systems populate spaces with object instances|particle]]) given an observed temperature and knowledge about energies of possible microstates. It's a physics-flavored [[Argmin and argmax formalize optimization|optimization problem]].

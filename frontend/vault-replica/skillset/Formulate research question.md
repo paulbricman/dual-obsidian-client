@@ -4,9 +4,9 @@
 - command: Formulate a research question about mental health treatments
   subject: mental health treatments
 - command: Come up with a RQ about population growth.
-  subject: social housing
+  subject: population growth
 - command: Suggest me a research question on sustainability interventions
-  subject: sustainability interventions in the Netherlands
+  subject: sustainability interventions
 - command: Try to formulate a RQ on argument mining
   subject: argument mining
 ---
@@ -24,5 +24,5 @@ argument mining: How effective is few-shot learning in extracting arguments from
 *subject*:
 
 ```dual
-Write a sentence starting with "#0"
+Write a sentence which starts with "#0"
 ```

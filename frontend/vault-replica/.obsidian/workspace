@@ -4,7 +4,7 @@
     "type": "split",
     "children": [
       {
-        "id": "23282d852d02ebf8",
+        "id": "345655008a7cafe9",
         "type": "leaf",
         "state": {
           "type": "markdown",
@@ -91,9 +91,9 @@
       }
     ],
     "direction": "horizontal",
-    "width": 282.11798095703125
+    "width": 347
   },
-  "active": "23282d852d02ebf8",
+  "active": "345655008a7cafe9",
   "lastOpenFiles": [
     "skillset/Formulate research question.md",
     "skillset/Formulate questions.md",

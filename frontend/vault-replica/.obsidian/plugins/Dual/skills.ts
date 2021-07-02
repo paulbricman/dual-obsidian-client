@@ -1,5 +1,6 @@
 import { App, FrontMatterCache } from "obsidian";
-import { Utils } from "utils";
+import { Utils } from "./utils";
+import { fetchGenerate, fetchSearch } from "./network";
 
 export class SkillManager {
   app: App;
@@ -179,11 +180,11 @@ export class SkillManager {
   // Get a list of code blocks with details
   detectCodeBlocks() {
     let m,
-      res: any = []
+      res: any = [];
     const re = RegExp(
-        /\`\`\`(?<type>\w+)(?<contents>(?:\`[^\`]|[^\`])*)\`\`\`/,
-        "g"
-      );
+      /\`\`\`(?<type>\w+)(?<contents>(?:\`[^\`]|[^\`])*)\`\`\`/,
+      "g"
+    );
 
     do {
       m = re.exec(this.skillContents);
@@ -236,23 +237,14 @@ export class SkillManager {
     }
 
     var prompt: string = this.getParamPrompt(command, param);
-
-    const rawResponse = await fetch("http://127.0.0.1:5000/generate/", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        prompt: prompt,
-        behavior: "parse_args",
-        pool: command,
-      }),
+    const rawResponse = await fetchGenerate({
+      prompt: prompt,
+      context: [command],
+      generate_paragraphs: 1,
     });
 
     var content = await rawResponse.json();
-    content = content["result"][0];
-    content = content.split('"')[0].trim();
+    content = content["output"][0].trim();
 
     return content;
   }
@@ -269,14 +261,14 @@ export class SkillManager {
     this.skillMetadata.forEach((val: any, index: any, array: any) => {
       if (commandParam in val && param in val) {
         if (Math.random() >= 0.6) {
-          prompt += val[commandParam] + ' => "' + val[param] + '"\n\n';
+          prompt += val[commandParam] + " => " + val[param] + "\n\n";
         } else {
-          prompt += val[commandParam] + ' => " ' + val[param] + '"\n\n';
+          prompt += val[commandParam] + " =>  " + val[param] + "\n\n";
         }
       }
     });
 
-    prompt += command + ' => "';
+    prompt += command + " => ";
     return prompt;
   }
 
@@ -330,7 +322,6 @@ export class SkillManager {
       }
     }
   }
-
   // Get metadata of a skill at a path
   loadSkillMetadata(skillPath: string) {
     var markdownFiles = this.app.vault.getMarkdownFiles();
@@ -352,21 +343,15 @@ export class SkillManager {
     var examples = examplePathPairs[0],
       paths = examplePathPairs[1];
 
-    const rawResponse = await fetch("http://127.0.0.1:5000/extract/", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        query: command,
-        documents: examples,
-        selected_candidates: 1,
-      }),
+    // TODO: Refactor into network
+    const rawResponse = await fetchSearch({
+      prompt: command,
+      context: examples,
+      generate_paragraphs: 1,
     });
 
     var content = await rawResponse.json();
-    return paths[content["result"][0]];
+    return paths[content["output"][0]];
   }
 
   // Substitute parameters with arguments in a skill
@@ -398,3 +383,17 @@ export class SkillManager {
     return notes;
   }
 }
+
+/*
+argmin => Argmin
+
+reward systems => neural systems which regulate reward
+
+RNNs and backpropagation => backpropagation through time with RNNs
+
+metaphors of concepts => concepts are associated with rooms
+
+NCC => neural correlates of consciousness
+
+*topic* =>
+*/

@@ -1,0 +1,4 @@
+---
+---
+
+In machine learning, [[Semantic embeddings of discrete items are like checkers|semantic embeddings of discrete items]] can either denote [[Prototypical reasoning enriches exemplars|prototypes or exemplars]] of [[Family resemblance glues exemplars into fuzzy concepts|conceptual families]]. When denoting [[Classes are prototypes, objects are exemplars|prototypes]], they are [[Deep learning is consonant with empiricism|informed by exemplars]]. In this, machine learning tacitly embraces the concept theory assumption that [[Concept learning is few-shot scaffolding supported by working memory|concept learning]] consists on deriving prototypes based on exemplars in [[Context-independent strategies are like good chess moves|context]]. However, when denoting [[Exemplar search results in gradually less representative items|exemplars]], each token gets its own [[Context-independent strategies are like good chess moves|context-based embedding]].

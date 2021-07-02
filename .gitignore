@@ -1,3 +1,7 @@
 *.bin
 frontend/vault-replica/.obsidian/plugins/Dual/node_modules/*
 frontend/vault-replica/.obsidian/plugins/Dual/coverage
+backend/target/*
+backend/models/*
+backend/index/*
+backend/emb_cache.db

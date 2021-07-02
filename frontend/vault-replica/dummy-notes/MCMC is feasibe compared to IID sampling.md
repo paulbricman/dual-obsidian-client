@@ -1,0 +1,5 @@
+---
+resource: https://www.ai.rug.nl/minds/uploads/LN_NN_RUG.pdf
+---
+
+If you have a [[Curse of dimensionality hinders high-dimensional mappings|high-dimensional]] probability density function, it's difficult to sample independent and identically distributed values from from it. However, it's feasible to use [[Finite-state dynamical systems are diverse|Markiv chain]] Monte Carlo [[Selectively sampling dimensions facilitates manifold definition|sampling]]. MCMC sampling consists of [[Continuous-state dynamical systems share a common structure|a stochastic "walk"]] across the population space, where [[Short-long term is a spectrum for memory|the next sample is determined by the previous one]]. After an extensive number of "steps," the sampling density becomes a more and more accurate proxy for the [[Joint, marginal, and conditional probabilities are primitives of probability theory|probability]] [[Backpropagation renders gradient descent feasible|landscape]].
