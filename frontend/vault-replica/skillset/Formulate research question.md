@@ -1,5 +1,5 @@
 ---
-- command: Come up with a research question about social media usage
+- command: Socrates, come up with a research question about social media usage
   subject: social media usage
 - command: Formulate a research question about mental health treatments
   subject: mental health treatments
