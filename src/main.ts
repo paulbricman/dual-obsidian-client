@@ -6,8 +6,8 @@ import {
   Setting,
   Workspace,
 } from "obsidian";
-import ChatView, { inputId } from "view";
-import { Utils } from "utils";
+import ChatView, { inputId } from "./view";
+import { Utils } from "./utils";
 
 interface MyPluginSettings {
   customName: string;

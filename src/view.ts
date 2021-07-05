@@ -1,5 +1,5 @@
 import { ItemView, WorkspaceLeaf, MarkdownRenderer, Component } from "obsidian";
-import { SkillManager } from "skills";
+import { SkillManager } from "./skills";
 import { fetchQuery } from "./network";
 
 const contentId = "dual-content";
