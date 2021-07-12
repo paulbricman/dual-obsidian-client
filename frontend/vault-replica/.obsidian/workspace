@@ -66,7 +66,7 @@
             "id": "5c5f216b5d25674a",
             "type": "leaf",
             "state": {
-              "type": "chat",
+              "type": "empty",
               "state": {}
             }
           },
@@ -85,6 +85,14 @@
                 "backlinkCollapsed": false,
                 "unlinkedCollapsed": true
               }
+            }
+          },
+          {
+            "id": "ae0cd6a349917777",
+            "type": "leaf",
+            "state": {
+              "type": "chat",
+              "state": {}
             }
           }
         ]
