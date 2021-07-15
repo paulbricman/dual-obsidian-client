@@ -13,7 +13,8 @@
 
 social media: What effect does daily use of Twitter have on the attention span of teenagers?
 
-mental health treatments: How effective are the various types of medication in treating ADHD?
+mental health treatments: How effective
+are various types of medication in treating ADHD?
 
 population growth: What factors have influenced population growth in the fastest growing countries?
 

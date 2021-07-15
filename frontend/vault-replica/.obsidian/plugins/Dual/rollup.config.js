@@ -26,6 +26,7 @@ export default {
     typescript({
       inlineSourceMap: !production,
       inlineSources: !production,
+      allowSyntheticDefaultImports: true,
     }),
     nodeResolve({ browser: true }),
     commonjs(),

@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "skillset/Formulate research question.md",
+            "file": "skillset/Calculate.md",
             "mode": "source"
           }
         }
@@ -52,7 +52,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 169
+    "width": 169,
+    "collapsed": true
   },
   "right": {
     "id": "5d1f799a6fe86f29",
@@ -63,20 +64,12 @@
         "type": "tabs",
         "children": [
           {
-            "id": "5c5f216b5d25674a",
-            "type": "leaf",
-            "state": {
-              "type": "empty",
-              "state": {}
-            }
-          },
-          {
             "id": "f4eef8b7a2ff4f9c",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "skillset/Formulate research question.md",
+                "file": "skillset/Calculate.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -88,24 +81,33 @@
             }
           },
           {
-            "id": "ae0cd6a349917777",
+            "id": "e1c54aaec2731165",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {}
+            }
+          },
+          {
+            "id": "56d3a4503f072a35",
             "type": "leaf",
             "state": {
               "type": "chat",
               "state": {}
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "horizontal",
-    "width": 347
+    "width": 300.1180114746094
   },
   "active": "345655008a7cafe9",
   "lastOpenFiles": [
+    "skillset/Calculate.md",
     "skillset/Formulate research question.md",
     "skillset/Formulate questions.md",
-    "skillset/Calculate.md",
     "skillset/Answer open questions.md",
     "skillset/Find notes.md",
     "skillset/Answer test.md",

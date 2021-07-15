@@ -9,7 +9,9 @@ import {
 } from "obsidian";
 import ChatView, { inputId } from "./view";
 import { Utils } from "./utils";
-import * as fs from "fs";
+import * as fs from "fs-extra";
+import AdmZip from "adm-zip";
+import * as child from "child_process";
 
 interface MyPluginSettings {
   customName: string;
@@ -81,18 +83,22 @@ class SampleSettingTab extends PluginSettingTab {
     });
 
     new Setting(containerEl)
-      .setName("getOS() test")
-      .setDesc("Press the button.")
+      .setName("Deploy dual-server")
+      .setDesc(
+        "Press the button to set up dual-server, the backend component which handles the AI stuff locally."
+      )
       .addButton((cb) => {
-        cb.setButtonText("Install Python")
+        cb.setButtonText("Install")
           .setClass("mod-cta")
           .onClick(async () => {
             let basePath: string,
               dualServerPath: string,
               dualAbsoluteBinaryPath: string,
               dualRelativeBinaryPath: string,
+              dualAbsoluteTorchZipPath: string,
+              dualRelativeTorchZipPath: string,
               dualAbsoluteTorchPath: string,
-              dualRelativeTorchPath: string,
+              dualAbsoluteTorchLibPath: string,
               torchURL: string,
               dualServerURL: string;
 
@@ -104,17 +110,20 @@ class SampleSettingTab extends PluginSettingTab {
               new Notice(
                 "Setting up dual-server using dual-obsidian-client..."
               );
+              new Notice("This might take a few minutes...");
               dualServerPath = basePath + "/.obsidian/plugins/Dual/server";
               dualAbsoluteBinaryPath = dualServerPath + "/dual-server-linux";
               dualRelativeBinaryPath =
                 "/.obsidian/plugins/Dual/server/dual-server-linux";
-              dualAbsoluteTorchPath = dualServerPath + "/libtorch.zip";
-              dualRelativeTorchPath =
+              dualAbsoluteTorchZipPath = dualServerPath + "/libtorch.zip";
+              dualRelativeTorchZipPath =
                 "/.obsidian/plugins/Dual/server/libtorch.zip";
+              dualAbsoluteTorchPath = dualServerPath + "/libtorch";
+              dualAbsoluteTorchLibPath = dualAbsoluteTorchPath + "/lib";
               dualServerURL =
-                "https://github.com/Psionica/dual-server/releases/download/master-b7ea8b18/dual-server-linux";
+                "https://github.com/Psionica/dual-server/releases/download/master-e92239af/dual-server-linux";
               torchURL =
-                "https://download.pytorch.org/libtorch/cpu/libtorch-shared-with-deps-1.9.0%2Bcpu.zip";
+                "https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-1.9.0%2Bcpu.zip";
             }
 
             if (!fs.existsSync(dualServerPath)) {
@@ -128,37 +137,69 @@ class SampleSettingTab extends PluginSettingTab {
               await this.app.vault
                 .createBinary(dualRelativeBinaryPath, await blob.arrayBuffer())
                 .then(() => {
-                  new Notice("Download complete!");
+                  new Notice("dual-server downloaded successfully!");
                 });
             }
 
-            if (!fs.existsSync(dualAbsoluteTorchPath)) {
-              new Notice("Downloading libtorch...");
-              const response = await fetch(torchURL);
+            if (
+              !fs.existsSync(dualAbsoluteTorchPath) &&
+              !fs.existsSync(dualAbsoluteTorchZipPath)
+            ) {
+              new Notice("Downloading libtorch...", 5000);
+              const response = await Utils.fetchRetry(torchURL, 0, 200);
               const blob = await response.blob();
-              await this.app.vault
-                .createBinary(dualRelativeTorchPath, await blob.arrayBuffer())
-                .then(() => {
-                  new Notice("Download complete!");
-                });
+              await this.app.vault.createBinary(
+                dualRelativeTorchZipPath,
+                await blob.arrayBuffer()
+              );
+              new Notice("libtorch downloaded successfully!");
+            }
+
+            if (!fs.existsSync(dualAbsoluteTorchPath)) {
+              new Notice("Extracting libtorch...");
+              var zip = new AdmZip(dualAbsoluteTorchZipPath);
+              zip.extractAllToAsync(dualServerPath, true, () => {
+                new Notice("libtorch extracted successfully!");
+                fs.removeSync(dualAbsoluteTorchZipPath);
+
+                if (Utils.getOS() == "linux") {
+                  var chmod_proc = child.exec(
+                    "chmod +x " + dualAbsoluteBinaryPath
+                  );
+                }
+
+                var child_proc = child.exec(
+                  dualAbsoluteBinaryPath,
+                  {
+                    cwd: dualServerPath,
+                    env: {
+                      LIBTORCH: dualAbsoluteTorchPath,
+                      LD_LIBRARY_PATH: dualAbsoluteTorchLibPath,
+                    },
+                  },
+                  (e, out, err) => console.log(e, out, err)
+                );
+                new Notice("dual-server has been run!");
+              });
+            } else {
+              var child_proc = child.exec(
+                dualAbsoluteBinaryPath,
+                {
+                  cwd: dualServerPath,
+                  env: {
+                    LIBTORCH: dualAbsoluteTorchPath,
+                    LD_LIBRARY_PATH: dualAbsoluteTorchLibPath,
+                  },
+                },
+                (e, out, err) => console.log(e, out, err)
+              );
+              new Notice("dual-server has been run!");
             }
           });
       });
 
     new Setting(containerEl)
-      .setName("0. Install Python (3.8+).")
-      .setDesc("Press the button to head over to the download page.")
-      .addButton((cb) =>
-        cb
-          .setButtonText("Install Python")
-          .setClass("mod-cta")
-          .onClick(() => {
-            window.open("https://www.python.org/downloads/");
-          })
-      );
-
-    new Setting(containerEl)
-      .setName("1. Copy snapshot.")
+      .setName("Copy snapshot")
       .setDesc(
         "Press the button to copy the entire vault as concatenated plain text."
       )
@@ -196,38 +237,6 @@ class SampleSettingTab extends PluginSettingTab {
             });
           })
       );
-
-    new Setting(containerEl)
-      .setName("2. Derive the essence.")
-      .setDesc(
-        "After following the online instructions, extract 'essence.zip' in '.obsidian/plugins/Dual/'."
-      )
-      .addButton((cb) =>
-        cb
-          .setButtonText("Start alignment")
-          .setClass("mod-cta")
-          .onClick(() => {
-            window.open(
-              "https://colab.research.google.com/drive/1CObehan5gmYO-TvyyYq973a3h-_EYr9_?usp=sharing"
-            );
-          })
-      );
-
-    new Setting(containerEl)
-      .setName("3. Configure the skeleton.")
-      .setDesc(
-        "Run 'python3 -m pip install -r requirements.txt' in '.obsidian/plugins/Dual/skeleton/'."
-      );
-
-    new Setting(containerEl)
-      .setName("4. Run the skeleton after you configured the essence.")
-      .setDesc(
-        "Run 'python3 server.py --path /path/to/your/vault/' in '.obsidian/plugins/Dual/skeleton/'."
-      );
-
-    new Setting(containerEl)
-      .setName("5. Restart Obsidian.")
-      .setDesc("Head over to the right side panel to talk with your Dual!");
 
     containerEl.createEl("h3", {
       text: "Congratulations on setting up your Dual!",

@@ -99,4 +99,21 @@ export module Utils {
     }
     return output;
   }
+
+  export function wait(delay) {
+    return new Promise((resolve) => setTimeout(resolve, delay));
+  }
+
+  export function fetchRetry(url, delay, tries, fetchOptions = {}) {
+    function onError(err) {
+      var triesLeft = tries - 1;
+      if (!triesLeft) {
+        throw err;
+      }
+      return wait(delay).then(() =>
+        fetchRetry(url, delay, triesLeft, fetchOptions)
+      );
+    }
+    return fetch(url, fetchOptions).catch(onError);
+  }
 }
