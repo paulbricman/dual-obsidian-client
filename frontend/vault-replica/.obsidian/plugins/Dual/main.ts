@@ -106,11 +106,11 @@ class SampleSettingTab extends PluginSettingTab {
               basePath = this.app.vault.adapter.getBasePath();
             }
 
+            new Notice(
+              "Setting up dual-server using dual-obsidian-client. This might take a few minutes...",
+              5000
+            );
             if (Utils.getOS() == "linux") {
-              new Notice(
-                "Setting up dual-server using dual-obsidian-client..."
-              );
-              new Notice("This might take a few minutes...");
               dualServerPath = basePath + "/.obsidian/plugins/Dual/server";
               dualAbsoluteBinaryPath = dualServerPath + "/dual-server-linux";
               dualRelativeBinaryPath =
@@ -124,6 +124,20 @@ class SampleSettingTab extends PluginSettingTab {
                 "https://github.com/Psionica/dual-server/releases/download/master-e92239af/dual-server-linux";
               torchURL =
                 "https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-1.9.0%2Bcpu.zip";
+            } else if (Utils.getOS() == "macos") {
+              dualServerPath = basePath + "/.obsidian/plugins/Dual/server";
+              dualAbsoluteBinaryPath = dualServerPath + "/dual-server-macos";
+              dualRelativeBinaryPath =
+                "/.obsidian/plugins/Dual/server/dual-server-macos";
+              dualAbsoluteTorchZipPath = dualServerPath + "/libtorch.zip";
+              dualRelativeTorchZipPath =
+                "/.obsidian/plugins/Dual/server/libtorch.zip";
+              dualAbsoluteTorchPath = dualServerPath + "/libtorch";
+              dualAbsoluteTorchLibPath = dualAbsoluteTorchPath + "/lib";
+              dualServerURL =
+                "https://github.com/Psionica/dual-server/releases/download/master-e92239af/dual-server-macos";
+              torchURL =
+                "https://download.pytorch.org/libtorch/cpu/libtorch-macos-1.9.0.zip";
             }
 
             if (!fs.existsSync(dualServerPath)) {
@@ -175,6 +189,7 @@ class SampleSettingTab extends PluginSettingTab {
                     env: {
                       LIBTORCH: dualAbsoluteTorchPath,
                       LD_LIBRARY_PATH: dualAbsoluteTorchLibPath,
+                      DYLD_LIBRARY_PATH: dualAbsoluteTorchLibPath,
                     },
                   },
                   (e, out, err) => console.log(e, out, err)
@@ -189,6 +204,7 @@ class SampleSettingTab extends PluginSettingTab {
                   env: {
                     LIBTORCH: dualAbsoluteTorchPath,
                     LD_LIBRARY_PATH: dualAbsoluteTorchLibPath,
+                    DYLD_LIBRARY_PATH: dualAbsoluteTorchLibPath,
                   },
                 },
                 (e, out, err) => console.log(e, out, err)
