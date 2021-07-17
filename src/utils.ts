@@ -9,6 +9,13 @@ export module Utils {
     document.body.removeChild(el);
   }
 
+  export function getOS() {
+    if (window.navigator.userAgent.indexOf("Windows NT 10.0") != -1)
+      return "windows";
+    if (window.navigator.userAgent.indexOf("Mac") != -1) return "macos";
+    if (window.navigator.userAgent.indexOf("Linux") != -1) return "linux";
+  }
+
   interface RemoveMdOptions {
     listUnicodeChar?: string;
     stripListLeaders?: boolean;
@@ -91,5 +98,22 @@ export module Utils {
       return md;
     }
     return output;
+  }
+
+  export function wait(delay) {
+    return new Promise((resolve) => setTimeout(resolve, delay));
+  }
+
+  export function fetchRetry(url, delay, tries, fetchOptions = {}) {
+    function onError(err) {
+      var triesLeft = tries - 1;
+      if (!triesLeft) {
+        throw err;
+      }
+      return wait(delay).then(() =>
+        fetchRetry(url, delay, triesLeft, fetchOptions)
+      );
+    }
+    return fetch(url, fetchOptions).catch(onError);
   }
 }
