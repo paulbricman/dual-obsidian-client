@@ -141,6 +141,23 @@ class SampleSettingTab extends PluginSettingTab {
                 "https://github.com/Psionica/dual-server/releases/download/master-e92239af/dual-server-macos";
               torchURL =
                 "https://download.pytorch.org/libtorch/cpu/libtorch-macos-1.9.0.zip";
+            } else if (os == "windows") {
+              dualServerPath = basePath + "\\.obsidian\\plugins\\Dual\\server";
+              dualAbsoluteBinaryPath = dualServerPath + "\\dual-server-windows";
+              dualRelativeBinaryPath =
+                "\\.obsidian\\plugins\\Dual\\server\\dual-server-windows";
+              dualAbsoluteTorchZipPath = dualServerPath + "\\libtorch.zip";
+              dualRelativeTorchZipPath =
+                "\\.obsidian\\plugins\\Dual\\server\\libtorch.zip";
+              dualAbsoluteTorchPath = dualServerPath + "\\libtorch";
+              dualAbsoluteTorchLibPath = dualAbsoluteTorchPath + "\\lib";
+              dualServerURL =
+                "https://github.com/Psionica/dual-server/releases/download/master-e92239af/dual-server-windows";
+              torchURL =
+                "https://download.pytorch.org/libtorch/cpu/libtorch-win-shared-with-deps-1.9.0%2Bcpu.zip";
+            } else {
+              new Notice("Unsupported OS!");
+              return;
             }
 
             if (!fs.existsSync(dualServerPath)) {
@@ -185,10 +202,12 @@ class SampleSettingTab extends PluginSettingTab {
 
                 const childProc = child.spawn(dualAbsoluteBinaryPath, [], {
                   cwd: dualServerPath,
+                  detached: false,
                   env: {
                     LIBTORCH: dualAbsoluteTorchPath,
                     LD_LIBRARY_PATH: dualAbsoluteTorchLibPath,
                     DYLD_LIBRARY_PATH: dualAbsoluteTorchLibPath,
+                    Path: dualAbsoluteTorchLibPath,
                   },
                 });
 
@@ -204,10 +223,12 @@ class SampleSettingTab extends PluginSettingTab {
             } else {
               const childProc = child.spawn(dualAbsoluteBinaryPath, [], {
                 cwd: dualServerPath,
+                detached: false,
                 env: {
                   LIBTORCH: dualAbsoluteTorchPath,
                   LD_LIBRARY_PATH: dualAbsoluteTorchLibPath,
                   DYLD_LIBRARY_PATH: dualAbsoluteTorchLibPath,
+                  Path: dualAbsoluteTorchLibPath,
                 },
               });
 
