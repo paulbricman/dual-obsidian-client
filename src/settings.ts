@@ -9,7 +9,13 @@ import * as fs from "fs-extra";
 import * as child from "child_process";
 import AdmZip from "adm-zip";
 import MyPlugin from "./main";
-import { getOS, fetchRetry, removeMd, copyStringToClipboard } from "./utils";
+import {
+  getOS,
+  fetchRetry,
+  removeMd,
+  copyStringToClipboard,
+  torchURLfromOS,
+} from "./utils";
 
 export class SettingTab extends PluginSettingTab {
   plugin: MyPlugin;
@@ -45,12 +51,10 @@ export class SettingTab extends PluginSettingTab {
               dualAbsoluteTorchZipPath: string,
               dualRelativeTorchZipPath: string,
               dualAbsoluteTorchPath: string,
-              dualAbsoluteTorchLibPath: string,
-              torchURL: string,
-              dualServerURL: string,
-              os: string;
-
-            os = getOS();
+              dualAbsoluteTorchLibPath: string;
+            const os = getOS();
+            const torchURL = torchURLfromOS(os);
+            const dualServerURL = `https://github.com/Psionica/dual-server/releases/download/master-e92239af/dual-server-${os}`;
 
             if (this.app.vault.adapter instanceof FileSystemAdapter) {
               basePath = this.app.vault.adapter.getBasePath();
@@ -61,24 +65,16 @@ export class SettingTab extends PluginSettingTab {
               5000
             );
 
-            dualServerPath = basePath + "/.obsidian/plugins/Dual/server";
-            dualAbsoluteBinaryPath = dualServerPath + "/dual-server-" + os;
-            dualRelativeBinaryPath =
-              "/.obsidian/plugins/Dual/server/dual-server-" + os;
-            dualAbsoluteTorchZipPath = dualServerPath + "/libtorch.zip";
-            dualRelativeTorchZipPath =
-              "/.obsidian/plugins/Dual/server/libtorch.zip";
-            dualAbsoluteTorchPath = dualServerPath + "/libtorch";
-            dualAbsoluteTorchLibPath = dualAbsoluteTorchPath + "/lib";
-            dualServerURL =
-              "https://github.com/Psionica/dual-server/releases/download/master-e92239af/dual-server-" +
-              os;
-            if (os === "linux") {
-              torchURL =
-                "https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-1.9.0%2Bcpu.zip";
-            } else if (os === "macos") {
-              torchURL =
-                "https://download.pytorch.org/libtorch/cpu/libtorch-macos-1.9.0.zip";
+            if (os === "linux" || os === "macos") {
+              dualServerPath = basePath + "/.obsidian/plugins/Dual/server";
+              dualAbsoluteBinaryPath = dualServerPath + "/dual-server-" + os;
+              dualRelativeBinaryPath =
+                "/.obsidian/plugins/Dual/server/dual-server-" + os;
+              dualAbsoluteTorchZipPath = dualServerPath + "/libtorch.zip";
+              dualRelativeTorchZipPath =
+                "/.obsidian/plugins/Dual/server/libtorch.zip";
+              dualAbsoluteTorchPath = dualServerPath + "/libtorch";
+              dualAbsoluteTorchLibPath = dualAbsoluteTorchPath + "/lib";
             } else if (os === "windows") {
               dualServerPath = basePath + "\\.obsidian\\plugins\\Dual\\server";
               dualAbsoluteBinaryPath = dualServerPath + "\\dual-server-windows";
@@ -89,10 +85,6 @@ export class SettingTab extends PluginSettingTab {
                 "\\.obsidian\\plugins\\Dual\\server\\libtorch.zip";
               dualAbsoluteTorchPath = dualServerPath + "\\libtorch";
               dualAbsoluteTorchLibPath = dualAbsoluteTorchPath + "\\lib";
-              dualServerURL =
-                "https://github.com/Psionica/dual-server/releases/download/master-e92239af/dual-server-windows";
-              torchURL =
-                "https://download.pytorch.org/libtorch/cpu/libtorch-win-shared-with-deps-1.9.0%2Bcpu.zip";
             } else {
               new Notice("Unsupported OS!");
               return;

@@ -8,7 +8,8 @@ export function copyStringToClipboard(content: string) {
   document.body.removeChild(el);
 }
 
-export function getOS() {
+// TODO: Handle unknown OSes
+export function getOS(): "linux" | "macos" | "windows" {
   if (window.navigator.userAgent.indexOf("Windows NT 10.0") != -1)
     return "windows";
   if (window.navigator.userAgent.indexOf("Mac") != -1) return "macos";
@@ -117,3 +118,12 @@ export function fetchRetry(
   }
   return fetch(url, fetchOptions).catch(onError);
 }
+
+export const torchURLfromOS = (os: "linux" | "macos" | "windows") =>
+  ({
+    linux:
+      "https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-1.9.0%2Bcpu.zip",
+    macos: "https://download.pytorch.org/libtorch/cpu/libtorch-macos-1.9.0.zip",
+    windows:
+      "https://download.pytorch.org/libtorch/cpu/libtorch-win-shared-with-deps-1.9.0%2Bcpu.zip",
+  }[os]);
