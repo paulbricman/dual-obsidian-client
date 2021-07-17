@@ -100,12 +100,17 @@ export module Utils {
     return output;
   }
 
-  export function wait(delay) {
+  export function wait(delay: number) {
     return new Promise((resolve) => setTimeout(resolve, delay));
   }
 
-  export function fetchRetry(url, delay, tries, fetchOptions = {}) {
-    function onError(err) {
+  export function fetchRetry(
+    url: string,
+    delay: number,
+    tries: number,
+    fetchOptions = {}
+  ): Promise<Response> {
+    function onError(err: any) {
       var triesLeft = tries - 1;
       if (!triesLeft) {
         throw err;
