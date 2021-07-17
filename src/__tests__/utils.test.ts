@@ -1,5 +1,4 @@
-import { Utils } from "../utils";
-const { removeMd } = Utils;
+import { removeMd } from "../utils";
 
 describe("`removeMd`", () => {
   const exampleNote = `

@@ -1,5 +1,5 @@
 import { App, FrontMatterCache } from "obsidian";
-import { Utils } from "./utils";
+import { removeMd } from "./utils";
 import { fetchGenerate, fetchSearch } from "./network";
 
 export class SkillManager {
@@ -375,7 +375,7 @@ export class SkillManager {
     for (let index = 0; index < markdownFiles.length; index++) {
       if (!markdownFiles[index].path.startsWith("skillset")) {
         var note = await this.app.vault.cachedRead(markdownFiles[index]);
-        note = Utils.removeMd(note);
+        note = removeMd(note);
         notes.push(note);
       }
     }

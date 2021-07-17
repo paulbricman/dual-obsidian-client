@@ -7,11 +7,11 @@ import {
   Workspace,
   FileSystemAdapter,
 } from "obsidian";
-import ChatView, { inputId } from "./view";
-import { Utils } from "./utils";
+import * as child from "child_process";
 import * as fs from "fs-extra";
 import AdmZip from "adm-zip";
-import * as child from "child_process";
+import ChatView, { inputId } from "./view";
+import { getOS, removeMd, fetchRetry, copyStringToClipboard } from "./utils";
 
 interface MyPluginSettings {
   customName: string;
@@ -103,7 +103,7 @@ class SampleSettingTab extends PluginSettingTab {
               dualServerURL: string,
               os: string;
 
-            os = Utils.getOS();
+            os = getOS();
 
             if (this.app.vault.adapter instanceof FileSystemAdapter) {
               basePath = this.app.vault.adapter.getBasePath();
@@ -171,7 +171,7 @@ class SampleSettingTab extends PluginSettingTab {
               !fs.existsSync(dualAbsoluteTorchZipPath)
             ) {
               new Notice("Downloading libtorch...", 5000);
-              const response = await Utils.fetchRetry(torchURL, 0, 200);
+              const response = await fetchRetry(torchURL, 0, 200);
               const blob = await response.blob();
               await this.app.vault.createBinary(
                 dualRelativeTorchZipPath,
@@ -268,8 +268,8 @@ class SampleSettingTab extends PluginSettingTab {
               setTimeout(resolve, 3000)
             ).then(() => {
               concatenated = concatenated.slice(0, 5000000);
-              concatenated = Utils.removeMd(concatenated);
-              Utils.copyStringToClipboard(concatenated);
+              concatenated = removeMd(concatenated);
+              copyStringToClipboard(concatenated);
               new Notice("Snapshot successfully copied to clipboard!");
             });
           })
