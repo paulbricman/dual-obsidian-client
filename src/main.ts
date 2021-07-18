@@ -143,16 +143,16 @@ class SampleSettingTab extends PluginSettingTab {
                 "https://download.pytorch.org/libtorch/cpu/libtorch-macos-1.9.0.zip";
             } else if (os == "windows") {
               dualServerPath = basePath + "\\.obsidian\\plugins\\Dual\\server";
-              dualAbsoluteBinaryPath = dualServerPath + "\\dual-server-windows";
+              dualAbsoluteBinaryPath = dualServerPath + "\\dual-server-windows.exe";
               dualRelativeBinaryPath =
-                "\\.obsidian\\plugins\\Dual\\server\\dual-server-windows";
+                "\\.obsidian\\plugins\\Dual\\server\\dual-server-windows.exe";
               dualAbsoluteTorchZipPath = dualServerPath + "\\libtorch.zip";
               dualRelativeTorchZipPath =
                 "\\.obsidian\\plugins\\Dual\\server\\libtorch.zip";
               dualAbsoluteTorchPath = dualServerPath + "\\libtorch";
               dualAbsoluteTorchLibPath = dualAbsoluteTorchPath + "\\lib";
               dualServerURL =
-                "https://github.com/Psionica/dual-server/releases/download/master-e92239af/dual-server-windows";
+                "https://github.com/Psionica/dual-server/releases/download/master-e92239af/dual-server-windows.exe";
               torchURL =
                 "https://download.pytorch.org/libtorch/cpu/libtorch-win-shared-with-deps-1.9.0%2Bcpu.zip";
             } else {
@@ -208,6 +208,7 @@ class SampleSettingTab extends PluginSettingTab {
                     LD_LIBRARY_PATH: dualAbsoluteTorchLibPath,
                     DYLD_LIBRARY_PATH: dualAbsoluteTorchLibPath,
                     Path: dualAbsoluteTorchLibPath,
+                    RUST_BACKTRACE: 1
                   },
                 });
 
@@ -229,6 +230,7 @@ class SampleSettingTab extends PluginSettingTab {
                   LD_LIBRARY_PATH: dualAbsoluteTorchLibPath,
                   DYLD_LIBRARY_PATH: dualAbsoluteTorchLibPath,
                   Path: dualAbsoluteTorchLibPath,
+                  RUST_BACKTRACE: 1
                 },
               });
 
