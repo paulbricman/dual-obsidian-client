@@ -77,9 +77,10 @@ export class SettingTab extends PluginSettingTab {
               dualAbsoluteTorchLibPath = dualAbsoluteTorchPath + "/lib";
             } else if (os === "windows") {
               dualServerPath = basePath + "\\.obsidian\\plugins\\Dual\\server";
-              dualAbsoluteBinaryPath = dualServerPath + "\\dual-server-windows";
+              dualAbsoluteBinaryPath =
+                dualServerPath + "\\dual-server-windows.exe";
               dualRelativeBinaryPath =
-                "\\.obsidian\\plugins\\Dual\\server\\dual-server-windows";
+                "\\.obsidian\\plugins\\Dual\\server\\dual-server-windows.exe";
               dualAbsoluteTorchZipPath = dualServerPath + "\\libtorch.zip";
               dualRelativeTorchZipPath =
                 "\\.obsidian\\plugins\\Dual\\server\\libtorch.zip";
@@ -138,6 +139,7 @@ export class SettingTab extends PluginSettingTab {
                     LD_LIBRARY_PATH: dualAbsoluteTorchLibPath,
                     DYLD_LIBRARY_PATH: dualAbsoluteTorchLibPath,
                     Path: dualAbsoluteTorchLibPath,
+                    RUST_BACKTRACE: 1,
                   },
                 });
 
@@ -159,6 +161,7 @@ export class SettingTab extends PluginSettingTab {
                   LD_LIBRARY_PATH: dualAbsoluteTorchLibPath,
                   DYLD_LIBRARY_PATH: dualAbsoluteTorchLibPath,
                   Path: dualAbsoluteTorchLibPath,
+                  RUST_BACKTRACE: 1,
                 },
               });
 
