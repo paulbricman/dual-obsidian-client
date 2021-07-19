@@ -53,6 +53,12 @@ export class SettingTab extends PluginSettingTab {
               dualAbsoluteTorchPath: string,
               dualAbsoluteTorchLibPath: string;
             const os = getOS();
+
+            if (os === "unknown") {
+              new Notice("Unsupported OS!");
+              return;
+            }
+
             const torchURL = torchURLfromOS(os);
             const dualServerURL = `https://github.com/Psionica/dual-server/releases/download/master-e92239af/dual-server-${os}`;
 

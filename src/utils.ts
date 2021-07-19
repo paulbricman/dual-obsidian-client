@@ -8,12 +8,12 @@ export function copyStringToClipboard(content: string) {
   document.body.removeChild(el);
 }
 
-// TODO: Handle unknown OSes
-export function getOS(): "linux" | "macos" | "windows" {
-  if (window.navigator.userAgent.indexOf("Windows NT 10.0") != -1)
+export function getOS(): "linux" | "macos" | "windows" | "unknown" {
+  if (window.navigator.userAgent.indexOf("Windows NT 10.0") !== -1)
     return "windows";
-  if (window.navigator.userAgent.indexOf("Mac") != -1) return "macos";
-  if (window.navigator.userAgent.indexOf("Linux") != -1) return "linux";
+  if (window.navigator.userAgent.indexOf("Mac") !== -1) return "macos";
+  if (window.navigator.userAgent.indexOf("Linux") !== -1) return "linux";
+  return "unknown";
 }
 
 interface RemoveMdOptions {
