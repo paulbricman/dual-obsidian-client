@@ -1,5 +1,4 @@
-import { Utils } from "../utils";
-const { removeMd } = Utils;
+import { removeMd, torchURLfromOS } from "../utils";
 
 describe("`removeMd`", () => {
   const exampleNote = `
@@ -135,5 +134,19 @@ This is more content.
 
 1]: Footnote. [A footnote link
 `);
+  });
+});
+
+describe("`torchURLfromOS", () => {
+  test("`torchURLfromOS` returns correctly", () => {
+    expect(torchURLfromOS("linux")).toBe(
+      "https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-1.9.0%2Bcpu.zip"
+    );
+    expect(torchURLfromOS("macos")).toBe(
+      "https://download.pytorch.org/libtorch/cpu/libtorch-macos-1.9.0.zip"
+    );
+    expect(torchURLfromOS("windows")).toBe(
+      "https://download.pytorch.org/libtorch/cpu/libtorch-win-shared-with-deps-1.9.0%2Bcpu.zip"
+    );
   });
 });

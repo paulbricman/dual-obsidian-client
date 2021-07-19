@@ -2,4 +2,5 @@
 *.log
 node_modules
 coverage
-frontend/vault-replica/.obsidian/plugins/Dual/server/*
+frontend/vault-replica/.obsidian/plugins/Dual/*
+dist
