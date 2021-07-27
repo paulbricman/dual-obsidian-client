@@ -35,8 +35,8 @@ export const pathsFromBasePath = (
   };
 };
 
-export async function exists(path: string) {
-  return fs.accessSync(path);
+export function exists(path: string): boolean {
+  return fs.existsSync(path);
 }
 
 export async function ensurePathExists(path: string) {
