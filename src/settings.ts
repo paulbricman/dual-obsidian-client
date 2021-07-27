@@ -47,10 +47,9 @@ export class SettingTab extends PluginSettingTab {
           .onClick(async () => {
             const os = getOS();
 
-            if (os === "unknown") {
-              new Notice("Unsupported OS!");
-              return;
-            }
+            // Eject when unknown OS
+            if (os === "unknown")
+              return new Notice("Dual: Unsupported OS!", 5000);
 
             const torchURL = torchURLfromOS(os);
             const dualServerURL = `https://github.com/Psionica/dual-server/releases/download/master-e92239af/dual-server-${os}`;
