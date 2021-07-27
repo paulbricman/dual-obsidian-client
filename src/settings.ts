@@ -16,6 +16,7 @@ import {
   copyStringToClipboard,
   torchURLfromOS,
 } from "./utils";
+import { pathsFromBasePath } from "./init";
 
 export class SettingTab extends PluginSettingTab {
   plugin: MyPlugin;
@@ -44,14 +45,6 @@ export class SettingTab extends PluginSettingTab {
         cb.setButtonText("Install")
           .setClass("mod-cta")
           .onClick(async () => {
-            let basePath: string,
-              dualServerPath: string,
-              dualAbsoluteBinaryPath: string,
-              dualRelativeBinaryPath: string,
-              dualAbsoluteTorchZipPath: string,
-              dualRelativeTorchZipPath: string,
-              dualAbsoluteTorchPath: string,
-              dualAbsoluteTorchLibPath: string;
             const os = getOS();
 
             if (os === "unknown") {
@@ -62,40 +55,27 @@ export class SettingTab extends PluginSettingTab {
             const torchURL = torchURLfromOS(os);
             const dualServerURL = `https://github.com/Psionica/dual-server/releases/download/master-e92239af/dual-server-${os}`;
 
-            if (this.app.vault.adapter instanceof FileSystemAdapter) {
-              basePath = this.app.vault.adapter.getBasePath();
+            if (!(this.app.vault.adapter instanceof FileSystemAdapter)) {
+              new Notice("Vault adapter is not a FileSystemAdapter...");
+              return;
             }
+
+            const basePath = this.app.vault.adapter.getBasePath();
 
             new Notice(
               "Setting up dual-server using dual-obsidian-client. This might take a few minutes...",
               5000
             );
 
-            if (os === "linux" || os === "macos") {
-              dualServerPath = basePath + "/.obsidian/plugins/Dual/server";
-              dualAbsoluteBinaryPath = dualServerPath + "/dual-server-" + os;
-              dualRelativeBinaryPath =
-                "/.obsidian/plugins/Dual/server/dual-server-" + os;
-              dualAbsoluteTorchZipPath = dualServerPath + "/libtorch.zip";
-              dualRelativeTorchZipPath =
-                "/.obsidian/plugins/Dual/server/libtorch.zip";
-              dualAbsoluteTorchPath = dualServerPath + "/libtorch";
-              dualAbsoluteTorchLibPath = dualAbsoluteTorchPath + "/lib";
-            } else if (os === "windows") {
-              dualServerPath = basePath + "\\.obsidian\\plugins\\Dual\\server";
-              dualAbsoluteBinaryPath =
-                dualServerPath + "\\dual-server-windows.exe";
-              dualRelativeBinaryPath =
-                "\\.obsidian\\plugins\\Dual\\server\\dual-server-windows.exe";
-              dualAbsoluteTorchZipPath = dualServerPath + "\\libtorch.zip";
-              dualRelativeTorchZipPath =
-                "\\.obsidian\\plugins\\Dual\\server\\libtorch.zip";
-              dualAbsoluteTorchPath = dualServerPath + "\\libtorch";
-              dualAbsoluteTorchLibPath = dualAbsoluteTorchPath + "\\lib";
-            } else {
-              new Notice("Unsupported OS!");
-              return;
-            }
+            const {
+              dualServerPath,
+              dualAbsoluteBinaryPath,
+              dualRelativeBinaryPath,
+              dualAbsoluteTorchZipPath,
+              dualRelativeTorchZipPath,
+              dualAbsoluteTorchPath,
+              dualAbsoluteTorchLibPath,
+            } = pathsFromBasePath(basePath, os);
 
             if (!fs.existsSync(dualServerPath)) {
               fs.mkdirSync(dualServerPath);
@@ -145,7 +125,7 @@ export class SettingTab extends PluginSettingTab {
                     LD_LIBRARY_PATH: dualAbsoluteTorchLibPath,
                     DYLD_LIBRARY_PATH: dualAbsoluteTorchLibPath,
                     Path: dualAbsoluteTorchLibPath,
-                    RUST_BACKTRACE: 1,
+                    RUST_BACKTRACE: "1",
                   },
                 });
 
@@ -167,7 +147,7 @@ export class SettingTab extends PluginSettingTab {
                   LD_LIBRARY_PATH: dualAbsoluteTorchLibPath,
                   DYLD_LIBRARY_PATH: dualAbsoluteTorchLibPath,
                   Path: dualAbsoluteTorchLibPath,
-                  RUST_BACKTRACE: 1,
+                  RUST_BACKTRACE: "1",
                 },
               });
 
