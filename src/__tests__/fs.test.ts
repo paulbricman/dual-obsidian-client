@@ -2,40 +2,31 @@ import { pathsFromBasePath } from "../fs";
 
 test("Generates paths on linux", () => {
   expect(pathsFromBasePath("/basepath", "linux")).toEqual({
-    dualServerPath: "/basepath/.obsidian/plugins/Dual/server",
-    dualAbsoluteBinaryPath:
-      "/basepath/.obsidian/plugins/Dual/server/dual-server-linux",
-    dualAbsoluteTorchZipPath:
-      "/basepath/.obsidian/plugins/Dual/server/libtorch.zip",
-    dualAbsoluteTorchPath: "/basepath/.obsidian/plugins/Dual/server/libtorch",
-    dualAbsoluteTorchLibPath:
-      "/basepath/.obsidian/plugins/Dual/server/libtorch/lib",
+    serverPath: "/basepath/.obsidian/plugins/Dual/server",
+    binaryPath: "/basepath/.obsidian/plugins/Dual/server/dual-server-linux",
+    torchZipPath: "/basepath/.obsidian/plugins/Dual/server/libtorch.zip",
+    torchPath: "/basepath/.obsidian/plugins/Dual/server/libtorch",
+    torchLibPath: "/basepath/.obsidian/plugins/Dual/server/libtorch/lib",
   });
 });
 
 test("Generates paths on macos", () => {
   expect(pathsFromBasePath("/basepath", "macos")).toEqual({
-    dualServerPath: "/basepath/.obsidian/plugins/Dual/server",
-    dualAbsoluteBinaryPath:
-      "/basepath/.obsidian/plugins/Dual/server/dual-server-macos",
-    dualAbsoluteTorchZipPath:
-      "/basepath/.obsidian/plugins/Dual/server/libtorch.zip",
-    dualAbsoluteTorchPath: "/basepath/.obsidian/plugins/Dual/server/libtorch",
-    dualAbsoluteTorchLibPath:
-      "/basepath/.obsidian/plugins/Dual/server/libtorch/lib",
+    serverPath: "/basepath/.obsidian/plugins/Dual/server",
+    binaryPath: "/basepath/.obsidian/plugins/Dual/server/dual-server-macos",
+    torchZipPath: "/basepath/.obsidian/plugins/Dual/server/libtorch.zip",
+    torchPath: "/basepath/.obsidian/plugins/Dual/server/libtorch",
+    torchLibPath: "/basepath/.obsidian/plugins/Dual/server/libtorch/lib",
   });
 });
 
 test("Generates paths on windows", () => {
   expect(pathsFromBasePath("/basepath", "windows")).toEqual({
-    dualServerPath: "/basepath\\.obsidian\\plugins\\Dual\\server",
-    dualAbsoluteBinaryPath:
+    serverPath: "/basepath\\.obsidian\\plugins\\Dual\\server",
+    binaryPath:
       "/basepath\\.obsidian\\plugins\\Dual\\server\\dual-server-windows.exe",
-    dualAbsoluteTorchZipPath:
-      "/basepath\\.obsidian\\plugins\\Dual\\server\\libtorch.zip",
-    dualAbsoluteTorchPath:
-      "/basepath\\.obsidian\\plugins\\Dual\\server\\libtorch",
-    dualAbsoluteTorchLibPath:
-      "/basepath\\.obsidian\\plugins\\Dual\\server\\libtorch\\lib",
+    torchZipPath: "/basepath\\.obsidian\\plugins\\Dual\\server\\libtorch.zip",
+    torchPath: "/basepath\\.obsidian\\plugins\\Dual\\server\\libtorch",
+    torchLibPath: "/basepath\\.obsidian\\plugins\\Dual\\server\\libtorch\\lib",
   });
 });

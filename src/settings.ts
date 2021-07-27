@@ -69,19 +69,15 @@ export class SettingTab extends PluginSettingTab {
             const basePath = this.app.vault.adapter.getBasePath();
 
             const {
-              dualServerPath,
-              dualAbsoluteBinaryPath,
-              dualAbsoluteTorchZipPath,
-              dualAbsoluteTorchPath,
-              dualAbsoluteTorchLibPath,
+              serverPath,
+              binaryPath,
+              torchZipPath,
+              torchPath,
+              torchLibPath,
             } = pathsFromBasePath(basePath, os);
 
             if (
-              !(
-                exists(dualServerPath) &&
-                exists(dualAbsoluteBinaryPath) &&
-                exists(dualAbsoluteTorchPath)
-              )
+              !(exists(serverPath) && exists(binaryPath) && exists(torchPath))
             ) {
               // Inform it'll take a while
               new Notice(
@@ -91,39 +87,36 @@ export class SettingTab extends PluginSettingTab {
             }
 
             // Make server folder
-            await ensurePathExists(dualServerPath);
+            await ensurePathExists(serverPath);
 
             // Fetch server
-            if (!exists(dualAbsoluteBinaryPath)) {
+            if (!exists(binaryPath)) {
               new Notice("Dual: Downloading server...", 5000);
-              await fetchBinaryToDisk(dualServerURL, dualAbsoluteBinaryPath);
+              await fetchBinaryToDisk(dualServerURL, binaryPath);
 
               if (os === "linux" || os === "macos") {
-                await makeExecutable(dualAbsoluteBinaryPath);
+                await makeExecutable(binaryPath);
               }
 
               new Notice("Dual: Server downloaded successfully!");
             }
 
             // Fetch Libtorch
-            if (!exists(dualAbsoluteTorchLibPath)) {
+            if (!exists(torchLibPath)) {
               new Notice("Dual: Libtorch not found...", 5000);
 
-              if (!exists(dualAbsoluteTorchZipPath)) {
+              if (!exists(torchZipPath)) {
                 new Notice("Dual: Downloading libtorch...", 5000);
-                await fetchBinaryToDisk(torchURL, dualAbsoluteTorchZipPath);
+                await fetchBinaryToDisk(torchURL, torchZipPath);
                 new Notice("Dual: Libtorch downloaded successfully!", 5000);
               }
 
               // Uncompress Libtorch zip
-              if (
-                !exists(dualAbsoluteTorchPath) &&
-                exists(dualAbsoluteTorchZipPath)
-              ) {
+              if (!exists(torchPath) && exists(torchZipPath)) {
                 new Notice("Dual: Extracting libtorch...", 5000);
-                await extractZip(dualAbsoluteTorchZipPath, dualServerPath);
+                await extractZip(torchZipPath, serverPath);
                 new Notice("Dual: libtorch extracted successfully!", 5000);
-                await removeFile(dualAbsoluteTorchZipPath);
+                await removeFile(torchZipPath);
               }
             }
 
@@ -131,10 +124,10 @@ export class SettingTab extends PluginSettingTab {
             startServer(
               console.log,
               console.error,
-              dualServerPath,
-              dualAbsoluteBinaryPath,
-              dualAbsoluteTorchPath,
-              dualAbsoluteTorchLibPath
+              serverPath,
+              binaryPath,
+              torchPath,
+              torchLibPath
             );
             console.log("Dual: Starting server!");
             new Notice("Dual: Starting server!", 5000);

@@ -8,30 +8,30 @@ export const pathsFromBasePath = (
   basePath: string,
   os: "linux" | "macos" | "windows"
 ) => {
-  let dualServerPath: string,
-    dualAbsoluteBinaryPath: string,
-    dualAbsoluteTorchZipPath: string,
-    dualAbsoluteTorchPath: string,
-    dualAbsoluteTorchLibPath: string;
+  let serverPath: string,
+    binaryPath: string,
+    torchZipPath: string,
+    torchPath: string,
+    torchLibPath: string;
   if (os === "linux" || os === "macos") {
-    dualServerPath = basePath + "/.obsidian/plugins/Dual/server";
-    dualAbsoluteBinaryPath = dualServerPath + "/dual-server-" + os;
-    dualAbsoluteTorchZipPath = dualServerPath + "/libtorch.zip";
-    dualAbsoluteTorchPath = dualServerPath + "/libtorch";
-    dualAbsoluteTorchLibPath = dualAbsoluteTorchPath + "/lib";
+    serverPath = basePath + "/.obsidian/plugins/Dual/server";
+    binaryPath = serverPath + "/dual-server-" + os;
+    torchZipPath = serverPath + "/libtorch.zip";
+    torchPath = serverPath + "/libtorch";
+    torchLibPath = torchPath + "/lib";
   } else if (os === "windows") {
-    dualServerPath = basePath + "\\.obsidian\\plugins\\Dual\\server";
-    dualAbsoluteBinaryPath = dualServerPath + "\\dual-server-windows.exe";
-    dualAbsoluteTorchZipPath = dualServerPath + "\\libtorch.zip";
-    dualAbsoluteTorchPath = dualServerPath + "\\libtorch";
-    dualAbsoluteTorchLibPath = dualAbsoluteTorchPath + "\\lib";
+    serverPath = basePath + "\\.obsidian\\plugins\\Dual\\server";
+    binaryPath = serverPath + "\\dual-server-windows.exe";
+    torchZipPath = serverPath + "\\libtorch.zip";
+    torchPath = serverPath + "\\libtorch";
+    torchLibPath = torchPath + "\\lib";
   }
   return {
-    dualServerPath,
-    dualAbsoluteBinaryPath,
-    dualAbsoluteTorchZipPath,
-    dualAbsoluteTorchPath,
-    dualAbsoluteTorchLibPath,
+    serverPath,
+    binaryPath,
+    torchZipPath,
+    torchPath,
+    torchLibPath,
   };
 };
 
