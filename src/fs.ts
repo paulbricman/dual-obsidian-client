@@ -1,4 +1,7 @@
-import { normalize } from "path";
+/**
+ * Functions relating to filesystem operations
+ */
+
 import fs from "fs-extra";
 import AdmZip from "adm-zip";
 import child from "child_process";
