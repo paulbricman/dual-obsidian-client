@@ -1,4 +1,8 @@
-import path from "path";
+import { normalize } from "path";
+import fs from "fs-extra";
+import AdmZip from "adm-zip";
+import child from "child_process";
+import { fetchBinary } from "./network";
 
 export const pathsFromBasePath = (
   basePath: string,
@@ -6,37 +10,53 @@ export const pathsFromBasePath = (
 ) => {
   let dualServerPath: string,
     dualAbsoluteBinaryPath: string,
-    dualRelativeBinaryPath: string,
     dualAbsoluteTorchZipPath: string,
-    dualRelativeTorchZipPath: string,
     dualAbsoluteTorchPath: string,
     dualAbsoluteTorchLibPath: string;
   if (os === "linux" || os === "macos") {
     dualServerPath = basePath + "/.obsidian/plugins/Dual/server";
     dualAbsoluteBinaryPath = dualServerPath + "/dual-server-" + os;
-    dualRelativeBinaryPath = "/.obsidian/plugins/Dual/server/dual-server-" + os;
     dualAbsoluteTorchZipPath = dualServerPath + "/libtorch.zip";
-    dualRelativeTorchZipPath = "/.obsidian/plugins/Dual/server/libtorch.zip";
     dualAbsoluteTorchPath = dualServerPath + "/libtorch";
     dualAbsoluteTorchLibPath = dualAbsoluteTorchPath + "/lib";
   } else if (os === "windows") {
     dualServerPath = basePath + "\\.obsidian\\plugins\\Dual\\server";
     dualAbsoluteBinaryPath = dualServerPath + "\\dual-server-windows.exe";
-    dualRelativeBinaryPath =
-      "\\.obsidian\\plugins\\Dual\\server\\dual-server-windows.exe";
     dualAbsoluteTorchZipPath = dualServerPath + "\\libtorch.zip";
-    dualRelativeTorchZipPath =
-      "\\.obsidian\\plugins\\Dual\\server\\libtorch.zip";
     dualAbsoluteTorchPath = dualServerPath + "\\libtorch";
     dualAbsoluteTorchLibPath = dualAbsoluteTorchPath + "\\lib";
   }
   return {
     dualServerPath,
     dualAbsoluteBinaryPath,
-    dualRelativeBinaryPath,
     dualAbsoluteTorchZipPath,
-    dualRelativeTorchZipPath,
     dualAbsoluteTorchPath,
     dualAbsoluteTorchLibPath,
   };
 };
+
+export async function exists(path: string) {
+  return fs.access(path);
+}
+
+export async function ensurePathExists(path: string) {
+  return fs.ensureDir(path);
+}
+
+export async function writeFile(path: string, data: ArrayBuffer) {
+  return fs.writeFile(path, data);
+}
+
+export async function extractZip(zipPath: string, destPath: string) {
+  const zip = new AdmZip(zipPath);
+  return zip.extractAllToAsync(destPath, true);
+}
+
+export async function makeExecutable(path: string) {
+  return child.exec("chmod +x " + path);
+}
+
+export async function fetchBinaryToDisk(url: string, path: string) {
+  const res = await fetchBinary(url);
+  return writeFile(path, Buffer.from(await res.arrayBuffer()));
+}
