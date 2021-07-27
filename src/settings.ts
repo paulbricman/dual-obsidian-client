@@ -5,7 +5,6 @@ import {
   FileSystemAdapter,
   Notice,
 } from "obsidian";
-import * as fs from "fs-extra";
 import MyPlugin from "./main";
 import {
   getOS,
@@ -20,6 +19,7 @@ import {
   makeExecutable,
   fetchBinaryToDisk,
   exists,
+  removeFile,
 } from "./fs";
 import { startServer } from "./server";
 
@@ -78,9 +78,9 @@ export class SettingTab extends PluginSettingTab {
 
             if (
               !(
-                fs.existsSync(dualServerPath) &&
-                fs.existsSync(dualAbsoluteBinaryPath) &&
-                fs.existsSync(dualAbsoluteTorchPath)
+                exists(dualServerPath) &&
+                exists(dualAbsoluteBinaryPath) &&
+                exists(dualAbsoluteTorchPath)
               )
             ) {
               // Inform it'll take a while
@@ -94,7 +94,7 @@ export class SettingTab extends PluginSettingTab {
             await ensurePathExists(dualServerPath);
 
             // Fetch server
-            if (!fs.existsSync(dualAbsoluteBinaryPath)) {
+            if (!exists(dualAbsoluteBinaryPath)) {
               new Notice("Dual: Downloading server...", 5000);
               await fetchBinaryToDisk(dualServerURL, dualAbsoluteBinaryPath);
 
@@ -106,10 +106,10 @@ export class SettingTab extends PluginSettingTab {
             }
 
             // Fetch Libtorch
-            if (!fs.existsSync(dualAbsoluteTorchLibPath)) {
+            if (!exists(dualAbsoluteTorchLibPath)) {
               new Notice("Dual: Libtorch not found...", 5000);
 
-              if (!fs.existsSync(dualAbsoluteTorchZipPath)) {
+              if (!exists(dualAbsoluteTorchZipPath)) {
                 new Notice("Dual: Downloading libtorch...", 5000);
                 await fetchBinaryToDisk(torchURL, dualAbsoluteTorchZipPath);
                 new Notice("Dual: Libtorch downloaded successfully!", 5000);
@@ -117,13 +117,13 @@ export class SettingTab extends PluginSettingTab {
 
               // Uncompress Libtorch zip
               if (
-                !fs.existsSync(dualAbsoluteTorchPath) &&
-                fs.existsSync(dualAbsoluteTorchZipPath)
+                !exists(dualAbsoluteTorchPath) &&
+                exists(dualAbsoluteTorchZipPath)
               ) {
                 new Notice("Dual: Extracting libtorch...", 5000);
                 await extractZip(dualAbsoluteTorchZipPath, dualServerPath);
                 new Notice("Dual: libtorch extracted successfully!", 5000);
-                fs.removeSync(dualAbsoluteTorchZipPath);
+                await removeFile(dualAbsoluteTorchZipPath);
               }
             }
 

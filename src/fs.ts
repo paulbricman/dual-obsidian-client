@@ -36,7 +36,7 @@ export const pathsFromBasePath = (
 };
 
 export async function exists(path: string) {
-  return fs.access(path);
+  return fs.accessSync(path);
 }
 
 export async function ensurePathExists(path: string) {
@@ -59,4 +59,8 @@ export async function makeExecutable(path: string) {
 export async function fetchBinaryToDisk(url: string, path: string) {
   const res = await fetchBinary(url);
   return writeFile(path, Buffer.from(await res.arrayBuffer()));
+}
+
+export async function removeFile(path: string) {
+  return fs.removeSync(path);
 }
