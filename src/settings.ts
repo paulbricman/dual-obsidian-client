@@ -5,17 +5,23 @@ import {
   FileSystemAdapter,
   Notice,
 } from "obsidian";
-import * as fs from "fs-extra";
-import * as child from "child_process";
-import AdmZip from "adm-zip";
 import MyPlugin from "./main";
 import {
   getOS,
-  fetchRetry,
   removeMd,
   copyStringToClipboard,
   torchURLfromOS,
 } from "./utils";
+import {
+  pathsFromBasePath,
+  ensurePathExists,
+  extractZip,
+  makeExecutable,
+  fetchBinaryToDisk,
+  exists,
+  removeFile,
+} from "./fs";
+import { startServer } from "./server";
 
 export class SettingTab extends PluginSettingTab {
   plugin: MyPlugin;
@@ -44,136 +50,87 @@ export class SettingTab extends PluginSettingTab {
         cb.setButtonText("Install")
           .setClass("mod-cta")
           .onClick(async () => {
-            let basePath: string,
-              dualServerPath: string,
-              dualAbsoluteBinaryPath: string,
-              dualRelativeBinaryPath: string,
-              dualAbsoluteTorchZipPath: string,
-              dualRelativeTorchZipPath: string,
-              dualAbsoluteTorchPath: string,
-              dualAbsoluteTorchLibPath: string;
             const os = getOS();
+
+            // Eject when unknown OS
+            if (os === "unknown")
+              return new Notice("Dual: Unsupported OS!", 5000);
+
             const torchURL = torchURLfromOS(os);
             const dualServerURL = `https://github.com/Psionica/dual-server/releases/download/master-e92239af/dual-server-${os}`;
 
-            if (this.app.vault.adapter instanceof FileSystemAdapter) {
-              basePath = this.app.vault.adapter.getBasePath();
-            }
+            // Escape when vault adapter isn't right
+            if (!(this.app.vault.adapter instanceof FileSystemAdapter))
+              return new Notice(
+                "Dual: Vault adapter is not a FileSystemAdapter...",
+                5000
+              );
 
-            new Notice(
-              "Setting up dual-server using dual-obsidian-client. This might take a few minutes...",
-              5000
-            );
+            const basePath = this.app.vault.adapter.getBasePath();
 
-            if (os === "linux" || os === "macos") {
-              dualServerPath = basePath + "/.obsidian/plugins/Dual/server";
-              dualAbsoluteBinaryPath = dualServerPath + "/dual-server-" + os;
-              dualRelativeBinaryPath =
-                "/.obsidian/plugins/Dual/server/dual-server-" + os;
-              dualAbsoluteTorchZipPath = dualServerPath + "/libtorch.zip";
-              dualRelativeTorchZipPath =
-                "/.obsidian/plugins/Dual/server/libtorch.zip";
-              dualAbsoluteTorchPath = dualServerPath + "/libtorch";
-              dualAbsoluteTorchLibPath = dualAbsoluteTorchPath + "/lib";
-            } else if (os === "windows") {
-              dualServerPath = basePath + "\\.obsidian\\plugins\\Dual\\server";
-              dualAbsoluteBinaryPath =
-                dualServerPath + "\\dual-server-windows.exe";
-              dualRelativeBinaryPath =
-                "\\.obsidian\\plugins\\Dual\\server\\dual-server-windows.exe";
-              dualAbsoluteTorchZipPath = dualServerPath + "\\libtorch.zip";
-              dualRelativeTorchZipPath =
-                "\\.obsidian\\plugins\\Dual\\server\\libtorch.zip";
-              dualAbsoluteTorchPath = dualServerPath + "\\libtorch";
-              dualAbsoluteTorchLibPath = dualAbsoluteTorchPath + "\\lib";
-            } else {
-              new Notice("Unsupported OS!");
-              return;
-            }
-
-            if (!fs.existsSync(dualServerPath)) {
-              fs.mkdirSync(dualServerPath);
-            }
-
-            if (!fs.existsSync(dualAbsoluteBinaryPath)) {
-              new Notice("Downloading dual-server...");
-              const response = await fetch(dualServerURL);
-              const blob = await response.blob();
-              await this.app.vault
-                .createBinary(dualRelativeBinaryPath, await blob.arrayBuffer())
-                .then(() => {
-                  new Notice("dual-server downloaded successfully!");
-                });
-            }
+            const {
+              serverPath,
+              binaryPath,
+              torchZipPath,
+              torchPath,
+              torchLibPath,
+            } = pathsFromBasePath(basePath, os);
 
             if (
-              !fs.existsSync(dualAbsoluteTorchPath) &&
-              !fs.existsSync(dualAbsoluteTorchZipPath)
+              !(exists(serverPath) && exists(binaryPath) && exists(torchPath))
             ) {
-              new Notice("Downloading libtorch...", 5000);
-              const response = await fetchRetry(torchURL, 0, 200);
-              const blob = await response.blob();
-              await this.app.vault.createBinary(
-                dualRelativeTorchZipPath,
-                await blob.arrayBuffer()
+              // Inform it'll take a while
+              new Notice(
+                "Dual: Setting up Dual server. This might take a few minutes...",
+                5000
               );
-              new Notice("libtorch downloaded successfully!");
             }
 
-            if (!fs.existsSync(dualAbsoluteTorchPath)) {
-              new Notice("Extracting libtorch...");
-              var zip = new AdmZip(dualAbsoluteTorchZipPath);
-              zip.extractAllToAsync(dualServerPath, true, () => {
-                new Notice("libtorch extracted successfully!");
-                fs.removeSync(dualAbsoluteTorchZipPath);
+            // Make server folder
+            await ensurePathExists(serverPath);
 
-                if (os == "linux" || os == "macos") {
-                  child.exec("chmod +x " + dualAbsoluteBinaryPath);
-                }
+            // Fetch server
+            if (!exists(binaryPath)) {
+              new Notice("Dual: Downloading server...", 5000);
+              await fetchBinaryToDisk(dualServerURL, binaryPath);
 
-                const childProc = child.spawn(dualAbsoluteBinaryPath, [], {
-                  cwd: dualServerPath,
-                  detached: false,
-                  env: {
-                    LIBTORCH: dualAbsoluteTorchPath,
-                    LD_LIBRARY_PATH: dualAbsoluteTorchLibPath,
-                    DYLD_LIBRARY_PATH: dualAbsoluteTorchLibPath,
-                    Path: dualAbsoluteTorchLibPath,
-                    RUST_BACKTRACE: 1,
-                  },
-                });
+              if (os === "linux" || os === "macos") {
+                await makeExecutable(binaryPath);
+              }
 
-                childProc.stdout.on("data", (data) => {
-                  console.log(`stdout: ${data}`);
-                });
-
-                childProc.stderr.on("data", (data) => {
-                  console.error(`stderr: ${data}`);
-                });
-                new Notice("dual-server has been run!");
-              });
-            } else {
-              const childProc = child.spawn(dualAbsoluteBinaryPath, [], {
-                cwd: dualServerPath,
-                detached: false,
-                env: {
-                  LIBTORCH: dualAbsoluteTorchPath,
-                  LD_LIBRARY_PATH: dualAbsoluteTorchLibPath,
-                  DYLD_LIBRARY_PATH: dualAbsoluteTorchLibPath,
-                  Path: dualAbsoluteTorchLibPath,
-                  RUST_BACKTRACE: 1,
-                },
-              });
-
-              childProc.stdout.on("data", (data) => {
-                console.log(`stdout: ${data}`);
-              });
-
-              childProc.stderr.on("data", (data) => {
-                console.error(`stderr: ${data}`);
-              });
-              new Notice("dual-server has been run!");
+              new Notice("Dual: Server downloaded successfully!");
             }
+
+            // Fetch Libtorch
+            if (!exists(torchLibPath)) {
+              new Notice("Dual: Libtorch not found...", 5000);
+
+              if (!exists(torchZipPath)) {
+                new Notice("Dual: Downloading libtorch...", 5000);
+                await fetchBinaryToDisk(torchURL, torchZipPath);
+                new Notice("Dual: Libtorch downloaded successfully!", 5000);
+              }
+
+              // Uncompress Libtorch zip
+              if (!exists(torchPath) && exists(torchZipPath)) {
+                new Notice("Dual: Extracting libtorch...", 5000);
+                await extractZip(torchZipPath, serverPath);
+                new Notice("Dual: libtorch extracted successfully!", 5000);
+                await removeFile(torchZipPath);
+              }
+            }
+
+            // Start server
+            startServer(
+              console.log,
+              console.error,
+              serverPath,
+              binaryPath,
+              torchPath,
+              torchLibPath
+            );
+            console.log("Dual: Starting server!");
+            new Notice("Dual: Starting server!", 5000);
           });
       });
 
@@ -187,7 +144,7 @@ export class SettingTab extends PluginSettingTab {
           .setButtonText("Copy snapshot")
           .setClass("mod-cta")
           .onClick(() => {
-            new Notice("Loading files...");
+            new Notice("Dual: Loading files...");
 
             let concatenated = "";
 
@@ -212,7 +169,7 @@ export class SettingTab extends PluginSettingTab {
               concatenated = concatenated.slice(0, 5000000);
               concatenated = removeMd(concatenated);
               copyStringToClipboard(concatenated);
-              new Notice("Snapshot successfully copied to clipboard!");
+              new Notice("Dual: Snapshot successfully copied to clipboard!");
             });
           })
       );

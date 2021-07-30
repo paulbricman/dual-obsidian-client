@@ -1,3 +1,7 @@
+/**
+ * Functions relating to network communication with the Dual server
+ */
+
 const DUAL_URL = "http://127.0.0.1:3030";
 
 interface IPostBody {
@@ -22,3 +26,9 @@ export const fetchQuery = (query: string) =>
 export const fetchGenerate = (body: IPostBody) =>
   postEndpoint("/generate", body);
 export const fetchSearch = (body: IPostBody) => postEndpoint("/search", body);
+
+export async function fetchBinary(url: string): Promise<Blob> {
+  const resource = await fetch(url);
+  const blob = await resource.blob();
+  return blob;
+}
